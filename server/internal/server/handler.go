@@ -4,11 +4,17 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	userDelivery "github.com/scul0405/my-shop/server/internal/user/delivery"
+	userRepository "github.com/scul0405/my-shop/server/internal/user/repository"
+	userUseCase "github.com/scul0405/my-shop/server/internal/user/usecase"
 	"net/http"
 )
 
 func (s *Server) MapHandlers() error {
 	// init + DI
+	userRepo := userRepository.NewUserRepo(s.db)
+	userUC := userUseCase.NewUserUseCase(s.cfg, userRepo, s.logger)
+	userHandler := userDelivery.NewUserHandlers(s.cfg, userUC, s.logger)
 
 	// Chi middlewares
 	s.chi.Use(middleware.Logger)
@@ -33,6 +39,8 @@ func (s *Server) MapHandlers() error {
 			w.Write([]byte("Health Check"))
 		})
 	})
+
+	userDelivery.MapUserRoutes(v1, "/users", userHandler)
 
 	return nil
 }
