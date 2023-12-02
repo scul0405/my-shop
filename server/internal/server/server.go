@@ -75,6 +75,10 @@ func (s *Server) Run() error {
 		serverStopCtx()
 	}()
 
+	if err := s.MapHandlers(); err != nil {
+		return err
+	}
+
 	// Run the server
 	s.logger.Infof("Server is listening on PORT: %s", s.cfg.Server.Port)
 	err := server.ListenAndServe()
