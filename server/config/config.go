@@ -20,7 +20,6 @@ type ServerConfig struct {
 	Debug        bool
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
-	SymmetricKey string
 }
 
 type LoggerConfig struct {
