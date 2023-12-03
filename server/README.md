@@ -25,3 +25,8 @@ make run
 - [TablePlus](https://tableplus.com/)
 - [Golang](https://golang.org/)
 - [Migrate](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
+
+## Documentation
+
+### Swagger UI
+[http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)

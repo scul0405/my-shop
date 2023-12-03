@@ -44,3 +44,5 @@ migrate_up:
 
 migrate_down:
 	migrate -database postgres://admin:secret@localhost:5432/book_db?sslmode=disable -path migrations down 1
+
+.PHONY: run build test tidy deps-cleancache deps-upgrade deps-reset force version migrate_up migrate_down

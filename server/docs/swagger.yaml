@@ -1,0 +1,86 @@
+basePath: /api/v1
+definitions:
+  dto.UserDTO:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  httpErrors.RestError:
+    properties:
+      error:
+        type: string
+      status:
+        type: integer
+    type: object
+info:
+  contact:
+    email: vldtruong1221@gmail.com
+    name: Duy Truong
+    url: https://github.com/scul0405
+  description: Book's management server written by Golang
+  title: Windows Programming - Backend
+  version: "1.0"
+paths:
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: login user, returns username
+      parameters:
+      - description: input data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Login user
+      tags:
+      - User
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: register new user, returns username
+      parameters:
+      - description: input data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.UserDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Register new user
+      tags:
+      - User
+swagger: "2.0"

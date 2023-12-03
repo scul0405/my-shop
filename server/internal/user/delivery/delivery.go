@@ -20,6 +20,17 @@ func NewUserHandlers(cfg *config.Config, userUC user.UseCase, logger logger.Logg
 	return &userHandlers{cfg: cfg, userUC: userUC, logger: logger}
 }
 
+// Register godoc
+// @Summary Register new user
+// @Description register new user, returns username
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param request body dto.UserDTO true "input data"
+// @Success 201 {object} dto.UserDTO
+// @Failure 400 {object} httpErrors.RestError
+// @Failure 500 {object} httpErrors.RestError
+// @Router /users/register [post]
 func (h *userHandlers) Register() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data := &dto.UserDTO{}
@@ -39,6 +50,17 @@ func (h *userHandlers) Register() http.HandlerFunc {
 	}
 }
 
+// Login godoc
+// @Summary Login user
+// @Description login user, returns username
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param request body dto.UserDTO true "input data"
+// @Success 200 {object} dto.UserDTO
+// @Failure 400 {object} httpErrors.RestError
+// @Failure 500 {object} httpErrors.RestError
+// @Router /users/login [post]
 func (h *userHandlers) Login() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data := &dto.UserDTO{}

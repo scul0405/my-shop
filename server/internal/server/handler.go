@@ -7,6 +7,7 @@ import (
 	userDelivery "github.com/scul0405/my-shop/server/internal/user/delivery"
 	userRepository "github.com/scul0405/my-shop/server/internal/user/repository"
 	userUseCase "github.com/scul0405/my-shop/server/internal/user/usecase"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"net/http"
 )
 
@@ -29,6 +30,9 @@ func (s *Server) MapHandlers() error {
 	}))
 
 	// Swagger
+	s.chi.Route("/swagger", func(r chi.Router) {
+		r.Get("/*", httpSwagger.WrapHandler)
+	})
 
 	// group routes
 	v1 := chi.NewRouter()
