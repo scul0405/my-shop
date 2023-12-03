@@ -1,5 +1,28 @@
 basePath: /api/v1
 definitions:
+  dto.BookDTO:
+    properties:
+      ID:
+        type: integer
+      category_id:
+        type: integer
+      desc:
+        type: string
+      image:
+        type: string
+      name:
+        type: string
+      price:
+        type: integer
+      quantity:
+        type: integer
+      sku:
+        type: string
+      status:
+        type: boolean
+      total_sold:
+        type: integer
+    type: object
   dto.UserDTO:
     properties:
       password:
@@ -14,6 +37,20 @@ definitions:
       status:
         type: integer
     type: object
+  utils.PaginationList:
+    properties:
+      has_more:
+        type: boolean
+      list: {}
+      page:
+        type: integer
+      size:
+        type: integer
+      total_count:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
 info:
   contact:
     email: vldtruong1221@gmail.com
@@ -23,6 +60,158 @@ info:
   title: Windows Programming - Backend
   version: "1.0"
 paths:
+  /books:
+    get:
+      consumes:
+      - application/json
+      description: List books, return list of books
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.PaginationList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: List books
+      tags:
+      - Book
+    post:
+      consumes:
+      - application/json
+      description: create book, returns book
+      parameters:
+      - description: input data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BookDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.BookDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Create book
+      tags:
+      - Book
+  /books/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete book by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Delete book by id
+      tags:
+      - Book
+    get:
+      consumes:
+      - application/json
+      description: Get a book by id, returns book
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BookDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Get a book by id
+      tags:
+      - Book
+    patch:
+      consumes:
+      - application/json
+      description: update book by id, returns book
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: input data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BookDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BookDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Update book by id
+      tags:
+      - Book
   /users/login:
     post:
       consumes:

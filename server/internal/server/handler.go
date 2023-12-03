@@ -4,6 +4,9 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	bookDelivery "github.com/scul0405/my-shop/server/internal/book/delivery"
+	bookRepository "github.com/scul0405/my-shop/server/internal/book/repository"
+	bookUseCase "github.com/scul0405/my-shop/server/internal/book/usecase"
 	userDelivery "github.com/scul0405/my-shop/server/internal/user/delivery"
 	userRepository "github.com/scul0405/my-shop/server/internal/user/repository"
 	userUseCase "github.com/scul0405/my-shop/server/internal/user/usecase"
@@ -16,6 +19,10 @@ func (s *Server) MapHandlers() error {
 	userRepo := userRepository.NewUserRepo(s.db)
 	userUC := userUseCase.NewUserUseCase(s.cfg, userRepo, s.logger)
 	userHandler := userDelivery.NewUserHandlers(s.cfg, userUC, s.logger)
+
+	bookRepo := bookRepository.NewBookRepo(s.db)
+	bookUC := bookUseCase.NewBookUseCase(s.cfg, bookRepo, s.logger)
+	bookHandler := bookDelivery.NewBookHandlers(s.cfg, bookUC, s.logger)
 
 	// Chi middlewares
 	s.chi.Use(middleware.Logger)
@@ -45,6 +52,7 @@ func (s *Server) MapHandlers() error {
 	})
 
 	userDelivery.MapUserRoutes(v1, "/users", userHandler)
+	bookDelivery.MapBookRoutes(v1, "/books", bookHandler)
 
 	return nil
 }
