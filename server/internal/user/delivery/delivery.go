@@ -25,13 +25,13 @@ func (h *userHandlers) Register() http.HandlerFunc {
 		data := &dto.UserDTO{}
 		err := json.NewDecoder(r.Body).Decode(data)
 		if err != nil {
-			utils.RespondWithError(w, http.StatusBadRequest, err.Error())
+			utils.RespondWithError(w, err)
 			return
 		}
 
 		userDTO, err := h.userUC.Register(r.Context(), data)
 		if err != nil {
-			utils.RespondWithError(w, http.StatusBadRequest, err.Error())
+			utils.RespondWithError(w, err)
 			return
 		}
 
@@ -44,13 +44,13 @@ func (h *userHandlers) Login() http.HandlerFunc {
 		data := &dto.UserDTO{}
 		err := json.NewDecoder(r.Body).Decode(data)
 		if err != nil {
-			utils.RespondWithError(w, http.StatusBadRequest, err.Error())
+			utils.RespondWithError(w, err)
 			return
 		}
 
 		userDTO, err := h.userUC.Login(r.Context(), data)
 		if err != nil {
-			utils.RespondWithError(w, http.StatusBadRequest, err.Error())
+			utils.RespondWithError(w, err)
 			return
 		}
 

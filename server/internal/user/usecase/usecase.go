@@ -2,10 +2,12 @@ package usecase
 
 import (
 	"context"
+	"github.com/pkg/errors"
 	"github.com/scul0405/my-shop/server/config"
 	dbmodels "github.com/scul0405/my-shop/server/db/models"
 	"github.com/scul0405/my-shop/server/internal/dto"
 	"github.com/scul0405/my-shop/server/internal/user"
+	httpErrors "github.com/scul0405/my-shop/server/pkg/http_errors"
 	"github.com/scul0405/my-shop/server/pkg/logger"
 	"golang.org/x/crypto/bcrypt"
 	"strings"
@@ -46,13 +48,20 @@ func (u *userUseCase) Register(ctx context.Context, user *dto.UserDTO) (*dto.Use
 func (u *userUseCase) Login(ctx context.Context, user *dto.UserDTO) (*dto.UserDTO, error) {
 	userModel := user.ToModel()
 
-	// TODO: Handle login
 	userModel, err := u.userRepo.GetByUsername(ctx, user.Username)
 	if err != nil {
 		return nil, err
 	}
 
-	return userModelToDto(userModel), nil
+	// compare password
+	if err = comparePassword(userModel, user.Password); err != nil {
+		return nil, httpErrors.NewBadRequestError(errors.Wrap(err, "wrong password"))
+	}
+
+	userResp := userModelToDto(userModel)
+	userResp.ToResponse()
+
+	return userResp, nil
 }
 
 func userModelToDto(user *dbmodels.User) *dto.UserDTO {
@@ -80,5 +89,14 @@ func hashPassword(u *dbmodels.User) error {
 	}
 
 	u.Password = string(hashedPassword)
+	return nil
+}
+
+// comparePassword compare user password and payload
+func comparePassword(u *dbmodels.User, password string) error {
+	if err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password)); err != nil {
+		return err
+	}
+
 	return nil
 }
