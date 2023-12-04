@@ -1,5 +1,12 @@
 basePath: /api/v1
 definitions:
+  dto.BookCategoryDTO:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   dto.BookDTO:
     properties:
       ID:
@@ -60,6 +67,67 @@ info:
   title: Windows Programming - Backend
   version: "1.0"
 paths:
+  /book_categories:
+    get:
+      consumes:
+      - application/json
+      description: List book categories, return list of book categories
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.PaginationList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: List book categories
+      tags:
+      - Book Category
+    post:
+      consumes:
+      - application/json
+      description: create book category, returns book category
+      parameters:
+      - description: input data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BookCategoryDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.BookCategoryDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Create book category
+      tags:
+      - Book Category
   /books:
     get:
       consumes:

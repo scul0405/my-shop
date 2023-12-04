@@ -7,6 +7,9 @@ import (
 	bookDelivery "github.com/scul0405/my-shop/server/internal/book/delivery"
 	bookRepository "github.com/scul0405/my-shop/server/internal/book/repository"
 	bookUseCase "github.com/scul0405/my-shop/server/internal/book/usecase"
+	bcDelivery "github.com/scul0405/my-shop/server/internal/book_category/delivery"
+	bcRepository "github.com/scul0405/my-shop/server/internal/book_category/repository"
+	bcUseCase "github.com/scul0405/my-shop/server/internal/book_category/usecase"
 	userDelivery "github.com/scul0405/my-shop/server/internal/user/delivery"
 	userRepository "github.com/scul0405/my-shop/server/internal/user/repository"
 	userUseCase "github.com/scul0405/my-shop/server/internal/user/usecase"
@@ -23,6 +26,10 @@ func (s *Server) MapHandlers() error {
 	bookRepo := bookRepository.NewBookRepo(s.db)
 	bookUC := bookUseCase.NewBookUseCase(s.cfg, bookRepo, s.logger)
 	bookHandler := bookDelivery.NewBookHandlers(s.cfg, bookUC, s.logger)
+
+	bcRepo := bcRepository.NewBookCategoryRepo(s.db)
+	bcUC := bcUseCase.NewBookCategoryUseCase(s.cfg, bcRepo, s.logger)
+	bcHandler := bcDelivery.NewBookCategoryHandlers(s.cfg, bcUC, s.logger)
 
 	// Chi middlewares
 	s.chi.Use(middleware.Logger)
@@ -53,6 +60,7 @@ func (s *Server) MapHandlers() error {
 
 	userDelivery.MapUserRoutes(v1, "/users", userHandler)
 	bookDelivery.MapBookRoutes(v1, "/books", bookHandler)
+	bcDelivery.MapBookCategoryRoutes(v1, "/book_categories", bcHandler)
 
 	return nil
 }

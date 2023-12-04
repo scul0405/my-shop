@@ -77,7 +77,7 @@ func (r *bookRepo) List(ctx context.Context, pq *utils.PaginationQuery) (*utils.
 			Page:       pq.GetPage(),
 			Size:       pq.GetSize(),
 			HasMore:    utils.GetHasMore(pq.GetPage(), totalCount, pq.GetSize()),
-			List:       make([]*dbmodels.Book, 0),
+			List:       make(dbmodels.BookSlice, 0),
 		}, nil
 	}
 
@@ -128,7 +128,7 @@ func (r *bookRepo) ListByCategoryName(ctx context.Context, pq *utils.PaginationQ
 			Page:       pq.GetPage(),
 			Size:       pq.GetSize(),
 			HasMore:    utils.GetHasMore(pq.GetPage(), totalCount, pq.GetSize()),
-			List:       make([]*dbmodels.Book, 0),
+			List:       make(dbmodels.BookSlice, 0),
 		}, nil
 	}
 

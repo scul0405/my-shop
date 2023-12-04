@@ -73,7 +73,7 @@ func (h *bookHandlers) Create() http.HandlerFunc {
 			return
 		}
 
-		utils.RespondWithJSON(w, http.StatusOK, bookDTO)
+		utils.RespondWithJSON(w, http.StatusCreated, bookDTO)
 	}
 }
 
