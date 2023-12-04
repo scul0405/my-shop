@@ -999,7 +999,7 @@ func testBooksSelect(t *testing.T) {
 }
 
 var (
-	bookDBTypes = map[string]string{`ID`: `bigint`, `CategoryID`: `bigint`, `Name`: `character varying`, `Sku`: `character varying`, `Desc`: `text`, `Image`: `text`, `Price`: `integer`, `TotalSold`: `integer`, `Quantity`: `integer`, `Status`: `boolean`}
+	bookDBTypes = map[string]string{`ID`: `bigint`, `CategoryID`: `bigint`, `Name`: `character varying`, `Author`: `character varying`, `Sku`: `character varying`, `Desc`: `text`, `Image`: `text`, `Price`: `integer`, `TotalSold`: `integer`, `Quantity`: `integer`, `Status`: `boolean`}
 	_           = bytes.MinRead
 )
 

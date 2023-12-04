@@ -14,7 +14,6 @@ import (
 	"time"
 
 	"github.com/friendsofgo/errors"
-	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -27,7 +26,7 @@ type Order struct {
 	ID        int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
 	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 	Total     int       `boil:"total" json:"total" toml:"total" yaml:"total"`
-	Status    null.Bool `boil:"status" json:"status,omitempty" toml:"status" yaml:"status,omitempty"`
+	Status    bool      `boil:"status" json:"status" toml:"status" yaml:"status"`
 
 	R *orderR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L orderL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -80,40 +79,16 @@ func (w whereHelpertime_Time) GTE(x time.Time) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GTE, x)
 }
 
-type whereHelpernull_Bool struct{ field string }
-
-func (w whereHelpernull_Bool) EQ(x null.Bool) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
-}
-func (w whereHelpernull_Bool) NEQ(x null.Bool) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
-}
-func (w whereHelpernull_Bool) LT(x null.Bool) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LT, x)
-}
-func (w whereHelpernull_Bool) LTE(x null.Bool) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LTE, x)
-}
-func (w whereHelpernull_Bool) GT(x null.Bool) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GT, x)
-}
-func (w whereHelpernull_Bool) GTE(x null.Bool) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GTE, x)
-}
-
-func (w whereHelpernull_Bool) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
-func (w whereHelpernull_Bool) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
-
 var OrderWhere = struct {
 	ID        whereHelperint64
 	CreatedAt whereHelpertime_Time
 	Total     whereHelperint
-	Status    whereHelpernull_Bool
+	Status    whereHelperbool
 }{
 	ID:        whereHelperint64{field: "\"orders\".\"id\""},
 	CreatedAt: whereHelpertime_Time{field: "\"orders\".\"created_at\""},
 	Total:     whereHelperint{field: "\"orders\".\"total\""},
-	Status:    whereHelpernull_Bool{field: "\"orders\".\"status\""},
+	Status:    whereHelperbool{field: "\"orders\".\"status\""},
 }
 
 // OrderRels is where relationship names are stored.
@@ -525,7 +500,7 @@ func (orderL) LoadBooks(ctx context.Context, e boil.ContextExecutor, singular bo
 	}
 
 	query := NewQuery(
-		qm.Select("\"books\".\"id\", \"books\".\"category_id\", \"books\".\"name\", \"books\".\"sku\", \"books\".\"desc\", \"books\".\"image\", \"books\".\"price\", \"books\".\"total_sold\", \"books\".\"quantity\", \"books\".\"status\", \"a\".\"order_id\""),
+		qm.Select("\"books\".\"id\", \"books\".\"category_id\", \"books\".\"name\", \"books\".\"author\", \"books\".\"sku\", \"books\".\"desc\", \"books\".\"image\", \"books\".\"price\", \"books\".\"total_sold\", \"books\".\"quantity\", \"books\".\"status\", \"a\".\"order_id\""),
 		qm.From("\"books\""),
 		qm.InnerJoin("\"book_order\" as \"a\" on \"books\".\"id\" = \"a\".\"book_id\""),
 		qm.WhereIn("\"a\".\"order_id\" in ?", args...),
@@ -546,7 +521,7 @@ func (orderL) LoadBooks(ctx context.Context, e boil.ContextExecutor, singular bo
 		one := new(Book)
 		var localJoinCol int64
 
-		err = results.Scan(&one.ID, &one.CategoryID, &one.Name, &one.Sku, &one.Desc, &one.Image, &one.Price, &one.TotalSold, &one.Quantity, &one.Status, &localJoinCol)
+		err = results.Scan(&one.ID, &one.CategoryID, &one.Name, &one.Author, &one.Sku, &one.Desc, &one.Image, &one.Price, &one.TotalSold, &one.Quantity, &one.Status, &localJoinCol)
 		if err != nil {
 			return errors.Wrap(err, "failed to scan eager loaded results for books")
 		}

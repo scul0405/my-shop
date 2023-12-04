@@ -56,7 +56,7 @@ func (u *bookCategoryUseCase) List(ctx context.Context, pq *utils.PaginationQuer
 
 func bookCategoryModelToDto(bc *dbmodels.BookCategory) *dto.BookCategoryDTO {
 	return &dto.BookCategoryDTO{
-		ID:   bc.ID,
+		ID:   uint64(bc.ID),
 		Name: bc.Name,
 	}
 }

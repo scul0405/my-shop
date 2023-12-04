@@ -11,6 +11,8 @@ definitions:
     properties:
       ID:
         type: integer
+      author:
+        type: string
       category_id:
         type: integer
       desc:
@@ -28,6 +30,17 @@ definitions:
       status:
         type: boolean
       total_sold:
+        type: integer
+    type: object
+  dto.OrderDTO:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      status:
+        type: boolean
+      total:
         type: integer
     type: object
   dto.UserDTO:
@@ -284,6 +297,158 @@ paths:
       summary: Update book by id
       tags:
       - Book
+  /orders:
+    get:
+      consumes:
+      - application/json
+      description: List orders, return list of orders
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.PaginationList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: List orders
+      tags:
+      - Order
+    post:
+      consumes:
+      - application/json
+      description: create an order, returns order
+      parameters:
+      - description: input data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.OrderDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.OrderDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Create order
+      tags:
+      - Order
+  /orders/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete order by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Delete order by id
+      tags:
+      - Order
+    get:
+      consumes:
+      - application/json
+      description: Get an order by id, returns order
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.OrderDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Get an order by id
+      tags:
+      - Order
+    patch:
+      consumes:
+      - application/json
+      description: update an order by id, returns order
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: input data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.OrderDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.OrderDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Update order by id
+      tags:
+      - Order
   /users/login:
     post:
       consumes:

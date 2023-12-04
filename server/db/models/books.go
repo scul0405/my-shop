@@ -27,6 +27,7 @@ type Book struct {
 	ID         int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
 	CategoryID int64       `boil:"category_id" json:"category_id" toml:"category_id" yaml:"category_id"`
 	Name       string      `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Author     string      `boil:"author" json:"author" toml:"author" yaml:"author"`
 	Sku        string      `boil:"sku" json:"sku" toml:"sku" yaml:"sku"`
 	Desc       null.String `boil:"desc" json:"desc,omitempty" toml:"desc" yaml:"desc,omitempty"`
 	Image      null.String `boil:"image" json:"image,omitempty" toml:"image" yaml:"image,omitempty"`
@@ -43,6 +44,7 @@ var BookColumns = struct {
 	ID         string
 	CategoryID string
 	Name       string
+	Author     string
 	Sku        string
 	Desc       string
 	Image      string
@@ -54,6 +56,7 @@ var BookColumns = struct {
 	ID:         "id",
 	CategoryID: "category_id",
 	Name:       "name",
+	Author:     "author",
 	Sku:        "sku",
 	Desc:       "desc",
 	Image:      "image",
@@ -67,6 +70,7 @@ var BookTableColumns = struct {
 	ID         string
 	CategoryID string
 	Name       string
+	Author     string
 	Sku        string
 	Desc       string
 	Image      string
@@ -78,6 +82,7 @@ var BookTableColumns = struct {
 	ID:         "books.id",
 	CategoryID: "books.category_id",
 	Name:       "books.name",
+	Author:     "books.author",
 	Sku:        "books.sku",
 	Desc:       "books.desc",
 	Image:      "books.image",
@@ -175,6 +180,7 @@ var BookWhere = struct {
 	ID         whereHelperint64
 	CategoryID whereHelperint64
 	Name       whereHelperstring
+	Author     whereHelperstring
 	Sku        whereHelperstring
 	Desc       whereHelpernull_String
 	Image      whereHelpernull_String
@@ -186,6 +192,7 @@ var BookWhere = struct {
 	ID:         whereHelperint64{field: "\"books\".\"id\""},
 	CategoryID: whereHelperint64{field: "\"books\".\"category_id\""},
 	Name:       whereHelperstring{field: "\"books\".\"name\""},
+	Author:     whereHelperstring{field: "\"books\".\"author\""},
 	Sku:        whereHelperstring{field: "\"books\".\"sku\""},
 	Desc:       whereHelpernull_String{field: "\"books\".\"desc\""},
 	Image:      whereHelpernull_String{field: "\"books\".\"image\""},
@@ -233,8 +240,8 @@ func (r *bookR) GetOrders() OrderSlice {
 type bookL struct{}
 
 var (
-	bookAllColumns            = []string{"id", "category_id", "name", "sku", "desc", "image", "price", "total_sold", "quantity", "status"}
-	bookColumnsWithoutDefault = []string{"name", "sku", "price"}
+	bookAllColumns            = []string{"id", "category_id", "name", "author", "sku", "desc", "image", "price", "total_sold", "quantity", "status"}
+	bookColumnsWithoutDefault = []string{"name", "author", "sku", "price"}
 	bookColumnsWithDefault    = []string{"id", "category_id", "desc", "image", "total_sold", "quantity", "status"}
 	bookPrimaryKeyColumns     = []string{"id"}
 	bookGeneratedColumns      = []string{}

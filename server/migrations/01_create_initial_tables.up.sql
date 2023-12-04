@@ -20,6 +20,7 @@ CREATE TABLE "books" (
                          "id" bigserial primary key,
                          "category_id" bigserial,
                          "name" varchar(250) not null check ( books.name <> '' ),
+                         "author" varchar(250) not null check ( books.author <> '' ),
                          "sku" varchar(50) not null check ( books.sku <> '' ),
                          "desc" text,
                          "image" text,
@@ -43,8 +44,8 @@ CREATE TABLE "book_order" (
 CREATE TABLE "orders" (
                           "id" bigserial primary key ,
                           "created_at" timestamp with time zone not null default now(),
-                          "total" int not null check ( orders.total > 0 ),
-                          "status" boolean default true
+                          "total" int not null,
+                          "status" boolean not null default true
 );
 
 CREATE TABLE "discounts" (

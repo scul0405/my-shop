@@ -42,7 +42,7 @@ func (u *bookUseCase) GetByID(ctx context.Context, id uint64) (*dto.BookDTO, err
 }
 
 func (u *bookUseCase) Update(ctx context.Context, book *dto.BookDTO) error {
-	whiteList := []string{"category_id", "name", "sku", "desc", "image", "price", "total_sold", "quantity", "status"}
+	whiteList := []string{"category_id", "name", "sku", "author", "desc", "image", "price", "total_sold", "quantity", "status"}
 	err := u.bookRepo.Update(ctx, book.ToModel(), whiteList...)
 	if err != nil {
 		return err
