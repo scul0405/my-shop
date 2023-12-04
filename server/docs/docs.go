@@ -45,6 +45,12 @@ const docTemplate = `{
                         "description": "size",
                         "name": "size",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "category_name",
+                        "name": "category_name",
+                        "in": "query"
                     }
                 ],
                 "responses": {

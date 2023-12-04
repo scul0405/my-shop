@@ -74,6 +74,10 @@ paths:
         in: query
         name: size
         type: integer
+      - description: category_name
+        in: query
+        name: category_name
+        type: string
       produces:
       - application/json
       responses:

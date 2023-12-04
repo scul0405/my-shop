@@ -96,3 +96,66 @@ func (r *bookRepo) List(ctx context.Context, pq *utils.PaginationQuery) (*utils.
 		List:       bookList,
 	}, nil
 }
+
+func (r *bookRepo) ListByCategoryName(ctx context.Context, pq *utils.PaginationQuery, categoryName string) (*utils.PaginationList, error) {
+	type BookAndCategory struct {
+		dbmodels.Book         `boil:",bind"`
+		dbmodels.BookCategory `boil:",bind"`
+		Count                 int `boil:"count"`
+	}
+
+	var (
+		countAll            BookAndCategory
+		bookAndCategoryList []*BookAndCategory
+		err                 error
+	)
+
+	err = dbmodels.NewQuery(
+		qm.Select("count(*) as count"),
+		qm.From("books"),
+		qm.InnerJoin("book_categories on books.category_id = book_categories.id"),
+		qm.Where("book_categories.name = ?", categoryName),
+	).Bind(ctx, r.db, &countAll)
+	if err != nil {
+		return nil, err
+	}
+
+	totalCount := countAll.Count
+	if totalCount == 0 {
+		return &utils.PaginationList{
+			TotalCount: totalCount,
+			TotalPages: utils.GetTotalPages(totalCount, pq.GetSize()),
+			Page:       pq.GetPage(),
+			Size:       pq.GetSize(),
+			HasMore:    utils.GetHasMore(pq.GetPage(), totalCount, pq.GetSize()),
+			List:       make([]*dbmodels.Book, 0),
+		}, nil
+	}
+
+	err = dbmodels.NewQuery(
+		qm.Select("books.*"),
+		qm.From("books"),
+		qm.InnerJoin("book_categories on books.category_id = book_categories.id"),
+		qm.Where("book_categories.name = ?", categoryName),
+		qm.Limit(pq.GetLimit()),
+		qm.Offset(pq.GetOffset()),
+	).Bind(ctx, r.db, &bookAndCategoryList)
+	if err != nil {
+		return nil, err
+	}
+
+	// Convert to book list
+	var bookList dbmodels.BookSlice
+	for _, bookAndCategory := range bookAndCategoryList {
+		bookList = append(bookList, &bookAndCategory.Book)
+	}
+
+	return &utils.PaginationList{
+		TotalCount: totalCount,
+		TotalPages: utils.GetTotalPages(totalCount, pq.GetSize()),
+		Page:       pq.GetPage(),
+		Size:       pq.GetSize(),
+		HasMore:    utils.GetHasMore(pq.GetPage(), totalCount, pq.GetSize()),
+		List:       bookList,
+	}, nil
+}

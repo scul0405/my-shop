@@ -60,13 +60,23 @@ func (u *bookUseCase) Delete(ctx context.Context, id uint64) error {
 	return nil
 }
 
-func (u *bookUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*utils.PaginationList, error) {
-	paginationList, err := u.bookRepo.List(ctx, pq)
+func (u *bookUseCase) List(ctx context.Context, pq *utils.PaginationQuery, categoryName string) (*utils.PaginationList, error) {
+	var (
+		paginationList *utils.PaginationList
+		err            error
+		booksDTO       []*dto.BookDTO
+	)
+
+	if categoryName != "" {
+		paginationList, err = u.bookRepo.ListByCategoryName(ctx, pq, categoryName)
+	} else {
+		paginationList, err = u.bookRepo.List(ctx, pq)
+	}
+
 	if err != nil {
 		return nil, err
 	}
 
-	var booksDTO []*dto.BookDTO
 	for _, bookModel := range paginationList.List.(dbmodels.BookSlice) {
 		booksDTO = append(booksDTO, bookModelToDto(bookModel))
 	}
