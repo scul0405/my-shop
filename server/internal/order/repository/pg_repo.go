@@ -8,6 +8,7 @@ import (
 	"github.com/scul0405/my-shop/server/internal/order"
 	"github.com/scul0405/my-shop/server/pkg/utils"
 	"github.com/volatiletech/sqlboiler/v4/boil"
+	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
 
@@ -29,6 +30,18 @@ func (r *orderRepo) Create(ctx context.Context, order *dbmodels.Order) (*dbmodel
 	return order, nil
 }
 
+func (r *orderRepo) AddBook(ctx context.Context, oid, bid uint64) error {
+
+	if _, err := queries.Raw(`
+		INSERT INTO book_order (order_id, book_id)
+		VALUES ($1, $2)
+	`, oid, bid).Exec(r.db); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *orderRepo) GetByID(ctx context.Context, id uint64) (*dbmodels.Order, error) {
 	orderModel, err := dbmodels.FindOrder(ctx, r.db, int64(id))
 	if err != nil {
@@ -39,7 +52,6 @@ func (r *orderRepo) GetByID(ctx context.Context, id uint64) (*dbmodels.Order, er
 }
 
 func (r *orderRepo) Update(ctx context.Context, order *dbmodels.Order, whiteList ...string) error {
-
 	rowAffect, err := order.Update(ctx, r.db, boil.Whitelist(whiteList...))
 	if rowAffect == 0 {
 		return sql.ErrNoRows

@@ -35,7 +35,7 @@ func (s *Server) MapHandlers() error {
 	bcHandler := bcDelivery.NewBookCategoryHandlers(s.cfg, bcUC, s.logger)
 
 	orderRepo := orderRepository.NewOrderRepo(s.db)
-	orderUC := orderUseCase.NewOrderUseCase(s.cfg, orderRepo, s.logger)
+	orderUC := orderUseCase.NewOrderUseCase(s.cfg, bookRepo, orderRepo, s.logger)
 	orderHandler := orderDelivery.NewOrderHandlers(s.cfg, orderUC, s.logger)
 
 	// Chi middlewares

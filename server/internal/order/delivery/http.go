@@ -77,6 +77,33 @@ func (h *orderHandlers) Create() http.HandlerFunc {
 	}
 }
 
+// AddBook godoc
+// @Summary Add book to order
+// @Description Add book to order
+// @Tags Order
+// @Accept json
+// @Produce json
+// @Param id path string true "id"
+// @Param bid path string true "bid"
+// @Success 200 {string} string "success"
+// @Failure 400 {object} httpErrors.RestError
+// @Failure 500 {object} httpErrors.RestError
+// @Router /orders/{id}/books/{bid} [post]
+func (h *orderHandlers) AddBook() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		oid, _ := strconv.Atoi(chi.URLParam(r, "id"))
+		bid, _ := strconv.Atoi(chi.URLParam(r, "bid"))
+
+		err := h.orderUC.AddBook(r.Context(), uint64(oid), uint64(bid))
+		if err != nil {
+			utils.RespondWithError(w, err)
+			return
+		}
+
+		utils.RespondWithJSON(w, http.StatusOK, "success")
+	}
+}
+
 // Update godoc
 // @Summary Update order by id
 // @Description update an order by id, returns order

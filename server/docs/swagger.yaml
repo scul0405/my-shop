@@ -449,6 +449,40 @@ paths:
       summary: Update order by id
       tags:
       - Order
+  /orders/{id}/books/{bid}:
+    post:
+      consumes:
+      - application/json
+      description: Add book to order
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: bid
+        in: path
+        name: bid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Add book to order
+      tags:
+      - Order
   /users/login:
     post:
       consumes:
