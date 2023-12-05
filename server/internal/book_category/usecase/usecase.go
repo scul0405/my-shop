@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"github.com/scul0405/my-shop/server/config"
+	dbconverter "github.com/scul0405/my-shop/server/db/converter"
 	dbmodels "github.com/scul0405/my-shop/server/db/models"
 	bookcategory "github.com/scul0405/my-shop/server/internal/book_category"
 	"github.com/scul0405/my-shop/server/internal/dto"
@@ -29,7 +30,7 @@ func (u *bookCategoryUseCase) Create(ctx context.Context, bc *dto.BookCategoryDT
 		return nil, err
 	}
 
-	return bookCategoryModelToDto(createdBookCategory), nil
+	return dbconverter.BookCategoryModelToDto(createdBookCategory), nil
 }
 
 func (u *bookCategoryUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*utils.PaginationList, error) {
@@ -46,17 +47,10 @@ func (u *bookCategoryUseCase) List(ctx context.Context, pq *utils.PaginationQuer
 	}
 
 	for _, bcModel := range paginationList.List.(dbmodels.BookCategorySlice) {
-		bcsDTO = append(bcsDTO, bookCategoryModelToDto(bcModel))
+		bcsDTO = append(bcsDTO, dbconverter.BookCategoryModelToDto(bcModel))
 	}
 
 	paginationList.List = bcsDTO
 
 	return paginationList, nil
-}
-
-func bookCategoryModelToDto(bc *dbmodels.BookCategory) *dto.BookCategoryDTO {
-	return &dto.BookCategoryDTO{
-		ID:   uint64(bc.ID),
-		Name: bc.Name,
-	}
 }

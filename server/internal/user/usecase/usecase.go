@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/pkg/errors"
 	"github.com/scul0405/my-shop/server/config"
+	dbconverter "github.com/scul0405/my-shop/server/db/converter"
 	dbmodels "github.com/scul0405/my-shop/server/db/models"
 	"github.com/scul0405/my-shop/server/internal/dto"
 	"github.com/scul0405/my-shop/server/internal/user"
@@ -39,7 +40,7 @@ func (u *userUseCase) Register(ctx context.Context, user *dto.UserDTO) (*dto.Use
 		return nil, err
 	}
 
-	userResp := userModelToDto(userModel)
+	userResp := dbconverter.UserModelToDto(userModel)
 	userResp.ToResponse()
 
 	return userResp, nil
@@ -58,17 +59,10 @@ func (u *userUseCase) Login(ctx context.Context, user *dto.UserDTO) (*dto.UserDT
 		return nil, httpErrors.NewBadRequestError(errors.Wrap(err, "wrong password"))
 	}
 
-	userResp := userModelToDto(userModel)
+	userResp := dbconverter.UserModelToDto(userModel)
 	userResp.ToResponse()
 
 	return userResp, nil
-}
-
-func userModelToDto(user *dbmodels.User) *dto.UserDTO {
-	return &dto.UserDTO{
-		Username: user.Username,
-		Password: user.Password,
-	}
 }
 
 // prepareCreate prepare for register

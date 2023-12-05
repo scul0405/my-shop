@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"github.com/scul0405/my-shop/server/config"
+	dbconverter "github.com/scul0405/my-shop/server/db/converter"
 	dbmodels "github.com/scul0405/my-shop/server/db/models"
 	"github.com/scul0405/my-shop/server/internal/book"
 	"github.com/scul0405/my-shop/server/internal/dto"
@@ -31,7 +32,7 @@ func (u *bookUseCase) Create(ctx context.Context, book *dto.BookDTO) (*dto.BookD
 		return nil, err
 	}
 
-	return bookModelToDto(createdBook), nil
+	return dbconverter.BookModelToDto(createdBook), nil
 }
 
 func (u *bookUseCase) GetByID(ctx context.Context, id uint64) (*dto.BookDTO, error) {
@@ -40,7 +41,7 @@ func (u *bookUseCase) GetByID(ctx context.Context, id uint64) (*dto.BookDTO, err
 		return nil, err
 	}
 
-	return bookModelToDto(bookModel), nil
+	return dbconverter.BookModelToDto(bookModel), nil
 }
 
 func (u *bookUseCase) Update(ctx context.Context, book *dto.BookDTO) error {
@@ -98,25 +99,10 @@ func (u *bookUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*uti
 	}
 
 	for _, bookModel := range paginationList.List.(dbmodels.BookSlice) {
-		booksDTO = append(booksDTO, bookModelToDto(bookModel))
+		booksDTO = append(booksDTO, dbconverter.BookModelToDto(bookModel))
 	}
 
 	paginationList.List = booksDTO
 
 	return paginationList, nil
-}
-
-func bookModelToDto(book *dbmodels.Book) *dto.BookDTO {
-	return &dto.BookDTO{
-		ID:         uint64(book.ID),
-		CategoryID: uint64(book.CategoryID),
-		Name:       book.Name,
-		SKU:        book.Sku,
-		Desc:       book.Desc.String,
-		Image:      book.Image.String,
-		Price:      book.Price,
-		TotalSold:  book.TotalSold,
-		Quantity:   book.Quantity,
-		Status:     book.Status,
-	}
 }
