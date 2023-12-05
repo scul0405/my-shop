@@ -11,5 +11,5 @@ type UseCase interface {
 	GetByID(ctx context.Context, id uint64) (*dto.BookDTO, error)
 	Update(ctx context.Context, blog *dto.BookDTO) error
 	Delete(ctx context.Context, id uint64) error
-	List(ctx context.Context, pq *utils.PaginationQuery, categoryName string) (*utils.PaginationList, error)
+	List(ctx context.Context, pq *utils.PaginationQuery) (*utils.PaginationList, error)
 }

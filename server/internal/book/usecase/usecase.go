@@ -8,6 +8,8 @@ import (
 	"github.com/scul0405/my-shop/server/internal/dto"
 	"github.com/scul0405/my-shop/server/pkg/logger"
 	"github.com/scul0405/my-shop/server/pkg/utils"
+	"github.com/volatiletech/sqlboiler/v4/queries/qm"
+	"strconv"
 )
 
 type bookUseCase struct {
@@ -60,19 +62,37 @@ func (u *bookUseCase) Delete(ctx context.Context, id uint64) error {
 	return nil
 }
 
-func (u *bookUseCase) List(ctx context.Context, pq *utils.PaginationQuery, categoryName string) (*utils.PaginationList, error) {
+func (u *bookUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*utils.PaginationList, error) {
 	var (
 		paginationList *utils.PaginationList
 		err            error
 		booksDTO       []*dto.BookDTO
 	)
 
+	// Get data from context
+	categoryName := ctx.Value("category_name").(string)
 	if categoryName != "" {
 		paginationList, err = u.bookRepo.ListByCategoryName(ctx, pq, categoryName)
-	} else {
-		paginationList, err = u.bookRepo.List(ctx, pq)
-	}
+	} else { // only list books can filter by name, range and sort
+		bookName := ctx.Value("name").(string)
+		from, _ := strconv.Atoi(ctx.Value("from").(string))
+		to, _ := strconv.Atoi(ctx.Value("to").(string))
 
+		qms := make([]qm.QueryMod, 0)
+		if bookName != "" {
+			qms = append(qms, dbmodels.BookWhere.Name.ILIKE("%"+bookName+"%"))
+		}
+
+		if from != 0 {
+			qms = append(qms, dbmodels.BookWhere.Price.GTE(from))
+		}
+
+		if to != 0 {
+			qms = append(qms, dbmodels.BookWhere.Price.LTE(to))
+		}
+
+		paginationList, err = u.bookRepo.List(ctx, pq, qms...)
+	}
 	if err != nil {
 		return nil, err
 	}

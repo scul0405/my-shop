@@ -155,6 +155,18 @@ paths:
         in: query
         name: size
         type: integer
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: from
+        in: query
+        name: from
+        type: string
+      - description: to
+        in: query
+        name: to
+        type: string
       - description: category_name
         in: query
         name: category_name

@@ -144,6 +144,9 @@ func (h *bookHandlers) Delete() http.HandlerFunc {
 // @Produce json
 // @Param page query int false "page"
 // @Param size query int false "size"
+// @Param name query string false "name"
+// @Param from query string false "from"
+// @Param to query string false "to"
 // @Param category_name query string false "category_name"
 // @Success 200 {object} utils.PaginationList
 // @Failure 400 {object} httpErrors.RestError
@@ -157,8 +160,10 @@ func (h *bookHandlers) List() http.HandlerFunc {
 			return
 		}
 
-		categoryName := r.URL.Query().Get("category_name")
-		list, err := h.bookUC.List(r.Context(), pq, categoryName)
+		// Store params from query to context
+		r = utils.SetContextValueFromRequest(r, "category_name", "name", "from", "to")
+
+		list, err := h.bookUC.List(r.Context(), pq)
 		if err != nil {
 			utils.RespondWithError(w, err)
 			return

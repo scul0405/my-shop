@@ -63,8 +63,8 @@ func (r *bookRepo) Delete(ctx context.Context, id uint64) error {
 	return nil
 }
 
-func (r *bookRepo) List(ctx context.Context, pq *utils.PaginationQuery) (*utils.PaginationList, error) {
-	countAll, err := dbmodels.Books().Count(ctx, r.db)
+func (r *bookRepo) List(ctx context.Context, pq *utils.PaginationQuery, qms ...qm.QueryMod) (*utils.PaginationList, error) {
+	countAll, err := dbmodels.Books(qms...).Count(ctx, r.db)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +82,9 @@ func (r *bookRepo) List(ctx context.Context, pq *utils.PaginationQuery) (*utils.
 	}
 
 	// TODO: update order by
-	bookList, err := dbmodels.Books(qm.Limit(pq.GetLimit()), qm.Offset(pq.GetOffset())).All(ctx, r.db)
+	qms = append(qms, qm.Limit(pq.GetLimit()))
+	qms = append(qms, qm.Offset(pq.GetOffset()))
+	bookList, err := dbmodels.Books(qms...).All(ctx, r.db)
 	if err != nil {
 		return nil, err
 	}
