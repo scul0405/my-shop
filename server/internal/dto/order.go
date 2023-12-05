@@ -6,10 +6,11 @@ import (
 )
 
 type OrderDTO struct {
-	ID        uint64    `json:"id"`
-	Total     int       `json:"total"`
-	Status    bool      `json:"status"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        uint64     `json:"id"`
+	Total     int        `json:"total"`
+	Status    bool       `json:"status"`
+	CreatedAt time.Time  `json:"created_at"`
+	Books     []*BookDTO `json:"books,omitempty"`
 }
 
 func (o *OrderDTO) ToModel() *dbmodels.Order {

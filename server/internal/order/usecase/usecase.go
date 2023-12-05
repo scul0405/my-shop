@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"github.com/scul0405/my-shop/server/config"
+	dbconverter "github.com/scul0405/my-shop/server/db/converter"
 	dbmodels "github.com/scul0405/my-shop/server/db/models"
 	"github.com/scul0405/my-shop/server/internal/book"
 	"github.com/scul0405/my-shop/server/internal/dto"
@@ -35,7 +36,7 @@ func (u *orderUseCase) Create(ctx context.Context, order *dto.OrderDTO) (*dto.Or
 		return nil, err
 	}
 
-	return orderModelToDto(createdOrder), nil
+	return dbconverter.OrderModelToDto(createdOrder), nil
 }
 
 func (u *orderUseCase) AddBook(ctx context.Context, oid, bid uint64) error {
@@ -73,7 +74,18 @@ func (u *orderUseCase) GetByID(ctx context.Context, id uint64) (*dto.OrderDTO, e
 		return nil, err
 	}
 
-	return orderModelToDto(orderModel), nil
+	bookModelSlice, err := u.bookRepo.GetByOrderID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	orderDTO := dbconverter.OrderModelToDto(orderModel)
+
+	for _, bookModel := range bookModelSlice {
+		orderDTO.Books = append(orderDTO.Books, dbconverter.BookModelToDto(bookModel))
+	}
+
+	return orderDTO, nil
 }
 
 func (u *orderUseCase) Update(ctx context.Context, order *dto.OrderDTO) error {
@@ -109,19 +121,10 @@ func (u *orderUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*ut
 	}
 
 	for _, orderModel := range paginationList.List.(dbmodels.OrderSlice) {
-		ordersDTO = append(ordersDTO, orderModelToDto(orderModel))
+		ordersDTO = append(ordersDTO, dbconverter.OrderModelToDto(orderModel))
 	}
 
 	paginationList.List = ordersDTO
 
 	return paginationList, nil
-}
-
-func orderModelToDto(orderModel *dbmodels.Order) *dto.OrderDTO {
-	return &dto.OrderDTO{
-		ID:        uint64(orderModel.ID),
-		Total:     orderModel.Total,
-		Status:    orderModel.Status,
-		CreatedAt: orderModel.CreatedAt,
-	}
 }

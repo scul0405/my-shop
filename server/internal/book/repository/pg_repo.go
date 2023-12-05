@@ -161,3 +161,17 @@ func (r *bookRepo) ListByCategoryName(ctx context.Context, pq *utils.PaginationQ
 		List:       bookList,
 	}, nil
 }
+
+func (r *bookRepo) GetByOrderID(ctx context.Context, id uint64) (dbmodels.BookSlice, error) {
+	books, err := dbmodels.Books(
+		qm.Select("*"),
+		qm.InnerJoin("book_order ON book_order.book_id = books.id"),
+		qm.InnerJoin("orders ON orders.id = book_order.order_id"),
+		qm.Where("orders.id = ?", id),
+	).All(ctx, r.db)
+	if err != nil {
+		return nil, err
+	}
+
+	return books, nil
+}

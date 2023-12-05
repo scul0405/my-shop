@@ -14,4 +14,5 @@ type Repository interface {
 	Delete(ctx context.Context, id uint64) error
 	List(ctx context.Context, pq *utils.PaginationQuery, qms ...qm.QueryMod) (*utils.PaginationList, error)
 	ListByCategoryName(ctx context.Context, pq *utils.PaginationQuery, categoryName string) (*utils.PaginationList, error)
+	GetByOrderID(ctx context.Context, id uint64) (dbmodels.BookSlice, error)
 }
