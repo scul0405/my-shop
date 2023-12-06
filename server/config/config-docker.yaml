@@ -1,0 +1,23 @@
+server:
+  AppVersion: 1.0.0
+  Port: :8080
+  Mode: Development
+  Debug: true
+  ReadTimeout: 5
+  WriteTimeout: 5
+
+logger:
+  Development: true
+  DisableCaller: false
+  DisableStacktrace: false
+  Encoding: console
+  Level: info
+
+postgres:
+  PostgresqlHost: postgres
+  PostgresqlPort: 5432
+  PostgresqlUser: admin
+  PostgresqlPassword: secret
+  PostgresqlDbname: book_db
+  PostgresqlSslmode: false
+  PgDriver: pgx

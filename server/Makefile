@@ -51,5 +51,13 @@ migrate_down:
 boiler:
 	sqlboiler  psql
 
-.PHONY: run build test tidy deps-cleancache deps-upgrade deps-reset force version migrate_up migrate_down boiler
+# ==============================================================================
+# Docker compose commands
+docker_dev:
+	docker-compose -f docker-compose.dev.yaml up --build
+
+docker_local:
+	docker-compose -f docker-compose.local.yaml up --build
+
+.PHONY: run build test tidy deps-cleancache deps-upgrade deps-reset force version migrate_up migrate_down boiler docker_dev docker_local
 
