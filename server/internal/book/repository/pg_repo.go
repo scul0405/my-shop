@@ -82,8 +82,7 @@ func (r *bookRepo) List(ctx context.Context, pq *utils.PaginationQuery, qms ...q
 	}
 
 	// TODO: update order by
-	qms = append(qms, qm.Limit(pq.GetLimit()))
-	qms = append(qms, qm.Offset(pq.GetOffset()))
+	qms = append(qms, qm.Limit(pq.GetLimit()), qm.Offset(pq.GetOffset()))
 	bookList, err := dbmodels.Books(qms...).All(ctx, r.db)
 	if err != nil {
 		return nil, err

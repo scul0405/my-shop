@@ -75,8 +75,8 @@ func (r *orderRepo) Delete(ctx context.Context, id uint64) error {
 	return nil
 }
 
-func (r *orderRepo) List(ctx context.Context, pq *utils.PaginationQuery) (*utils.PaginationList, error) {
-	countAll, err := dbmodels.Orders().Count(ctx, r.db)
+func (r *orderRepo) List(ctx context.Context, pq *utils.PaginationQuery, qms ...qm.QueryMod) (*utils.PaginationList, error) {
+	countAll, err := dbmodels.Orders(qms...).Count(ctx, r.db)
 	if err != nil {
 		return nil, err
 	}
@@ -93,8 +93,8 @@ func (r *orderRepo) List(ctx context.Context, pq *utils.PaginationQuery) (*utils
 		}, nil
 	}
 
-	// TODO: update order by
-	orderList, err := dbmodels.Orders(qm.Limit(pq.GetLimit()), qm.Offset(pq.GetOffset())).All(ctx, r.db)
+	qms = append(qms, qm.Limit(pq.GetLimit()), qm.Offset(pq.GetOffset()))
+	orderList, err := dbmodels.Orders(qms...).All(ctx, r.db)
 	if err != nil {
 		return nil, err
 	}

@@ -10,6 +10,7 @@ import (
 	"github.com/scul0405/my-shop/server/internal/order"
 	"github.com/scul0405/my-shop/server/pkg/logger"
 	"github.com/scul0405/my-shop/server/pkg/utils"
+	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"time"
 )
 
@@ -112,9 +113,21 @@ func (u *orderUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*ut
 		paginationList *utils.PaginationList
 		err            error
 		ordersDTO      []*dto.OrderDTO
+		qms            = make([]qm.QueryMod, 0)
 	)
 
-	paginationList, err = u.orderRepo.List(ctx, pq)
+	from, _ := time.Parse(time.DateOnly, ctx.Value("from").(string))
+	to, _ := time.Parse(time.DateOnly, ctx.Value("to").(string))
+
+	// check if from and to is not default parse value
+	if from != (time.Time{}) {
+		qms = append(qms, dbmodels.OrderWhere.CreatedAt.GTE(from))
+	}
+	if to != (time.Time{}) {
+		qms = append(qms, dbmodels.OrderWhere.CreatedAt.LTE(to))
+	}
+
+	paginationList, err = u.orderRepo.List(ctx, pq, qms...)
 
 	if err != nil {
 		return nil, err

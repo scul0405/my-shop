@@ -146,20 +146,20 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "description": "from",
-                        "name": "from",
+                        "type": "integer",
+                        "description": "min price",
+                        "name": "min",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "max price",
+                        "name": "max",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "to",
-                        "name": "to",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "category_name",
+                        "description": "category name",
                         "name": "category_name",
                         "in": "query"
                     }
@@ -391,6 +391,18 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "size",
                         "name": "size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "date from (format: yyyy-mm-dd)",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "date to (format: yyyy-mm-dd)",
+                        "name": "to",
                         "in": "query"
                     }
                 ],
@@ -794,6 +806,12 @@ const docTemplate = `{
         "dto.OrderDTO": {
             "type": "object",
             "properties": {
+                "books": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.BookDTO"
+                    }
+                },
                 "created_at": {
                     "type": "string"
                 },

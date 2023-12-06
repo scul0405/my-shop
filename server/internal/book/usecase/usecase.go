@@ -76,20 +76,20 @@ func (u *bookUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*uti
 		paginationList, err = u.bookRepo.ListByCategoryName(ctx, pq, categoryName)
 	} else { // only list books can filter by name, range and sort
 		bookName := ctx.Value("name").(string)
-		from, _ := strconv.Atoi(ctx.Value("from").(string))
-		to, _ := strconv.Atoi(ctx.Value("to").(string))
+		min, _ := strconv.Atoi(ctx.Value("min").(string))
+		max, _ := strconv.Atoi(ctx.Value("max").(string))
 
 		qms := make([]qm.QueryMod, 0)
 		if bookName != "" {
 			qms = append(qms, dbmodels.BookWhere.Name.ILIKE("%"+bookName+"%"))
 		}
 
-		if from != 0 {
-			qms = append(qms, dbmodels.BookWhere.Price.GTE(from))
+		if min != 0 {
+			qms = append(qms, dbmodels.BookWhere.Price.GTE(min))
 		}
 
-		if to != 0 {
-			qms = append(qms, dbmodels.BookWhere.Price.LTE(to))
+		if max != 0 {
+			qms = append(qms, dbmodels.BookWhere.Price.LTE(max))
 		}
 
 		paginationList, err = u.bookRepo.List(ctx, pq, qms...)

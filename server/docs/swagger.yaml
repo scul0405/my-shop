@@ -34,6 +34,10 @@ definitions:
     type: object
   dto.OrderDTO:
     properties:
+      books:
+        items:
+          $ref: '#/definitions/dto.BookDTO'
+        type: array
       created_at:
         type: string
       id:
@@ -159,15 +163,15 @@ paths:
         in: query
         name: name
         type: string
-      - description: from
+      - description: min price
         in: query
-        name: from
-        type: string
-      - description: to
+        name: min
+        type: integer
+      - description: max price
         in: query
-        name: to
-        type: string
-      - description: category_name
+        name: max
+        type: integer
+      - description: category name
         in: query
         name: category_name
         type: string
@@ -323,6 +327,14 @@ paths:
         in: query
         name: size
         type: integer
+      - description: 'date from (format: yyyy-mm-dd)'
+        in: query
+        name: from
+        type: string
+      - description: 'date to (format: yyyy-mm-dd)'
+        in: query
+        name: to
+        type: string
       produces:
       - application/json
       responses:

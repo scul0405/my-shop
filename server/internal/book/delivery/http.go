@@ -145,9 +145,9 @@ func (h *bookHandlers) Delete() http.HandlerFunc {
 // @Param page query int false "page"
 // @Param size query int false "size"
 // @Param name query string false "name"
-// @Param from query string false "from"
-// @Param to query string false "to"
-// @Param category_name query string false "category_name"
+// @Param min query int false "min price"
+// @Param max query int false "max price"
+// @Param category_name query string false "category name"
 // @Success 200 {object} utils.PaginationList
 // @Failure 400 {object} httpErrors.RestError
 // @Failure 500 {object} httpErrors.RestError
@@ -161,7 +161,7 @@ func (h *bookHandlers) List() http.HandlerFunc {
 		}
 
 		// Store params from query to context
-		r = utils.SetContextValueFromRequest(r, "category_name", "name", "from", "to")
+		r = utils.SetContextValueFromRequest(r, "category_name", "name", "min", "max")
 
 		list, err := h.bookUC.List(r.Context(), pq)
 		if err != nil {

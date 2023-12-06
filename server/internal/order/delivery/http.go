@@ -171,6 +171,8 @@ func (h *orderHandlers) Delete() http.HandlerFunc {
 // @Produce json
 // @Param page query int false "page"
 // @Param size query int false "size"
+// @Param from query string false "date from (format: yyyy-mm-dd)"
+// @Param to query string false "date to (format: yyyy-mm-dd)"
 // @Success 200 {object} utils.PaginationList
 // @Failure 400 {object} httpErrors.RestError
 // @Failure 500 {object} httpErrors.RestError
@@ -182,6 +184,8 @@ func (h *orderHandlers) List() http.HandlerFunc {
 			utils.RespondWithError(w, err)
 			return
 		}
+
+		r = utils.SetContextValueFromRequest(r, "from", "to")
 
 		list, err := h.orderUC.List(r.Context(), pq)
 		if err != nil {
