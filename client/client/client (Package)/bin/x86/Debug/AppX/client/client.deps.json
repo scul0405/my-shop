@@ -1,0 +1,123 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "client/1.0.0": {
+        "dependencies": {
+          "GUI": "1.0.0",
+          "Microsoft.ProjectReunion": "0.8.12",
+          "Microsoft.ProjectReunion.Foundation": "0.8.12",
+          "Microsoft.ProjectReunion.WinUI": "0.8.12",
+          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.19041.31"
+        },
+        "runtime": {
+          "client.dll": {}
+        }
+      },
+      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.19041.31": {
+        "runtime": {
+          "Microsoft.Windows.SDK.NET.dll": {
+            "assemblyVersion": "10.0.19041.24",
+            "fileVersion": "10.0.19041.31"
+          },
+          "WinRT.Runtime.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.4.44211"
+          }
+        }
+      },
+      "Microsoft.ProjectReunion/0.8.12": {
+        "dependencies": {
+          "Microsoft.ProjectReunion.DWrite": "0.8.12",
+          "Microsoft.ProjectReunion.Foundation": "0.8.12",
+          "Microsoft.ProjectReunion.InteractiveExperiences": "0.8.12",
+          "Microsoft.ProjectReunion.WinUI": "0.8.12"
+        }
+      },
+      "Microsoft.ProjectReunion.DWrite/0.8.12": {},
+      "Microsoft.ProjectReunion.Foundation/0.8.12": {
+        "runtime": {
+          "lib/net5.0-windows/Microsoft.ApplicationModel.Resources.Projection.dll": {
+            "assemblyVersion": "0.8.0.0",
+            "fileVersion": "0.8.0.0"
+          }
+        }
+      },
+      "Microsoft.ProjectReunion.InteractiveExperiences/0.8.12": {},
+      "Microsoft.ProjectReunion.WinUI/0.8.12": {
+        "runtime": {
+          "lib/net5.0-windows10.0.18362.0/Microsoft.WinUI.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.2207"
+          }
+        }
+      },
+      "GUI/1.0.0": {
+        "dependencies": {
+          "Microsoft.ProjectReunion": "0.8.12",
+          "Microsoft.ProjectReunion.Foundation": "0.8.12",
+          "Microsoft.ProjectReunion.WinUI": "0.8.12"
+        },
+        "runtime": {
+          "GUI.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "client/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.19041.31": {
+      "type": "runtimepack",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.ProjectReunion/0.8.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+HLQ0GUVQlnfRnjl/O2qp35A7kyvoTd/8cV6QlnKM1oUBciJSgaZj5qfLyP34Xb+ipwlFeZK5LoUzby+NRqLaw==",
+      "path": "microsoft.projectreunion/0.8.12",
+      "hashPath": "microsoft.projectreunion.0.8.12.nupkg.sha512"
+    },
+    "Microsoft.ProjectReunion.DWrite/0.8.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fMOUS8StTCRhV5oK6iEe9WP6C0GOQ2MANfz79HpC9S4zkBkWKyKqo/8rfvidUcWP2uSQ5iym9xGVVA9RTGJzdw==",
+      "path": "microsoft.projectreunion.dwrite/0.8.12",
+      "hashPath": "microsoft.projectreunion.dwrite.0.8.12.nupkg.sha512"
+    },
+    "Microsoft.ProjectReunion.Foundation/0.8.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lA6Na1efbQlT3GUyFpYlCgop6cm9RF430V9Q2WpoM6Sv5Gu+Cy9mo9Pg7mz2rCk8neUyCCPiS/qA0eiy/wBA/w==",
+      "path": "microsoft.projectreunion.foundation/0.8.12",
+      "hashPath": "microsoft.projectreunion.foundation.0.8.12.nupkg.sha512"
+    },
+    "Microsoft.ProjectReunion.InteractiveExperiences/0.8.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-i6owVdT78vLfVzZuKCYIYDWhKq9RQJXuAlqmOedn2BLA4w8PztkHK59o8ry1Q52EZ7MW9j5p2J8KFM1Lt8p/tA==",
+      "path": "microsoft.projectreunion.interactiveexperiences/0.8.12",
+      "hashPath": "microsoft.projectreunion.interactiveexperiences.0.8.12.nupkg.sha512"
+    },
+    "Microsoft.ProjectReunion.WinUI/0.8.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VRPqhl9wGfQWinNf0G0k2Gx4s/3GfKNPkS/s7GgYag6/dRd6Au5D/puco7CYIZ0B6gFbp8XOoNXE27jn1810fg==",
+      "path": "microsoft.projectreunion.winui/0.8.12",
+      "hashPath": "microsoft.projectreunion.winui.0.8.12.nupkg.sha512"
+    },
+    "GUI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
