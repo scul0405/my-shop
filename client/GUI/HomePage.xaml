@@ -10,6 +10,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Button>Home Page</Button>
+        <Button>Home Pageee</Button>
     </Grid>
 </Page>

@@ -26,6 +26,7 @@ namespace GUI
         public Dashboard()
         {
             this.InitializeComponent();
+            contentFrame.Navigate(typeof(HomePage));
         }
 
         private void navView_SelectionChange(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
