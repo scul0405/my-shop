@@ -8,6 +8,14 @@
     mc:Ignorable="d">
 
     <Grid>
-
+        <NavigationView x:Name="navView" SelectionChanged="navView_SelectionChange">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Home" Content="Dashboard" Tag="SamplePage1" Name="navItem_HomePage" />
+                <NavigationViewItem Icon="Save" Content="Menu Item2" Tag="SamplePage2" />
+                <NavigationViewItem Icon="Refresh" Content="Menu Item3" Tag="SamplePage3" />
+                <NavigationViewItem Icon="Setting" Content="Menu Item4" Tag="SamplePage4" Name="navItem_SettingPage"/>
+            </NavigationView.MenuItems>
+            <Frame x:Name="contentFrame"/>
+        </NavigationView>
     </Grid>
 </Window>
