@@ -10,7 +10,329 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <TextBlock>Dit me may Khang</TextBlock>
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="16"
+                    Background="#F0F0F0"
+                    Padding="20,10,20,0">
+            <TextBlock Text="Dashboard"
+                       Style="{StaticResource SubtitleTextBlockStyle}" />
+            <!--first row-->
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="Background"
+                                Value="White"></Setter>
+                        <Setter Property="Padding"
+                                Value="6"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <!-- Divide the window into 4 equal columns -->
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Row 1 -->
+                <Border Grid.Column="0">
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE805;"
+                                  Margin="0,0,40,0" />
+                        <StackPanel>
+                            <TextBlock Text="SALES"
+                                       Foreground="#969696" />
+
+                            <TextBlock Text="100.000"
+                                       Style="{StaticResource SubtitleTextBlockStyle}" />
+
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1"
+                        Margin="20,0,10,0">
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE805;"
+                                  Margin="0,0,40,0" />
+                        <StackPanel>
+                            <TextBlock Text="SALES"
+                                       Foreground="#969696" />
+
+                            <TextBlock Text="100.000"
+                                       Style="{StaticResource SubtitleTextBlockStyle}" />
+
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2"
+                        Margin="10,0,20,0">
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE805;"
+                                  Margin="0,0,40,0" />
+                        <StackPanel>
+                            <TextBlock Text="SALES"
+                                       Foreground="#969696" />
+
+                            <TextBlock Text="100.000"
+                                       Style="{StaticResource SubtitleTextBlockStyle}" />
+
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="3">
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE805;"
+                                  Margin="0,0,40,0" />
+                        <StackPanel>
+                            <TextBlock Text="SALES"
+                                       Foreground="#969696" />
+
+                            <TextBlock Text="100.000"
+                                       Style="{StaticResource SubtitleTextBlockStyle}" />
+
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Add more rows and items as needed -->
+
+            </Grid>
+
+            <!--second row-->
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="Background"
+                                Value="White"></Setter>
+                        <Setter Property="Padding"
+                                Value="6"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <!-- Divide the window into 4 equal columns -->
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"
+                        Margin="0,0,10,0">
+                    <StackPanel>
+                        <TextBlock Text="Sắp hết hàng"
+                                   Style="{StaticResource BodyTextBlockStyle}" />
+                        <StackPanel Spacing="10"
+                                    Margin="20,10,20,0">
+                            <Border BorderThickness="0,1,0,0"
+                                    BorderBrush="Gray">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <!-- Cột 1 và 2 có kích thước mặc định (1*) -->
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="1*" />
+                                        <!-- Cột 3 có kích thước nhỏ (Auto) -->
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Nội dung trong cột 1 -->
+                                    <Rectangle Fill="SteelBlue"
+                                               Height="50"
+                                               Width="50"
+                                               Stroke="Black"
+                                               StrokeThickness="2"
+                                               RadiusY="10"
+                                               RadiusX="10"
+                                               HorizontalAlignment="Left"
+                                               Grid.Column="0" />
+
+                                    <!-- Nội dung trong cột 2 -->
+                                    <TextBlock Text="The Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind Rises"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Padding="10,0,10,0"
+                                               Grid.Column="1" />
+
+                                    <!-- Nội dung trong cột 3 -->
+                                    <TextBlock Text="Số lượng: 1"
+                                               VerticalAlignment="Center"
+                                               Grid.Column="2" />
+                                </Grid>
+                            </Border>
+
+                        </StackPanel>
+                        <StackPanel Spacing="10"
+                                    Margin="20,10,20,0">
+                            <Border BorderThickness="0,1,0,0"
+                                    BorderBrush="Gray">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <!-- Cột 1 và 2 có kích thước mặc định (1*) -->
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="1*" />
+                                        <!-- Cột 3 có kích thước nhỏ (Auto) -->
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Nội dung trong cột 1 -->
+                                    <Rectangle Fill="SteelBlue"
+                                               Height="50"
+                                               Width="50"
+                                               Stroke="Black"
+                                               StrokeThickness="2"
+                                               RadiusY="10"
+                                               RadiusX="10"
+                                               HorizontalAlignment="Left"
+                                               Grid.Column="0" />
+
+                                    <!-- Nội dung trong cột 2 -->
+                                    <TextBlock Text="The Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind Rises"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Padding="10,0,10,0"
+                                               Grid.Column="1" />
+
+                                    <!-- Nội dung trong cột 3 -->
+                                    <TextBlock Text="Số lượng: 1"
+                                               VerticalAlignment="Center"
+                                               Grid.Column="2" />
+                                </Grid>
+                            </Border>
+
+                        </StackPanel>
+                        <StackPanel Spacing="10"
+                                    Margin="20,10,20,0">
+                            <Border BorderThickness="0,1,0,0"
+                                    BorderBrush="Gray">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <!-- Cột 1 và 2 có kích thước mặc định (1*) -->
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="1*" />
+                                        <!-- Cột 3 có kích thước nhỏ (Auto) -->
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Nội dung trong cột 1 -->
+                                    <Rectangle Fill="SteelBlue"
+                                               Height="50"
+                                               Width="50"
+                                               Stroke="Black"
+                                               StrokeThickness="2"
+                                               RadiusY="10"
+                                               RadiusX="10"
+                                               HorizontalAlignment="Left"
+                                               Grid.Column="0" />
+
+                                    <!-- Nội dung trong cột 2 -->
+                                    <TextBlock Text="The Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind Rises"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Padding="10,0,10,0"
+                                               Grid.Column="1" />
+
+                                    <!-- Nội dung trong cột 3 -->
+                                    <TextBlock Text="Số lượng: 1"
+                                               VerticalAlignment="Center"
+                                               Grid.Column="2" />
+                                </Grid>
+                            </Border>
+
+                        </StackPanel>
+                        <StackPanel Spacing="10"
+                                    Margin="20,10,20,0">
+                            <Border BorderThickness="0,1,0,0"
+                                    BorderBrush="Gray">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <!-- Cột 1 và 2 có kích thước mặc định (1*) -->
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="1*" />
+                                        <!-- Cột 3 có kích thước nhỏ (Auto) -->
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Nội dung trong cột 1 -->
+                                    <Rectangle Fill="SteelBlue"
+                                               Height="50"
+                                               Width="50"
+                                               Stroke="Black"
+                                               StrokeThickness="2"
+                                               RadiusY="10"
+                                               RadiusX="10"
+                                               HorizontalAlignment="Left"
+                                               Grid.Column="0" />
+
+                                    <!-- Nội dung trong cột 2 -->
+                                    <TextBlock Text="The Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind Rises"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Padding="10,0,10,0"
+                                               Grid.Column="1" />
+
+                                    <!-- Nội dung trong cột 3 -->
+                                    <TextBlock Text="Số lượng: 1"
+                                               VerticalAlignment="Center"
+                                               Grid.Column="2" />
+                                </Grid>
+                            </Border>
+
+                        </StackPanel>
+                        <StackPanel Spacing="10"
+                                    Margin="20,10,20,0">
+                            <Border BorderThickness="0,1,0,0"
+                                    BorderBrush="Gray">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <!-- Cột 1 và 2 có kích thước mặc định (1*) -->
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="1*" />
+                                        <!-- Cột 3 có kích thước nhỏ (Auto) -->
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Nội dung trong cột 1 -->
+                                    <Rectangle Fill="SteelBlue"
+                                               Height="50"
+                                               Width="50"
+                                               Stroke="Black"
+                                               StrokeThickness="2"
+                                               RadiusY="10"
+                                               RadiusX="10"
+                                               HorizontalAlignment="Left"
+                                               Grid.Column="0" />
+
+                                    <!-- Nội dung trong cột 2 -->
+                                    <TextBlock Text="The Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind RisesThe Wind Rises"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               Padding="10,0,10,0"
+                                               Grid.Column="1" />
+
+                                    <!-- Nội dung trong cột 3 -->
+                                    <TextBlock Text="Số lượng: 1"
+                                               VerticalAlignment="Center"
+                                               Grid.Column="2" />
+                                </Grid>
+                            </Border>
+
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1"
+                        Margin="10,0,0,0"></Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
 </Page>
