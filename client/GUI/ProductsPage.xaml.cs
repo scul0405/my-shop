@@ -21,9 +21,9 @@ namespace GUI
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ProductPage : Page
+    public sealed partial class ProductsPage : Page
     {
-        public ProductPage()
+        public ProductsPage()
         {
             this.InitializeComponent();
         }

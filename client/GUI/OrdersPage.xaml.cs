@@ -19,19 +19,13 @@ using Windows.Foundation.Collections;
 namespace GUI
 {
     /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Dashboard : Window
+    public sealed partial class OrdersPage : Page
     {
-        public Dashboard()
+        public OrdersPage()
         {
             this.InitializeComponent();
-            contentFrame.Navigate(typeof(HomePage));
-        }
-
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
-
         }
     }
 }

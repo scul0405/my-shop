@@ -9,15 +9,15 @@
   <ItemGroup>
     <None Remove="Dashboard.xaml" />
     <None Remove="HomePage.xaml" />
-    <None Remove="ProductPage.xaml" />
-    <None Remove="ReportPage.xaml" />
+    <None Remove="OrdersPage.xaml" />
+    <None Remove="ProductsPage.xaml" />
     <None Remove="SettingPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-      <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.12" />
-      <PackageReference Include="Microsoft.ProjectReunion.Foundation" Version="0.8.12" />
-      <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="0.8.12" />
+      <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,19 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="ReportPage.xaml">
+    <Page Update="Dashboard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="ProductPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="HomePage.xaml">
+    <Page Update="ProductsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -49,7 +43,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Dashboard.xaml">
+    <Page Update="OrdersPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

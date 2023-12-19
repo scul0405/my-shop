@@ -2,19 +2,22 @@
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="2d216ade-5029-4141-9a87-a519cd52a9f9"
-    Publisher="CN=phucm"
+    Name="55a1559e-8317-45bc-8dcd-a0bf81bd62d1"
+    Publisher="CN=Surface"
     Version="1.0.0.0" />
 
+  <mp:PhoneIdentity PhoneProductId="55a1559e-8317-45bc-8dcd-a0bf81bd62d1" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
   <Properties>
-    <DisplayName>client (Package)</DisplayName>
-    <PublisherDisplayName>phucm</PublisherDisplayName>
-    <Logo>Images\StoreLogo.png</Logo>
+    <DisplayName>client</DisplayName>
+    <PublisherDisplayName>Surface</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -31,13 +34,13 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="client (Package)"
-        Description="client (Package)"
+        DisplayName="client"
+        Description="client"
         BackgroundColor="transparent"
-        Square150x150Logo="Images\Square150x150Logo.png"
-        Square44x44Logo="Images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Images\SplashScreen.png" />
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
