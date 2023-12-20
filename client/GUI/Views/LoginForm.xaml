@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="GUI.Views.LoginForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GUI.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <!-- Left side with illustration -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Source="ms-appx:///Assets/YourIllustrationImage.png" Stretch="UniformToFill"/>
+
+        <!-- Right side with login form -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Login" FontSize="24" Margin="20,0,0,20"/>
+
+            <TextBox PlaceholderText="Username" Margin="20,0,20,0"/>
+            <PasswordBox PlaceholderText="Password" Margin="20,0,20,0"/>
+
+            <StackPanel Orientation="Horizontal" Margin="20,0">
+                <CheckBox Content="Remember me" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <!-- Add any other controls you need -->
+            </StackPanel>
+
+            <Button Content="Login" Margin="20,0" HorizontalAlignment="Left"/>
+        </Grid>
+    </Grid>
+</Window>

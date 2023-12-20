@@ -6,6 +6,7 @@
     xmlns:local="using:GUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     mc:Ignorable="d">
 
     <Grid>
@@ -23,20 +24,20 @@
     IsTabStop="False">
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Menu Item1" Tag="SamplePage1" x:Name="SamplePage1Item">
+                <NavigationViewItem Content="Dashboard" Tag="NavItem_HomePage" x:Name="NavItem_HomePage">
                     <NavigationViewItem.Icon>
-                        <SymbolIcon Symbol="Play" />
+                        <SymbolIcon Symbol="Home" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItemHeader Content="Actions"/>
-                <NavigationViewItem Content="Menu Item2" Tag="SamplePage2" x:Name="SamplePage2Item" SelectsOnInvoked="True">
+                <NavigationViewItemHeader Content="Features"/>
+                <NavigationViewItem Content="All Products" Tag="NavItem_ProductsPage" x:Name="NavItem_ProductsPage" SelectsOnInvoked="True">
                     <NavigationViewItem.Icon>
-                        <SymbolIcon Symbol="Save" />
+                        <SymbolIcon Symbol="Calendar" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Menu Item3" Tag="SamplePage3" x:Name="SamplePage3Item">
+                <NavigationViewItem Content="All Orders" Tag="NavItem_OrdersPage" x:Name="NavItem_OrdersPage">
                     <NavigationViewItem.Icon>
-                        <SymbolIcon Symbol="Refresh" />
+                        <SymbolIcon Symbol="Flag" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

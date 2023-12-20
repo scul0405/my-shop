@@ -1,3 +1,5 @@
+using CommunityToolkit.Labs.WinUI;
+using GUI.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -23,9 +25,29 @@ namespace GUI
     /// </summary>
     public sealed partial class SettingPage : Page
     {
+        public SettingViewModel ViewModel { get; } = new SettingViewModel();
+
         public SettingPage()
         {
             this.InitializeComponent();
         }
+
+        private void SettingsCard_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+        }
+
+        private void IsEnabledToggleSwitch_Toggled(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            if (sender is not ToggleSwitch toggleSwitch)
+            {
+                return;
+            }
+
+            foreach (SettingsCard item in this.MultipleItemsSettingsExpander.Items.OfType<SettingsCard>())
+            {
+                item.IsEnabled = toggleSwitch.IsOn;
+            }
+        }
+
     }
 }
