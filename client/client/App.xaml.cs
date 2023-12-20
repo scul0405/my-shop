@@ -1,4 +1,5 @@
 ﻿
+using Entity;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -81,13 +82,6 @@ namespace client
                 }
             }
 
-            var debug = new
-            {
-                daos,
-                buses,
-                guis
-            };
-
             var daoFactory = daos.Where(dao => dao.GetVersion() == mockDaoVersion)
                                  .ToDictionary(dao => dao.OnData(), dao => dao);
 
@@ -96,14 +90,14 @@ namespace client
 
             var guiFactory = guis.Single(gui => gui.GetVersion() == mockGuiVersion).CreateNew(busFactory);
 
-            var debug2 = new
+            // guiFactory.GetMainWindow();
+
+            var debug = new
             {
-                daoFactory,
-                busFactory,
-                guiFactory,
+                cate = busFactory["BookCategory"].Get(new Dictionary<string, string>())
+                //categories = busFactory["BookCategory"].Post(new BookCategory() { Name = "Quái zật hồ nóck lét"}, new Dictionary<string, string>())
             };
 
-            // guiFactory.GetMainWindow();
 
             m_window = new MainWindow();
             m_window.Activate();
