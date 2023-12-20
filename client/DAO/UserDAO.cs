@@ -1,24 +1,33 @@
-﻿using System;
+﻿using Entity;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using ThreeLayerContract;
+using Windows.ApplicationModel.Contacts;
 
 namespace DAO
 {
     /*
      * Base route: /user
      * Configuration
-     * - Route: 
+     * - type: 
      *      + "login" => tạo post request tới "/user/login"
      *      + "register" => tạo post request tới "/user/register"
      */
     public class UserDAO : IDAO
     {
+        private const string Endpoint = "/users";
         public override AppVersion GetVersion() => AppVersion.Default;
 
-        public UserDAO() {
-            //client.BaseAddress = new Uri($"{BASE_URL}/orders");
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        public UserDAO() { }
+
+        public override dynamic Post(object entity, Dictionary<string, string> configuration)
+        {
+            var request = new RestRequest($"{Endpoint}/{configuration["type"]}", Method.Post);
+            request.AddBody((User)entity);
+
+            return _client.ExecutePost(request).IsSuccessful;
         }
 
         public override dynamic Delete(Dictionary<string, string> configuration)
@@ -34,11 +43,6 @@ namespace DAO
         public override dynamic Patch(object entity, Dictionary<string, string> configuration)
         {
             throw new NotImplementedException();
-        }
-
-        public override dynamic Post(object entity, Dictionary<string, string> configuration)
-        {
-            return "OK";
         }
 
         public override string ToString() => "UserDAO";

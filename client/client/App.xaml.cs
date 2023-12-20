@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using ThreeLayerContract;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -92,6 +93,13 @@ namespace client
             var guiFactory = guis.Single(gui => gui.GetVersion() == mockGuiVersion).CreateNew(busFactory);
 
             // guiFactory.GetMainWindow();
+            var usr = new User() { username = "cukhoaimon", password = "hanaxinh" };
+
+            var debug = new
+            {
+                regis = busFactory["User"].Post(usr, new Dictionary<string, string> { { "type", "register" }}),
+                login = busFactory["User"].Post(usr, new Dictionary<string, string> { { "type", "login" } })
+            };
 
             m_window = new MainWindow();
             m_window.Activate();
