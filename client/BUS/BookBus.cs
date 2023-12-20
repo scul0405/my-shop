@@ -14,10 +14,10 @@ namespace BUS
         public BookBus(IDAO dao) { this._dao = dao; }
         public override IBus CreateNew(IDAO dao) => new BookBus(dao);
 
-        public override dynamic Delete(object entity, Dictionary<string, string> configuration)
+        public override dynamic Delete(Dictionary<string, string> configuration)
         {
             // bussiness logic
-            return this._dao.Delete(entity, configuration);
+            return this._dao.Delete( configuration);
         }
 
         public override dynamic Get(Dictionary<string, string> configuration)

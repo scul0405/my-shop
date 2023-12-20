@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -91,13 +92,6 @@ namespace client
             var guiFactory = guis.Single(gui => gui.GetVersion() == mockGuiVersion).CreateNew(busFactory);
 
             // guiFactory.GetMainWindow();
-
-            var debug = new
-            {
-                cate = busFactory["BookCategory"].Get(new Dictionary<string, string>())
-                //categories = busFactory["BookCategory"].Post(new BookCategory() { Name = "Quái zật hồ nóck lét"}, new Dictionary<string, string>())
-            };
-
 
             m_window = new MainWindow();
             m_window.Activate();

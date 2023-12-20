@@ -53,7 +53,7 @@ namespace DAO
 
             return _client.ExecutePost(request).IsSuccessful;
         }
-        public override dynamic Delete(object entity, Dictionary<string, string> configuration)
+        public override dynamic Delete(Dictionary<string, string> configuration)
         {
             throw new NotImplementedException();
         }

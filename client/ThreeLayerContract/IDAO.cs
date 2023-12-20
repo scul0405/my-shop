@@ -20,6 +20,6 @@ namespace ThreeLayerContract
         public abstract dynamic Get(Dictionary<String, String> configuration);              // read
         public abstract dynamic Patch(Object entity, Dictionary<String, String> configuration);  // update
         public abstract dynamic Post(Object entity, Dictionary<String, String> configuration);   // create 
-        public abstract dynamic Delete(Object entity, Dictionary<String, String> configuration); // delete
+        public abstract dynamic Delete(Dictionary<String, String> configuration); // delete
     }
 }

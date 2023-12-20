@@ -21,10 +21,10 @@ namespace BUS
 
         public override IBus CreateNew(IDAO dao) => new OrderBus(dao);
 
-        public override dynamic Delete(Object entity, Dictionary<string, string> configuration)
+        public override dynamic Delete(Dictionary<string, string> configuration)
         {
             // business logic here
-            return _dao.Delete(entity, configuration);
+            return _dao.Delete(configuration);
         }
 
         public override dynamic Get(Dictionary<string, string> configuration)

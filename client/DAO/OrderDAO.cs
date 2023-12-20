@@ -36,7 +36,7 @@ namespace DAO
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public override dynamic Delete(Object entity, Dictionary<string, string> configuration)
+        public override dynamic Delete(Dictionary<string, string> configuration)
         {
             return "OK";
         }
