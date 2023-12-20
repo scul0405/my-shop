@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Entity;
+using Newtonsoft.Json;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using ThreeLayerContract;
@@ -28,32 +31,89 @@ namespace DAO
      */
     public class OrderDAO : IDAO
     {
+        private const string Endpoint = "/orders";
         public override AppVersion GetVersion() => AppVersion.Default; 
 
-        public OrderDAO() 
-        {
-            //client.BaseAddress = new Uri($"{BASE_URL}/orders");
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }
-
-        public override dynamic Delete(Dictionary<string, string> configuration)
-        {
-            return "OK";
-        }
+        public OrderDAO() { }
 
         public override dynamic Get(Dictionary<string, string> configuration)
         {
-            return "OK";
+            string id;
+
+            if (configuration.TryGetValue("id", out id))
+            {
+                var request = new RestRequest($"{Endpoint}/{id}", Method.Get);
+                var response = _client.ExecuteGet(request);
+
+                if (!response.IsSuccessful) { return null; }
+
+                var result = JsonConvert.DeserializeObject<Order>(response.Content);
+                return result;
+            } 
+            else
+            {
+                var request = new RestRequest(Endpoint, Method.Get);
+                foreach (KeyValuePair<string, string> entry in configuration)
+                {
+                    request.AddParameter(entry.Key, entry.Value);
+                }
+
+                var response = _client.ExecuteGet(request);
+
+                if (!response.IsSuccessful) { return null; }
+
+                var result = JsonConvert.DeserializeObject<HttpResponse<Order>>(response.Content);
+                return result.list;
+            }
         }
 
         public override dynamic Patch(Object entity, Dictionary<string, string> configuration)
         { 
-            return "OK";
+            var order = (Order)entity;
+            var request = new RestRequest($"{Endpoint}/{order.Id}", Method.Patch);
+            request.AddBody(order);
+
+            return _client.Execute(request).IsSuccessful;
         }
 
         public override dynamic Post(Object entity, Dictionary<string, string> configuration)
         {
-            return "OK";
+            string id;
+            RestRequest request;
+
+            if (configuration.TryGetValue("id", out id))
+            {
+                try
+                {
+                    request = new RestRequest($"{Endpoint}/{id}/books/{configuration["bid"]}", Method.Post);
+                } 
+                catch (KeyNotFoundException)
+                {
+                    throw new Exception("Error at OrderDAO - Post request for adding book to order must provide params 'bid'");
+                }
+            }
+            else
+            {
+                var order = (Order)entity;
+                request = new RestRequest(Endpoint, Method.Post);
+                request.AddBody(order);
+            }
+
+            return _client.ExecutePost(request).IsSuccessful;
+        }
+
+        public override dynamic Delete(Dictionary<string, string> configuration)
+        {
+            try
+            {
+                var request = new RestRequest($"{Endpoint}/{configuration["id"]}", Method.Delete);
+
+                return _client.Execute(request).IsSuccessful;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new Exception("Error at OrderDAO - Delete method must include ID parameter.\"");
+            }
         }
 
         public override string ToString() => "OrderDAO";

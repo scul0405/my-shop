@@ -43,9 +43,8 @@ namespace DAO
         public override dynamic Get(Dictionary<string, string> configuration)
         {
             string id;
-            bool hasId = configuration.TryGetValue("id", out id);
 
-            if (hasId)
+            if (configuration.TryGetValue("id", out id))
             {
                 // handle book detail
                 var request = new RestRequest($"{Endpoint}/{id}", Method.Get);
