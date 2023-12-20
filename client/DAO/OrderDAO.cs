@@ -36,6 +36,19 @@ namespace DAO
 
         public OrderDAO() { }
 
+        /*
+         * Example
+         * - Get all order
+         *  var configuration = new Dictionary<string, string> {
+         *       { "page", "2" },                            [optional]
+         *       { "size", "2" },                            [optional]
+         *       { "from", "1999/12/20" },                   [optional]
+         *       { "to", "2000/12/20" },                     [optional]
+         *  };
+         *  
+         *  - Get book by id
+         *  var configuration = new Dictionary<string, string> { { "id", "2" } };
+         */
         public override dynamic Get(Dictionary<string, string> configuration)
         {
             string id;

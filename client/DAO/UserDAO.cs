@@ -9,11 +9,11 @@ using Windows.ApplicationModel.Contacts;
 namespace DAO
 {
     /*
-     * Base route: /user
+     * Base route: /users
      * Configuration
      * - type: 
-     *      + "login" => tạo post request tới "/user/login"
-     *      + "register" => tạo post request tới "/user/register"
+     *      + "login" => tạo post request tới "/users/login"
+     *      + "register" => tạo post request tới "/users/register"
      */
     public class UserDAO : IDAO
     {
@@ -22,6 +22,18 @@ namespace DAO
 
         public UserDAO() { }
 
+        /*
+         * Example
+         * - Register
+         *  var configuration = new Dictionary<string, string> {
+         *       { "type", "register" },                           
+         *  };
+         *  
+         * - Login
+         *  var configuration = new Dictionary<string, string> {
+         *       { "type", "login" },                           
+         *  };
+         */
         public override dynamic Post(object entity, Dictionary<string, string> configuration)
         {
             var request = new RestRequest($"{Endpoint}/{configuration["type"]}", Method.Post);

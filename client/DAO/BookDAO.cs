@@ -36,10 +36,23 @@ namespace DAO
         private const string Endpoint = "/books";
         public override AppVersion GetVersion() => AppVersion.Default;
 
-        public BookDAO() { 
-            //client.BaseAddress = new Uri($"{BASE_URL}/orders");
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }
+        public BookDAO() { }
+
+        /*
+         * Example
+         * - Get all book
+         *  var configuration = new Dictionary<string, string> {
+         *       { "page", "2" },                            [optional]
+         *       { "size", "2" },                            [optional]
+         *       { "name", "Làm Đĩ" },                       [optional]
+         *       { "min", "200" },                           [optional]
+         *       { "max", "400" },                           [optional]
+         *       { "category_name", "Self help chữa lành" }  [optional]
+         *  };
+         *  
+         *  - Get book by id
+         *  var configuration = new Dictionary<string, string> { { "id", "2" } };
+         */
         public override dynamic Get(Dictionary<string, string> configuration)
         {
             string id;
@@ -89,6 +102,11 @@ namespace DAO
             return _client.Execute(request).IsSuccessful;
         }
 
+        /*
+         * Example
+         * - Delete book by id
+         *  var configuration = new Dictionary<string, string> { { "id", "2" } };
+         */
         public override dynamic Delete(Dictionary<string, string> configuration)
         {
             try

@@ -23,6 +23,15 @@ namespace DAO
         public override AppVersion GetVersion() => AppVersion.Default;
 
         public BookCategoryDAO() {}
+  
+        /*
+         * Example:
+         * var configuration = new Dictionary<string, string> { 
+         *          { "page", "2" },        [optional]
+         *          { "size", "2" }         [optional]
+         * }
+         * => request sẽ là BASE_URL/book_categories?page=2&size=2
+         */
         public override dynamic Get(Dictionary<string, string> configuration)
         {
             var request = new RestRequest(Endpoint, Method.Get);
