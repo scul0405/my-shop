@@ -18,7 +18,7 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace GUI
+namespace GUI.Views
 {
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.
@@ -54,7 +54,7 @@ namespace GUI
                         break;
 
                     case "NavItem_ProductsPage":
-                        contentFrame.Navigate(typeof(SettingPage));
+                        contentFrame.Navigate(typeof(ProductsPage));
                         break;
                     // Add more cases for other pages as needed
 
