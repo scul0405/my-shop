@@ -49,9 +49,17 @@ namespace GUI
         {
             //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             var screen = new AddBookDialog();
+
+            var newBook = new Book();
+            screen.Handler += (Book value) =>
+            {
+                newBook = value;
+            };
+
             screen.Activate();
             screen.Closed += (s, args) =>
             {
+                _list.Add(newBook);
                 _list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             };
         }

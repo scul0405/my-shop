@@ -20,12 +20,12 @@
         <StackPanel Spacing="20" Name="bookForm">
             <StackPanel>
                 <TextBlock Text="Tên sách" />
-                <TextBox Text="{Binding name}"/>
+                <TextBox Text="{Binding name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
 
             <StackPanel>
                 <TextBlock Text="Tên tác giả" />
-                <TextBox Text="{Binding author}"/>
+                <TextBox Text="{Binding author, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
 
             <StackPanel>
@@ -44,16 +44,18 @@
 
             <StackPanel Name="price">
                 <TextBlock Text="Giá tiền" />
-                <TextBox TextChanged="checkPrice" 
-                         Text="{Binding price}"/>
+                <TextBox TextChanged="checkPrice"
+                         Text="{Binding price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
 
             <StackPanel>
                 <TextBlock Text="Số lượng" />
-                <TextBox Text="{Binding quantity}" />
+                <TextBox Text="{Binding quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
 
         </StackPanel>
+
+        <Button Margin="0,20,0,10" Content="Thêm" Click="AddButton"/>
     </StackPanel>
 </Window>

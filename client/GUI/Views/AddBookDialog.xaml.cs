@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -24,14 +25,20 @@ namespace GUI.Views
     /// </summary>
     public sealed partial class AddBookDialog : Window
     {
+        public delegate void AddNew(Book value);
+        public event AddNew Handler;
+
+
         List<BookCategory> _categories;
         public Book _newBook;
+
+
         public AddBookDialog()
         {
             this.InitializeComponent();
             LoadCategories();
 
-            _newBook = new Book();
+            _newBook = new Book() { name="" };
 
             bookForm.DataContext = _newBook;
         }
@@ -49,6 +56,14 @@ namespace GUI.Views
         private void checkPrice(object sender, TextChangedEventArgs e)
         {
             
+        }
+
+        private void AddButton(object sender, RoutedEventArgs e)
+        {
+            var selectedCate = (BookCategory)categoriesComboBox.SelectedItem;
+            _newBook.category_id = selectedCate.Id;
+            Handler?.Invoke(_newBook);
+            this.Close();
         }
     }
 }
