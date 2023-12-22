@@ -12,7 +12,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel>
-        <StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    Spacing="10"
+                    HorizontalAlignment="Right">
             <Button Click="Add_Click"
                     Foreground="Red">Add</Button>
             <Button Click="Delete_Click"
@@ -21,8 +23,22 @@
                     Foreground="Blue">Edit</Button>
         </StackPanel>
         <telerikGrid:RadDataGrid x:Name="dataGrid"
+                                 AutoGenerateColumns="False"
                                  UserEditMode="Inline"
-                                 ItemsSource="{Binding}" />
+                                 ItemsSource="{Binding}">
+            <telerikGrid:RadDataGrid.Columns>
+                <telerikGrid:DataGridTextColumn Header="Tên"
+                                                PropertyName="name" />
+                <telerikGrid:DataGridDateColumn Header="Tác giả"
+                                                PropertyName="author" />
+                <telerikGrid:DataGridDateColumn Header="Đã bán"
+                                                PropertyName="total_sold" />
+                <telerikGrid:DataGridDateColumn Header="Giá"
+                                                PropertyName="price" />
+                <telerikGrid:DataGridDateColumn Header="Tồn kho"
+                                                PropertyName="quantity" />
+            </telerikGrid:RadDataGrid.Columns>
+        </telerikGrid:RadDataGrid>
 
     </StackPanel>
 
