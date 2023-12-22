@@ -1,3 +1,4 @@
+using Entity;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -23,10 +24,21 @@ namespace GUI.Views
     /// </summary>
     public sealed partial class AddBookDialog : Window
     {
+        List<BookCategory> _categories;
         public AddBookDialog()
         {
             this.InitializeComponent();
-            
+            LoadCategories();
+        }
+
+        private void LoadCategories()
+        {
+            _categories = new List<BookCategory>() {
+                new BookCategory() { Id=1, Name="Novel"},
+                new BookCategory() { Id=2, Name="Manga"}
+            };
+
+            categoriesComboBox.ItemsSource = _categories;
         }
 
         private void checkPrice(object sender, TextChangedEventArgs e)
