@@ -12,6 +12,7 @@
     <None Remove="OrdersPage.xaml" />
     <None Remove="ProductsPage.xaml" />
     <None Remove="SettingPage.xaml" />
+    <None Remove="Views\AddBookDialog.xaml" />
     <None Remove="Views\LoginForm.xaml" />
   </ItemGroup>
 
@@ -62,6 +63,12 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\AddBookDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

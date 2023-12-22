@@ -16,6 +16,7 @@ using Windows.Foundation.Collections;
 using System.Collections.ObjectModel;
 using CommunityToolkit.WinUI.UI.Controls;
 using Entity;
+using GUI.Views;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -47,6 +48,8 @@ namespace GUI
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             _list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
+            var screen = new AddBookDialog();
+            screen.Activate();
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
