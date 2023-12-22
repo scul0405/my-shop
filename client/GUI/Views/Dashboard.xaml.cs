@@ -54,7 +54,7 @@ namespace GUI
                         break;
 
                     case "NavItem_ProductsPage":
-                        contentFrame.Navigate(typeof(SettingPage));
+                        contentFrame.Navigate(typeof(ProductsPage));
                         break;
                     // Add more cases for other pages as needed
 

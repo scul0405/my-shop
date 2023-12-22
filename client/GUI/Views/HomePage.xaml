@@ -11,6 +11,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock>Dit me may Khang</TextBlock>
+        <TextBlock>Dit me may Dat</TextBlock>
     </Grid>
 </Page>

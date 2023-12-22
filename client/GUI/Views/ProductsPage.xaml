@@ -7,9 +7,23 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
+    Loaded="LoadProduct"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <Button>Product</Button>
-    </Grid>
+    <StackPanel>
+        <StackPanel>
+            <Button Click="Add_Click"
+                    Foreground="Red">Add</Button>
+            <Button Click="Delete_Click"
+                    Foreground="Blue">Delete</Button>
+            <Button Click="Edit_Click"
+                    Foreground="Blue">Edit</Button>
+        </StackPanel>
+        <telerikGrid:RadDataGrid x:Name="dataGrid"
+                                 UserEditMode="Inline"
+                                 ItemsSource="{Binding}" />
+
+    </StackPanel>
+
 </Page>
