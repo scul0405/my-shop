@@ -10,13 +10,37 @@
     
     mc:Ignorable="d">
 
-    <StackPanel>
-        <TextBlock Text="I am super excited to be here!"
+    <StackPanel HorizontalAlignment="Center" >
+        <TextBlock Text="Add New Book"
+                   Margin="0,0,10,40"
                    FontFamily="Arial"
                    FontSize="24"
                    FontStyle="Italic"
                    TextWrapping="WrapWholeWords"
                    CharacterSpacing="200"
                    Foreground="CornflowerBlue" />
+        <StackPanel Spacing="20">
+            <StackPanel>
+                <TextBlock Text="Tên sách" />
+                <TextBox />
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Tên tác giả" />
+                <TextBox />
+            </StackPanel>
+
+            <StackPanel Name="price">
+                <TextBlock Text="Giá tiền" />
+                <TextBox TextChanged="checkPrice"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Số lượng" />
+                <TextBox />
+            </StackPanel>
+            
+            
+        </StackPanel>
     </StackPanel>
 </Window>

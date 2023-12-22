@@ -28,5 +28,10 @@ namespace GUI.Views
             this.InitializeComponent();
             
         }
+
+        private void checkPrice(object sender, TextChangedEventArgs e)
+        {
+            
+        }
     }
 }
