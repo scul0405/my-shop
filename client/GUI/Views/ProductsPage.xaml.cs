@@ -15,6 +15,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using System.Collections.ObjectModel;
 using CommunityToolkit.WinUI.UI.Controls;
+using Entity;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -36,7 +37,7 @@ namespace GUI
         private void LoadProduct(object sender, RoutedEventArgs e)
         {
             _list = new ObservableCollection<Book>{
-                new Book() {ID="001", Title="Kafka ben bo bien"}
+                new Book() {ID=1,name="Lam Di" ,author="Nam Cao", price=100000, quantity=10000 }
             };
 
             dataGrid.ItemsSource = _list;
@@ -45,8 +46,7 @@ namespace GUI
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            _list.Add(new Book() { ID = "002", Title = "Lao Hac" });
-            //books.Rows.Add("002", "LaoHac");    
+            _list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
@@ -56,14 +56,9 @@ namespace GUI
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            _list[0].Title = "Cau Vang";
+            _list[0].name = "Cau Vang";
         }
 
     }
-    class Book : INotifyPropertyChanged
-    {
-        public string ID { get; set; }
-        public string Title { get; set; }
-        public event PropertyChangedEventHandler? PropertyChanged;
-    }
+    
 }
