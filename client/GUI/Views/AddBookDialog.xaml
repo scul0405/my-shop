@@ -17,15 +17,15 @@
                    TextWrapping="WrapWholeWords"
                    CharacterSpacing="200"
                    Foreground="CornflowerBlue" />
-        <StackPanel Spacing="20">
+        <StackPanel Spacing="20" Name="bookForm">
             <StackPanel>
                 <TextBlock Text="Tên sách" />
-                <TextBox />
+                <TextBox Text="{Binding name}"/>
             </StackPanel>
 
             <StackPanel>
                 <TextBlock Text="Tên tác giả" />
-                <TextBox />
+                <TextBox Text="{Binding author}"/>
             </StackPanel>
 
             <StackPanel>
@@ -44,12 +44,13 @@
 
             <StackPanel Name="price">
                 <TextBlock Text="Giá tiền" />
-                <TextBox TextChanged="checkPrice" />
+                <TextBox TextChanged="checkPrice" 
+                         Text="{Binding price}"/>
             </StackPanel>
 
             <StackPanel>
                 <TextBlock Text="Số lượng" />
-                <TextBox />
+                <TextBox Text="{Binding quantity}" />
             </StackPanel>
 
 

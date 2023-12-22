@@ -25,10 +25,15 @@ namespace GUI.Views
     public sealed partial class AddBookDialog : Window
     {
         List<BookCategory> _categories;
+        public Book _newBook;
         public AddBookDialog()
         {
             this.InitializeComponent();
             LoadCategories();
+
+            _newBook = new Book();
+
+            bookForm.DataContext = _newBook;
         }
 
         private void LoadCategories()

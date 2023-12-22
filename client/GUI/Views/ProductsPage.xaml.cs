@@ -47,9 +47,13 @@ namespace GUI
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            _list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
+            //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             var screen = new AddBookDialog();
             screen.Activate();
+            screen.Closed += (s, args) =>
+            {
+                _list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
+            };
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
