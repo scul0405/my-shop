@@ -43,6 +43,8 @@ namespace GUI
             };
 
             dataGrid.ItemsSource = _list;
+            
+            testSelect.DataContext = dataGrid.SelectedItem;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)

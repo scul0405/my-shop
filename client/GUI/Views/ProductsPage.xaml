@@ -25,7 +25,7 @@
         <telerikGrid:RadDataGrid x:Name="dataGrid"
                                  AutoGenerateColumns="False"
                                  UserEditMode="Inline"
-                                 
+                                 SelectionMode="Single"
                                  ItemsSource="{Binding}">
             <telerikGrid:RadDataGrid.Columns>
                 <telerikGrid:DataGridTextColumn Header="Tên"
@@ -46,7 +46,7 @@
             </telerikGrid:RadDataGrid.Columns>
         </telerikGrid:RadDataGrid>
 
-
+        <TextBlock Text="123" Name="testSelect"/>
     </StackPanel>
 
 </Page>
