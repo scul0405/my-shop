@@ -49,6 +49,7 @@ namespace client
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            
             string exePath = Assembly.GetExecutingAssembly().Location;
             string folder = System.IO.Path.GetDirectoryName(exePath);
             FileInfo[] fis = new DirectoryInfo(folder).GetFiles("*.dll");
@@ -95,8 +96,8 @@ namespace client
             var guiFactory = guis.Single(gui => gui.GetVersion() == mockGuiVersion).CreateNew(busFactory);
 
             // guiFactory.GetMainWindow();
-           
-            m_window = new Dashboard();
+
+            m_window = new LoginForm();
             m_window.Activate();
         }
 
