@@ -25,20 +25,27 @@
         <telerikGrid:RadDataGrid x:Name="dataGrid"
                                  AutoGenerateColumns="False"
                                  UserEditMode="Inline"
+                                 
                                  ItemsSource="{Binding}">
             <telerikGrid:RadDataGrid.Columns>
                 <telerikGrid:DataGridTextColumn Header="Tên"
+                                                CanUserEdit="True"
                                                 PropertyName="name" />
-                <telerikGrid:DataGridDateColumn Header="Tác giả"
+                <telerikGrid:DataGridTextColumn Header="Tác giả"
+                                                CanUserEdit="True"
                                                 PropertyName="author" />
-                <telerikGrid:DataGridDateColumn Header="Đã bán"
+                <telerikGrid:DataGridNumericalColumn  Header="Đã bán"
+                                                CanUserEdit="True"
                                                 PropertyName="total_sold" />
-                <telerikGrid:DataGridDateColumn Header="Giá"
+                <telerikGrid:DataGridNumericalColumn  Header="Giá"
+                                                CanUserEdit="True"
                                                 PropertyName="price" />
-                <telerikGrid:DataGridDateColumn Header="Tồn kho"
+                <telerikGrid:DataGridNumericalColumn  Header="Tồn kho"
+                                                CanUserEdit="True"
                                                 PropertyName="quantity" />
             </telerikGrid:RadDataGrid.Columns>
         </telerikGrid:RadDataGrid>
+
 
     </StackPanel>
 

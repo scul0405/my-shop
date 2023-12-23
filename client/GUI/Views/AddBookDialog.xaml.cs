@@ -51,6 +51,7 @@ namespace GUI.Views
             };
 
             categoriesComboBox.ItemsSource = _categories;
+            categoriesComboBox.SelectedIndex = 0;
         }
 
         private void checkPrice(object sender, TextChangedEventArgs e)

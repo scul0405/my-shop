@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.WinUI.UI.Controls;
 using Entity;
 using GUI.Views;
+using Windows.UI.Popups;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -42,7 +43,6 @@ namespace GUI
             };
 
             dataGrid.ItemsSource = _list;
-            
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -50,7 +50,7 @@ namespace GUI
             //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             var screen = new AddBookDialog();
 
-            var newBook = new Book();
+            var newBook = new Book() { name=""};
             screen.Handler += (Book value) =>
             {
                 newBook = value;
@@ -59,8 +59,10 @@ namespace GUI
             screen.Activate();
             screen.Closed += (s, args) =>
             {
+                if (newBook.name == "")
+                    return;
                 _list.Add(newBook);
-                _list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
+                //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             };
         }
 
