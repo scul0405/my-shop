@@ -32,14 +32,14 @@
             Canvas.ZIndex="2"
             IsHitTestVisible="True">
             <!--Custom thanh công cụ-->
-            <StackPanel Orientation="Horizontal">
+            <!--<StackPanel Orientation="Horizontal">
                 <SymbolIcon Margin="10,0,10,0" Symbol="Contact" />
                 <TextBlock
                     x:Name="AppTitle"
                     VerticalAlignment="Center"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="My shop" />
-            </StackPanel>
+            </StackPanel>-->
         </Border>
         <Grid Grid.Row="1" Canvas.ZIndex="1">
             <controls:InAppNotification x:Name="AppNotification" Canvas.ZIndex="3" />
@@ -165,7 +165,7 @@
                                     HorizontalAlignment="Left"
                                     DrawInBackground="True"
                                     Source="ms-appx:///GUI/Assets/Animations/cat_button.riv"
-                                    Tapped="RivePlayer_Tapped">
+                                    Tapped="Button_Login_OnClick">
                                     <!-- Tapped for button -->
                                     <i:Interaction.Behaviors>
                                         <ic:EventTriggerBehavior EventName="Tapped">

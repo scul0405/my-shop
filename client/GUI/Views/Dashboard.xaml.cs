@@ -23,7 +23,7 @@ namespace GUI.Views
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Dashboard : Window
+    public sealed partial class Dashboard : Page
     {
         private SettingViewModel settingsViewModel = new SettingViewModel();
         public Dashboard()

@@ -17,6 +17,8 @@ using Windows.Foundation.Collections;
 using GUI.AnimatedVisuals;
 using Windows.UI;
 using Windows.UI.Popups;
+using System.Threading.Tasks;
+using Windows.Devices.Enumeration;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -31,49 +33,11 @@ namespace GUI.Views
         public LoginForm()
         {
             this.InitializeComponent();
-            SetTitleBar(AppTitleBar);
-            ExtendsContentIntoTitleBar = true;
+            //SetTitleBar(AppTitleBar);
+            ExtendsContentIntoTitleBar = false;
         }
 
-        private async void ForgotPassword_Click(object sender, RoutedEventArgs e)
-        {
-            StackPanel stackPanel = new()
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-
-            AnimatedVisualPlayer player = new()
-            {
-                Source = new Space404()
-                {
-                    Color_849AF5 = Color.FromArgb(255, 199, 199, 213),
-                    Color_758BDF = Color.FromArgb(255, 221, 216, 228),
-                    Color_2E03E4 = Color.FromArgb(255, 72, 63, 173),
-                },
-                MaxHeight = 200,
-                AutoPlay = false,
-            };
-            stackPanel.Children.Add(player);
-            stackPanel.Children.Add(new TextBlock()
-            {
-                Text = "Recovering account is not available.",
-            });
-            ContentDialog dialog = new()
-            {
-                XamlRoot = this.Content.XamlRoot,
-                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                CloseButtonText = "OK",
-                DefaultButton = ContentDialogButton.Primary,
-                Content = stackPanel
-            };
-            _ = player.PlayAsync(0, 1, true);
-            await dialog.ShowAsync();
-            player.Stop();
-
-        }
-
-        private void RivePlayer_Tapped(object sender, TappedRoutedEventArgs e)
+        private void Button_Login_OnClick(object sender, TappedRoutedEventArgs e)
         {
             // Kiểm tra tài khoản và mật khẩu
             string username = TextBoxUser.Text;
@@ -84,7 +48,7 @@ namespace GUI.Views
                 ShowSuccessMessage();
 
                 // Lưu trạng thái "Remember Password" nếu người dùng chọn
-                if (RememberPasswordCheckBox.IsChecked.HasValue && 
+                if (RememberPasswordCheckBox.IsChecked.HasValue &&
                     RememberPasswordCheckBox.IsChecked.Value)
                 {
                     SaveRememberPasswordState(true);
@@ -93,6 +57,7 @@ namespace GUI.Views
                 {
                     SaveRememberPasswordState(false);
                 }
+                
             }
             else
             {
@@ -109,7 +74,6 @@ namespace GUI.Views
 
         private async void ShowSuccessMessage()
         {
-            // Hiển thị thông báo đăng nhập thành công
             var successDialog = new ContentDialog
             {
                 Title = "Login Successful",
@@ -124,8 +88,14 @@ namespace GUI.Views
 
             successDialog.XamlRoot = this.Content.XamlRoot;
 
+            successDialog.Closed += (sender, args) =>
+            {
+                NavigateToDashboard();
+            };
+
             await successDialog.ShowAsync();
         }
+
 
         private async void ShowFailureMessage()
         {
@@ -154,6 +124,21 @@ namespace GUI.Views
                 Windows.Storage.ApplicationData.Current.LocalSettings;
 
             localSettings.Values["RememberPassword"] = isRemembered;
+        }
+
+        private void NavigateToDashboard()
+        {
+            Dashboard dashboardWindow = new Dashboard();
+
+
+            Frame frame = new Frame();
+
+            // Chuyển hướng sang trang Dashboard
+            frame.Navigate(typeof(Dashboard));
+
+            // Gán frame làm nội dung cho cửa sổ hiện tại
+            this.Content = frame;
+
         }
     }
 }

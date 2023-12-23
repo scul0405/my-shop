@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window
+<Page
     x:Class="GUI.Views.Dashboard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -56,4 +56,4 @@
             <Frame x:Name="contentFrame" />
         </NavigationView>
     </Grid>
-</Window>
+</Page>
