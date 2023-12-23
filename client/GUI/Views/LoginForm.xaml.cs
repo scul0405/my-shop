@@ -1,4 +1,4 @@
-using Microsoft.UI.Windowing;
+﻿using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -16,6 +16,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using GUI.AnimatedVisuals;
 using Windows.UI;
+using Windows.UI.Popups;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -33,25 +34,6 @@ namespace GUI.Views
             SetTitleBar(AppTitleBar);
             ExtendsContentIntoTitleBar = true;
         }
-
-        private void GoToRegister_Click(object sender, RoutedEventArgs e)
-        {
-            Storyboard1.Children[0].SetValue(DoubleAnimation.FromProperty, Translation1.X);
-            Storyboard1.Children[0].SetValue(DoubleAnimation.ToProperty, Translation1.X > 0 ? 0 : -DisplayArea.Primary.OuterBounds.Width);
-            Storyboard1.Children[1].SetValue(DoubleAnimation.FromProperty, Translation2.X);
-            Storyboard1.Children[1].SetValue(DoubleAnimation.ToProperty, Translation2.X > 0 ? 0 : -DisplayArea.Primary.OuterBounds.Width);
-            Storyboard1.Begin();
-        }
-
-        private void GoToLogin_Click(object sender, RoutedEventArgs e)
-        {
-            Storyboard2.Children[0].SetValue(DoubleAnimation.FromProperty, Translation1.X);
-            Storyboard2.Children[0].SetValue(DoubleAnimation.ToProperty, Translation1.X < 0 ? 0 : +DisplayArea.Primary.OuterBounds.Width);
-            Storyboard2.Children[1].SetValue(DoubleAnimation.FromProperty, Translation2.X);
-            Storyboard2.Children[1].SetValue(DoubleAnimation.ToProperty, Translation2.X > 0 ? 0 : +DisplayArea.Primary.OuterBounds.Width);
-            Storyboard2.Begin();
-        }
-
 
         private async void ForgotPassword_Click(object sender, RoutedEventArgs e)
         {
@@ -89,6 +71,89 @@ namespace GUI.Views
             await dialog.ShowAsync();
             player.Stop();
 
+        }
+
+        private void RivePlayer_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            // Kiểm tra tài khoản và mật khẩu
+            string username = TextBoxUser.Text;
+            string password = TextBoxPassword.Password;
+            if (IsAdminAccount(username, password))
+            {
+                // Đăng nhập thành công, hiển thị thông báo hoặc chuyển đến trang chính thức
+                ShowSuccessMessage();
+
+                // Lưu trạng thái "Remember Password" nếu người dùng chọn
+                if (RememberPasswordCheckBox.IsChecked.HasValue && 
+                    RememberPasswordCheckBox.IsChecked.Value)
+                {
+                    SaveRememberPasswordState(true);
+                }
+                else
+                {
+                    SaveRememberPasswordState(false);
+                }
+            }
+            else
+            {
+                // Đăng nhập không thành công, hiển thị thông báo hoặc xử lý ngược lại
+                ShowFailureMessage();
+            }
+        }
+
+        private bool IsAdminAccount(string username, string password)
+        {
+            // Thực hiện kiểm tra tài khoản và mật khẩu ở đây
+            return username == "admin" && password == "admin";
+        }
+
+        private async void ShowSuccessMessage()
+        {
+            // Hiển thị thông báo đăng nhập thành công
+            var successDialog = new ContentDialog
+            {
+                Title = "Login Successful",
+                Content = "Welcome, Admin!",
+                CloseButtonText = "OK"
+            };
+
+            if (successDialog.XamlRoot != null)
+            {
+                successDialog.XamlRoot = null;
+            }
+
+            successDialog.XamlRoot = this.Content.XamlRoot;
+
+            await successDialog.ShowAsync();
+        }
+
+        private async void ShowFailureMessage()
+        {
+            // Hiển thị thông báo đăng nhập không thành công
+            var failureDialog = new ContentDialog
+            {
+                Title = "Login Failed",
+                Content = "Invalid username or password.",
+                CloseButtonText = "OK"
+            };
+
+            if (failureDialog.XamlRoot != null)
+            {
+                failureDialog.XamlRoot = null;
+            }
+
+            failureDialog.XamlRoot = this.Content.XamlRoot;
+
+            await failureDialog.ShowAsync();
+        }
+
+        private void SaveRememberPasswordState(bool isRemembered)
+        {
+            // Lưu trạng thái "Remember Password" vào ApplicationData
+            Windows.Storage.ApplicationDataContainer localSettings =
+                Windows.Storage.ApplicationData.Current.LocalSettings;
+
+            localSettings.Values["RememberPassword"] = isRemembered;
         }
     }
 }

@@ -31,13 +31,14 @@
             Background="Transparent"
             Canvas.ZIndex="2"
             IsHitTestVisible="True">
+            <!--Custom thanh công cụ-->
             <StackPanel Orientation="Horizontal">
                 <SymbolIcon Margin="10,0,10,0" Symbol="Contact" />
                 <TextBlock
                     x:Name="AppTitle"
                     VerticalAlignment="Center"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="Space Guard" />
+                    Text="My shop" />
             </StackPanel>
         </Border>
         <Grid Grid.Row="1" Canvas.ZIndex="1">
@@ -137,22 +138,10 @@
                                     Style="{StaticResource TitleTextBlockStyle}"
                                     Text="Log in"
                                     TextWrapping="WrapWholeWords" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Text="Don't have an account?"
-                                    TextWrapping="WrapWholeWords" />
-                                <HyperlinkButton
-                                    Grid.Column="2"
-                                    Margin="0,-6,0,0"
-                                    Padding="0"
-                                    VerticalAlignment="Center"
-                                    Click="GoToRegister_Click"
-                                    Content="Sign Up"
-                                    FontWeight="Bold" />
-
                             </Grid>
-                            <TextBox Padding="10" PlaceholderText="Username" />
+                            <TextBox Name="TextBoxUser" 
+                                     Padding="10" 
+                                     PlaceholderText="Username" />
                             <Grid>
                                 <rive:RivePlayer
                                     Width="80"
@@ -162,137 +151,44 @@
                                     Canvas.ZIndex="1"
                                     DrawInBackground="True"
                                     Source="ms-appx:///GUI/Assets/Animations/pup_password.riv" />
-                                <PasswordBox Padding="10" PlaceholderText="Password" />
+                                <PasswordBox Name="TextBoxPassword" 
+                                             Padding="10" 
+                                             PlaceholderText="Password" />
                             </Grid>
                             <Grid Margin="0,0,0,0">
 
                                 <rive:RivePlayer
+                                    Name ="Button_Login"
                                     Width="119"
                                     Height="73.5"
                                     Margin="0,-30,0,0"
                                     HorizontalAlignment="Left"
                                     DrawInBackground="True"
-                                    Source="ms-appx:///GUI/Assets/Animations/cat_button.riv">
-                                    <!--<i:Interaction.Behaviors>
+                                    Source="ms-appx:///GUI/Assets/Animations/cat_button.riv"
+                                    Tapped="RivePlayer_Tapped">
+                                    <!-- Tapped for button -->
+                                    <i:Interaction.Behaviors>
                                         <ic:EventTriggerBehavior EventName="Tapped">
-                                            <ic:InvokeCommandAction />
+                                            <ic:InvokeCommandAction/>
                                         </ic:EventTriggerBehavior>
-                                    </i:Interaction.Behaviors>-->
+                                    </i:Interaction.Behaviors>
                                 </rive:RivePlayer>
-                                <HyperlinkButton
+
+
+                                <!-- Chỗ này là cho check box lưu mật khẩu -->
+                                <!--<HyperlinkButton
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     Click="ForgotPassword_Click"
-                                    Content="Forgot your password?" />
+                                    Content="Forgot your password?" />-->
+
+                                <CheckBox Grid.Column="1"
+                                          HorizontalAlignment="Right"
+                                          x:Name="RememberPasswordCheckBox"
+                                          Content="Remember Password" />
                             </Grid>
                         </StackPanel>
 
-                    </Grid>
-                </Border>
-
-                <Border
-                    x:Name="RegisterFrame"
-                    Margin="100,70,100,100"
-                    Background="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}"
-                    CornerRadius="80"
-                    Visibility="Visible">
-                    <Border.RenderTransform>
-                        <TranslateTransform x:Name="Translation2" X="1920" />
-                    </Border.RenderTransform>
-                    <Grid Padding="20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="74"
-                                FontWeight="ExtraBlack"
-                                Style="{StaticResource DisplayTextBlockStyle}"
-                                Text="Welcome!"
-                                TextAlignment="Start"
-                                TextWrapping="WrapWholeWords" />
-                            <AnimatedVisualPlayer
-                                x:Name="Player2"
-                                Grid.Row="1"
-                                HorizontalAlignment="Center"
-                                AutoPlay="True">
-                                <animatedvisuals:Astronaut2
-                                    Color_00B7F7="#B3FCC8"
-                                    Color_29B6F6="#B3FCC8"
-                                    Color_650000="#160E53"
-                                    Color_77E5ED="#160E53"
-                                    Color_AD82FF="#C5B7D3"
-                                    Color_ED1B24="#E492F5"
-                                    Color_FF971A="#F470CB"
-                                    Color_FFA42C="#F8DAF4"
-                                    Color_FFCE00="#B5FFCA"
-                                    Color_FFF3E0="#FFFFFF" />
-                            </AnimatedVisualPlayer>
-                        </Grid>
-
-                        <StackPanel
-                            Grid.Column="1"
-                            MaxWidth="400"
-                            VerticalAlignment="Center"
-                            Spacing="20">
-                            <Grid Margin="0,0,0,20" ColumnSpacing="4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    FontWeight="SemiBold"
-                                    Style="{StaticResource TitleTextBlockStyle}"
-                                    Text="Sign up"
-                                    TextWrapping="WrapWholeWords" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Text="Already have an account?"
-                                    TextWrapping="WrapWholeWords" />
-                                <HyperlinkButton
-                                    Grid.Column="2"
-                                    Margin="0,-6,0,0"
-                                    Padding="0"
-                                    VerticalAlignment="Center"
-                                    Click="GoToLogin_Click"
-                                    Content="Log in"
-                                    FontWeight="Bold" />
-                            </Grid>
-                            <TextBox Padding="10" PlaceholderText="Username" />
-                            <Grid Canvas.ZIndex="2">
-                                <rive:RivePlayer
-                                    Width="80"
-                                    Height="80"
-                                    Margin="0,-68,-260,-0"
-                                    Canvas.ZIndex="1"
-                                    DrawInBackground="True"
-                                    Source="ms-appx:///GUI/Assets/Animations/pup_password.riv" />
-                                <PasswordBox Padding="10" PlaceholderText="Password" />
-                            </Grid>
-                            <rive:RivePlayer
-                                Width="200"
-                                Height="200"
-                                Margin="-30,-80,0,0"
-                                HorizontalAlignment="Left"
-                                DrawInBackground="True"
-                                Source="ms-appx:///GUI/Assets/Animations/sign_up.riv">
-                                <!--<i:Interaction.Behaviors>
-                                    <ic:EventTriggerBehavior EventName="Tapped">
-                                        <ic:InvokeCommandAction />
-                                    </ic:EventTriggerBehavior>
-                                </i:Interaction.Behaviors>-->
-                            </rive:RivePlayer>
-                        </StackPanel>
                     </Grid>
                 </Border>
             </Grid>
