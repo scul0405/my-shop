@@ -97,7 +97,7 @@ namespace client
 
             // guiFactory.GetMainWindow();
 
-            m_window = new LoginForm();
+            m_window = new MainWindow();
             m_window.Activate();
         }
 

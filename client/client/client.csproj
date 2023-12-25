@@ -11,6 +11,9 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="MyShop.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -48,6 +51,11 @@
     <ProjectReference Include="..\Entity\Entity.csproj" />
     <ProjectReference Include="..\GUI\GUI.csproj" />
     <ProjectReference Include="..\ThreeLayerContract\ThreeLayerContract.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MyShop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!-- 
