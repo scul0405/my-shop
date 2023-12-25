@@ -39,12 +39,13 @@ namespace GUI
         private void LoadProduct(object sender, RoutedEventArgs e)
         {
             _list = new ObservableCollection<Book>{
-                new Book() {ID=1,name="Lam Di" ,author="Nam Cao", price=100000, quantity=10000 }
+                new Book() {ID=1,name="Lammm Di" ,author="Nam Cao", price=100000, quantity=10000 },
+                new Book() {ID=2,name="Lao Hac" ,author="Nam Cao", price=100000, quantity=10000 },
+                new Book() {ID=3,name="Cau Vang" ,author="Nam Cao", price=100000, quantity=10000 },
+                new Book() {ID=4,name="Chi Pheo" ,author="Nam Cao", price=100000, quantity=10000 }
             };
 
             dataGrid.ItemsSource = _list;
-            
-            testSelect.DataContext = dataGrid.SelectedItem;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -70,7 +71,13 @@ namespace GUI
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            _list.RemoveAt(0);
+            //_list.Remove((Book)dataGrid.SelectedItems);
+            var selectedItems = dataGrid.SelectedItems;
+            if (dataGrid.SelectedItems.Count > 0)
+            {
+                for (int i = selectedItems.Count - 1; i >= 0; i--)
+                    _list.Remove((Book)selectedItems[i]);
+            }
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
