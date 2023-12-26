@@ -13,7 +13,9 @@
     <None Remove="ProductsPage.xaml" />
     <None Remove="SettingPage.xaml" />
     <None Remove="Views\AddBookDialog.xaml" />
-    <None Remove="Views\LoginForm.xaml" />
+    <None Remove="Views\CreateOrderPage.xaml" />
+    <None Remove="Views\LoginPage.xaml" />
+    <None Remove="Views\OrderDetailPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,13 +70,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Views\AddBookDialog.xaml">
+    <Page Update="Views\CreateOrderPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Views\LoginForm.xaml">
+    <Page Update="Views\OrderDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\AddBookDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

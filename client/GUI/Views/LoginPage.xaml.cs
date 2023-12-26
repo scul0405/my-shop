@@ -1,11 +1,9 @@
-﻿using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -14,29 +12,19 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using GUI.AnimatedVisuals;
-using Windows.UI;
-using Windows.UI.Popups;
-using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace GUI.Views
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class LoginForm : Window
+    public sealed partial class LoginPage : UserControl
     {
-        public LoginForm()
+        public LoginPage()
         {
             this.InitializeComponent();
-            //SetTitleBar(AppTitleBar);
-            ExtendsContentIntoTitleBar = false;
         }
-
         private void Button_Login_OnClick(object sender, TappedRoutedEventArgs e)
         {
             // Kiểm tra tài khoản và mật khẩu
@@ -57,7 +45,6 @@ namespace GUI.Views
                 {
                     SaveRememberPasswordState(false);
                 }
-                
             }
             else
             {
@@ -74,11 +61,18 @@ namespace GUI.Views
 
         private async void ShowSuccessMessage()
         {
+            // Hiển thị thông báo đăng nhập thành công
             var successDialog = new ContentDialog
             {
                 Title = "Login Successful",
                 Content = "Welcome, Admin!",
                 CloseButtonText = "OK"
+            };
+
+            successDialog.Closed += (sender, args) =>
+            {
+                // Thực hiện hành động sau khi đóng dialog (ví dụ: chuyển đến trang Dashboard)
+                NavigateToDashboard();
             };
 
             if (successDialog.XamlRoot != null)
@@ -95,7 +89,6 @@ namespace GUI.Views
 
             await successDialog.ShowAsync();
         }
-
 
         private async void ShowFailureMessage()
         {
@@ -120,16 +113,14 @@ namespace GUI.Views
         private void SaveRememberPasswordState(bool isRemembered)
         {
             // Lưu trạng thái "Remember Password" vào ApplicationData
-            Windows.Storage.ApplicationDataContainer localSettings =
-                Windows.Storage.ApplicationData.Current.LocalSettings;
-
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             localSettings.Values["RememberPassword"] = isRemembered;
         }
 
         private void NavigateToDashboard()
         {
+            // Thực hiện chuyển hướng sang trang Dashboard
             Dashboard dashboardWindow = new Dashboard();
-
 
             Frame frame = new Frame();
 
@@ -138,7 +129,6 @@ namespace GUI.Views
 
             // Gán frame làm nội dung cho cửa sổ hiện tại
             this.Content = frame;
-
         }
     }
 }

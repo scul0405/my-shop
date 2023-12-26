@@ -24,8 +24,8 @@ namespace GUI
 
         public override UserControl GetMainWindow()
         {
-            throw new NotImplementedException();
-            //return new LoginForm();
+            //throw new NotImplementedException();
+            return new LoginPage();
             //TODO: LoginForm -> usercontrol
         }
 

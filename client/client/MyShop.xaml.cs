@@ -36,11 +36,11 @@ namespace client
         private void Load_Gui()
         {
             //TODO: Change Code Gui - Login -> GetMainWindow
-            //var control = _gui.GetMainWindow();
+            var control = _gui.GetMainWindow();
 
-            //Content.Children.Add(control);
-            //Content.Width = control.Width;
-            //Content.Height = control.Height;
+            Content.Children.Add(control);
+            Content.Width = control.Width;
+            Content.Height = control.Height;
 
             //MainWindow.DataContext = control;
         }
