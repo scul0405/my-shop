@@ -1,3 +1,4 @@
+﻿using Entity;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -19,13 +20,33 @@ using Windows.Foundation.Collections;
 namespace GUI.Views
 {
     /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LoginForm : Window
+    public sealed partial class OrderDetailPage : ContentDialog
     {
-        public LoginForm()
+        public OrderDetailPage()
         {
             this.InitializeComponent();
+        }
+
+        public Order Order { get; set; }
+
+        private void DeleteOrder_Click(object sender, RoutedEventArgs e)
+        {
+            // Thực hiện xóa đơn hàng
+            // ...
+
+            // Đóng ContentDialog sau khi xóa
+            Hide();
+        }
+
+        private void DeleteBooks_Click(object sender, RoutedEventArgs e)
+        {
+            // Thực hiện xóa các quyển sách
+            // ...
+
+            // Đóng ContentDialog sau khi xóa
+            Hide();
         }
     }
 }

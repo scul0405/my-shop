@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using GUI.Views;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using ThreeLayerContract;
@@ -23,8 +24,9 @@ namespace GUI
 
         public override UserControl GetMainWindow()
         {
-            throw new NotImplementedException();
-            //return new Dashboard();
+            //throw new NotImplementedException();
+            return new LoginPage();
+            //TODO: LoginForm -> usercontrol
         }
 
         public override string ToString() => "DefaultGUI";

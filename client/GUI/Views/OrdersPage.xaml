@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Page
-    x:Class="GUI.OrdersPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:GUI"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+<Page x:Class="GUI.Views.OrdersPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Telerik.UI.Xaml.Controls"
+             xmlns:ctWinUI="using:CommunityToolkit.WinUI.UI.Controls"   
+             xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
+             xmlns:telerikData="using:Telerik.UI.Xaml.Controls.Data">
     <Grid>
-        <Button>Orders</Button>
+        <StackPanel Orientation="Horizontal"
+            HorizontalAlignment="Left"
+           Margin="0 0 0 16"
+            CornerRadius="4"
+            Height="52">
+            <!-- ... Các nút khác ... -->
+            <Button Content="First" />
+            <Button Content="Previous" />
+            <Button Content="Next" />
+            <Button Content="Last" />
+        </StackPanel>
+        <ctWinUI:DataGrid x:Name="OrdersDataGrid" AutoGenerateColumns="False" SelectionChanged="OrdersDataGrid_SelectionChanged">
+            <ctWinUI:DataGrid.Columns>
+                <ctWinUI:DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="SizeToCells"/>
+                <ctWinUI:DataGridTextColumn Header="Created At" Binding="{Binding created_at}" Width="SizeToCells"/>
+                <ctWinUI:DataGridTextColumn Header="Status" Binding="{Binding status}" Width="SizeToCells"/>
+                <ctWinUI:DataGridTextColumn Header="Total" Binding="{Binding total}" Width="SizeToCells"/>
+            </ctWinUI:DataGrid.Columns>
+        </ctWinUI:DataGrid>
     </Grid>
+
 </Page>
+
