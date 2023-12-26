@@ -7,6 +7,10 @@
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\error copy.png" />
+    <Content Remove="Assets\pencil.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Dashboard.xaml" />
     <None Remove="HomePage.xaml" />
     <None Remove="OrdersPage.xaml" />
@@ -67,6 +71,11 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\error copy.png" />
+    <Resource Include="Assets\pencil.png" />
   </ItemGroup>
 
   <ItemGroup>

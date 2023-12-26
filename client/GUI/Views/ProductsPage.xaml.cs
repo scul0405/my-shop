@@ -31,6 +31,7 @@ namespace GUI.Views
     {
 
         ObservableCollection<Book> _list;
+        ObservableCollection<BookCategory> _categories;
         public ProductsPage()
         {
             this.InitializeComponent();
@@ -45,7 +46,18 @@ namespace GUI.Views
                 new Book() {ID=4,name="Chi Pheo" ,author="Nam Cao", price=100000, quantity=10000 }
             };
 
+            _categories = new ObservableCollection<BookCategory>
+            {
+                new BookCategory() { Id=0, Name="Tat ca"},
+                new BookCategory() { Id=1, Name="Truyen"},
+                new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
+                new BookCategory() { Id=3, Name="Sach"}
+            }; 
+
             dataGrid.ItemsSource = _list;
+            //categoriesComboBox.ItemsSource = _categories;
+            //categoriesComboBox.SelectedIndex = 0;
+            listCategory.ItemsSource = _categories;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
