@@ -37,6 +37,7 @@ namespace GUI.Views
         public AddBookDialog(ObservableCollection<BookCategory> cate)
         {
             this.InitializeComponent();
+            
             this._categories = cate;
             LoadCategories();
 

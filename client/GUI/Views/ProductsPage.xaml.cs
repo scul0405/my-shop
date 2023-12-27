@@ -85,6 +85,44 @@ namespace GUI.Views
             listCategory.ItemsSource = _categories;
         }
 
+        private async void ShowSuccessMessage()
+        {
+            
+            var successDialog = new ContentDialog
+            {
+                Title = "Success",
+                Content = "Action successfully completed",
+                CloseButtonText = "OK"
+            };
+
+            if (successDialog.XamlRoot != null)
+            {
+                successDialog.XamlRoot = null;
+            }
+
+            successDialog.XamlRoot = this.Content.XamlRoot;
+            await successDialog.ShowAsync();
+        }
+
+        private async void ShowFailMessage()
+        {
+
+            var failDialog = new ContentDialog
+            {
+                Title = "Failed",
+                Content = "Some errors occured",
+                CloseButtonText = "OK"
+            };
+
+            if (failDialog.XamlRoot != null)
+            {
+                failDialog.XamlRoot = null;
+            }
+
+            failDialog.XamlRoot = this.Content.XamlRoot;
+            await failDialog.ShowAsync();
+        }
+
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
@@ -108,11 +146,13 @@ namespace GUI.Views
                 bool isSuccess = _bus["Book"].Post(newBook, null);
                 if (isSuccess)
                 {
+                    ShowSuccessMessage();
                     _list.Add(newBook);
                 }
-                //Dictionary<string, string> empty = null;
-                //_bus["Book"].Post(newBook, empty);
-                //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
+                else
+                {
+                    ShowFailMessage();
+                }
             };
         }
 
@@ -120,6 +160,7 @@ namespace GUI.Views
         {
             //_list.Remove((Book)dataGrid.SelectedItems);
             var selectedItems = dataGrid.SelectedItems;
+            var isSucess = true;
             if (dataGrid.SelectedItems.Count > 0)
             {
                 for (int i = selectedItems.Count - 1; i >= 0; i--)
@@ -129,7 +170,15 @@ namespace GUI.Views
                     {
                         _list.Remove(item);
                     }
+                    else
+                    {
+                        isSucess = false;
+                    }
                 }
+            }
+            if (!isSucess)
+            {
+                ShowFailMessage();
             }
         }
 
@@ -169,8 +218,13 @@ namespace GUI.Views
                 var newCate = new BookCategory() { Name = newCateName.Text };
                 if (_bus["BookCategory"].Post(newCate, null))
                 {
+                    ShowSuccessMessage();
                     _categories.Add(newCate);
                     newCateName.Text = "";
+                }
+                else
+                {
+                    ShowFailMessage();
                 }
             }
         }
