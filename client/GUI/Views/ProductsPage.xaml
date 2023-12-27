@@ -21,24 +21,6 @@
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     Margin="20">
 
-            <!--<ComboBox Name="categoriesComboBox"
-                      Width="200"
-                      Height="35">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Left">
-                            <TextBlock TextWrapping="Wrap">
-                            <Run Text="{Binding Id}" />-<Run Text="{Binding Name}" />
-                            </TextBlock>
-                            <Button Margin="20,0,0,0">Xoá</Button>
-                        </StackPanel>
-
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>-->
-
-            <!--<telerikData:RadListView x:Name="listCategory" ItemsSource="{Binding Name}"/>-->
             <StackPanel Orientation="Horizontal"
                         Spacing="20">
                 <ListView HorizontalAlignment="Left"
@@ -64,9 +46,6 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <StackPanel>
-                    <StackPanel Name="testConvert">
-                        <TextBlock Text="{Binding category_id, Converter={StaticResource idConverter}}" />
-                    </StackPanel>
                     <Button Click="addBtnCate">
                         Thêm
                     </Button>
