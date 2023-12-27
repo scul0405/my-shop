@@ -40,7 +40,7 @@ namespace GUI.Views
             //_bus = bus;
             this.InitializeComponent();
             newCateName.Text = "";
-
+            testConvert.DataContext = new Book() { ID = 1, category_id=1, name = "Lammm Di", author = "Nam Cao", price = 100000, quantity = 10000 };
         }
 
         private void LoadProduct(object sender, RoutedEventArgs e)

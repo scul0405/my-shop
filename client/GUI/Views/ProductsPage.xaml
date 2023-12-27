@@ -11,6 +11,10 @@
       Loaded="LoadProduct"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <local:IdToCategoryConverter x:Key="idConverter" />
+    </Page.Resources>
+
     <ScrollViewer VerticalScrollMode="Enabled"
                   VerticalScrollBarVisibility="Auto">
         <StackPanel ScrollViewer.VerticalScrollMode="Enabled"
@@ -35,7 +39,8 @@
             </ComboBox>-->
 
             <!--<telerikData:RadListView x:Name="listCategory" ItemsSource="{Binding Name}"/>-->
-            <StackPanel Orientation="Horizontal" Spacing="20">
+            <StackPanel Orientation="Horizontal"
+                        Spacing="20">
                 <ListView HorizontalAlignment="Left"
                           Name="listCategory"
                           Width="350"
@@ -45,28 +50,6 @@
                           SelectionChanged="updateToBind"
                           ItemsSource="{Binding}"
                           BorderBrush="Aqua">
-                    <!--<ListView.Resources>
-                    <MenuFlyout x:Key="TenCuaContextMenu">
-                        <MenuFlyoutItem Text="Delet"
-                                  Click="deleteMenuItem_Click">
-                            <MenuFlyoutItem.Icon>
-                                <ImageIcon 
-                                       Source="assets/error copy.png" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Edit"
-                                  Click="editMenuItem_Click">
-                            <MenuFlyoutItem.Icon>
-                                <ImageIcon
-                                       Source="assets/pencil.png" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyout>
-                </ListView.Resources>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="MenuFlyout"
-                            Value="{StaticResource TenCuaContextMenu}" />
-                </Style>-->
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel />
@@ -75,26 +58,33 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text="{Binding Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
                 <StackPanel>
+                    <StackPanel Name="testConvert">
+                        <TextBlock Text="{Binding category_id, Converter={StaticResource idConverter}}" />
+                    </StackPanel>
                     <Button Click="addBtnCate">
                         Thêm
                     </Button>
-                    <StackPanel Visibility="Collapsed" Name="addCateBox"
+                    <StackPanel Visibility="Collapsed"
+                                Name="addCateBox"
                                 Orientation="Horizontal"
                                 Margin="20,0,0,0"
                                 Spacing="20">
                         <TextBlock Text="Tên thể loại"
                                    VerticalAlignment="Center" />
-                        <TextBox Name="newCateName" Text="{Binding}" Width="200" />
+                        <TextBox Name="newCateName"
+                                 Text="{Binding}"
+                                 Width="200" />
                         <Button Click="addCateHandle">✔</Button>
                         <Button Click="cancelCateBox">❌</Button>
                     </StackPanel>
-                    <Button Click="editBtnCate" Margin="0,10,0,0">
+                    <Button Click="editBtnCate"
+                            Margin="0,10,0,0">
                         Sửa
                     </Button>
                     <StackPanel Name="editCateBox"
@@ -110,7 +100,8 @@
                         <Button Click="editCateHandle">✔</Button>
                         <Button Click="cancelEditCate">❌</Button>
                     </StackPanel>
-                    <Button Margin="0,10,0,0" Click="deleteCateHandle">
+                    <Button Margin="0,10,0,0"
+                            Click="deleteCateHandle">
                         Xoá
                     </Button>
                 </StackPanel>
@@ -134,7 +125,6 @@
                                      UserEditMode="Inline"
                                      SelectionMode="Extended"
                                      MaxHeight="500"
-                                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                      ScrollViewer.HorizontalScrollMode="Enabled"
                                      ScrollViewer.VerticalScrollMode="Enabled"
                                      IncrementalLoadingMode="Explicit"
@@ -142,10 +132,21 @@
                 <telerikGrid:RadDataGrid.Columns>
                     <telerikGrid:DataGridTextColumn Header="Tên"
                                                     CanUserEdit="True"
+                                                    SizeMode="Auto"
                                                     PropertyName="name" />
                     <telerikGrid:DataGridTextColumn Header="Tác giả"
                                                     CanUserEdit="True"
                                                     PropertyName="author" />
+                    <!--<telerikGrid:DataGridTextColumn Header="Category"
+                                                    PropertyName="category_id" />-->
+                    <telerikGrid:DataGridTemplateColumn Header="Category">
+                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding category_id, Converter={StaticResource idConverter}}" />
+                            </DataTemplate>
+                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                    </telerikGrid:DataGridTemplateColumn>
+
                     <telerikGrid:DataGridNumericalColumn  Header="Đã bán"
                                                           CanUserEdit="True"
                                                           PropertyName="total_sold" />
