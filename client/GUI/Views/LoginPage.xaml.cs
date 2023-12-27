@@ -20,15 +20,9 @@ using ThreeLayerContract;
 
 namespace GUI.Views
 {
-    public static class BusInstance
-    {
-        public static Dictionary<string, IBus> _bus;
-    }
-
     public sealed partial class LoginPage : UserControl
     {
         //public Dictionary<string, IBus> _bus;
-        
         public LoginPage(Dictionary<string, IBus>bus)
         {
             BusInstance._bus = bus;
