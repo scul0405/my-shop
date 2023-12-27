@@ -66,10 +66,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="Views\CreateOrderPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

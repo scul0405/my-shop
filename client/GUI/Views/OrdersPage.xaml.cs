@@ -1,4 +1,4 @@
-﻿using Entity;
+﻿using GUI.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -23,39 +22,19 @@ namespace GUI.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    /// 
     public sealed partial class OrdersPage : Page
     {
-        public ObservableCollection<Order> Orders { get; set; }
         public OrdersPage()
         {
-            this.InitializeComponent();
-            Orders = new ObservableCollection<Order>();
-
-            // Thêm dữ liệu mẫu
-            Orders.Add(new Order { Id = 1, created_at = DateTime.Now, total = 50, status = true });
-            Orders.Add(new Order { Id = 2, created_at = DateTime.Now.AddDays(-1), total = 75, status = false });
-            Orders.Add(new Order { Id = 3, created_at = DateTime.Now.AddDays(-2), total = 120, status = true });
-
-            // Gán nguồn dữ liệu cho DataGrid
-            OrdersDataGrid.ItemsSource = Orders;
+            InitializeComponent();
+            Loaded += OrdersPage_Loaded;
         }
 
-        private async void OrdersDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void OrdersPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (OrdersDataGrid.SelectedItem is Order selectedOrder)
-            {
-                OrderDetailPage orderDetailDialog = new OrderDetailPage();
-                orderDetailDialog.Order = selectedOrder;
-                if (orderDetailDialog.XamlRoot != null)
-                {
-                    orderDetailDialog.XamlRoot = null;
-                }
-
-                orderDetailDialog.XamlRoot = this.Content.XamlRoot;
-
-                await orderDetailDialog.ShowAsync();
-            }
+            await ViewModel.InitializeAsync();
         }
+
+        private OrdersPageViewModel ViewModel => DataContext as OrdersPageViewModel;
     }
 }
