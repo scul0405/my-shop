@@ -30,9 +30,9 @@ namespace GUI.Views
             Loaded += OrdersPage_Loaded;
         }
 
-        private async void OrdersPage_Loaded(object sender, RoutedEventArgs e)
+        private void OrdersPage_Loaded(object sender, RoutedEventArgs e)
         {
-            await ViewModel.InitializeAsync();
+            ViewModel.InitializeAsync();
         }
 
         private OrdersPageViewModel ViewModel => DataContext as OrdersPageViewModel;

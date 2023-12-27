@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Telerik.Core;
 
 namespace GUI.ViewModels
 {
@@ -17,28 +16,26 @@ namespace GUI.ViewModels
         private int _pageNumber;
         private int _pageCount;
         private List<Order> _orders;
+        private List<Order> _allOrders;
 
         public OrdersPageViewModel()
         {
-            FirstAsyncCommand = new AsyncRelayCommand(
-                async () => await GetOrders(1, _pageSize),
+            FirstCommand = new RelayCommand(
+                () => GetOrders(1, _pageSize),
                 () => _pageNumber != 1
               );
-            PreviousAsyncCommand = new AsyncRelayCommand(
-                async () => await GetOrders(_pageNumber - 1, _pageSize),
+            PreviousCommand = new RelayCommand(
+                () => GetOrders(_pageNumber - 1, _pageSize),
                 () => _pageNumber > 1
               );
-            NextAsyncCommand = new AsyncRelayCommand(
-                async () => await GetOrders(_pageNumber + 1, _pageSize),
+            NextCommand = new RelayCommand(
+                () => GetOrders(_pageNumber + 1, _pageSize),
                 () => _pageNumber < _pageCount
               );
-            LastAsyncCommand = new AsyncRelayCommand(
-                async () => await GetOrders(_pageCount, _pageSize),
+            LastCommand = new RelayCommand(
+                () => GetOrders(_pageCount, _pageSize),
                 () => _pageNumber != _pageCount
               );
-
-
-
             Refresh();
         }
 
@@ -72,100 +69,62 @@ namespace GUI.ViewModels
             private set => SetProperty(ref _orders, value);
         }
 
-        public IAsyncRelayCommand FirstAsyncCommand { get; }
+        public IRelayCommand FirstCommand { get; }
 
-        public IAsyncRelayCommand PreviousAsyncCommand { get; }
+        public IRelayCommand PreviousCommand { get; }
 
-        public IAsyncRelayCommand NextAsyncCommand { get; }
+        public IRelayCommand NextCommand { get; }
 
-        public IAsyncRelayCommand LastAsyncCommand { get; }
+        public IRelayCommand LastCommand { get; }
 
-        public async Task InitializeAsync()
+        public void InitializeAsync()
         {
-            // Tạo danh sách đơn đặt hàng ở đây.
-            List<Order> orders = CreateOrders();
-
-            // Dùng danh sách đơn đặt hàng để cập nhật dữ liệu
-            UpdateData(orders);
+            // đổ dữ liệu vào allOrders
+            _allOrders = CreateOrders();
+            GetOrders(1, _pageSize);
         }
 
         private List<Order> CreateOrders()
         {
-            // Tạo và trả về danh sách đơn đặt hàng dựa trên logic của bạn.
-            List<Order> orders = new()
+            List<Order> orders = new List<Order>();
+            Random random = new Random();
+
+            for (int i = 1; i <= 100; i++)
             {
-                new Order
+                Order order = new Order
                 {
-                    Id = 1,
-                    created_at = DateTime.Now,
-                    status = true,
-                    total = 500
-                    // Các thuộc tính khác của đơn đặt hàng
-                },
-                new Order
-                {
-                    Id = 2,
-                    created_at = DateTime.Now,
-                    status = true,
-                    total = 500
-                    // Các thuộc tính khác của đơn đặt hàng
-                },
-                new Order
-                {
-                    Id = 3,
-                    created_at = DateTime.Now,
-                    status = true,
-                    total = 500
-                    // Các thuộc tính khác của đơn đặt hàng
-                },
-                new Order
-                {
-                    Id = 4,
-                    created_at = DateTime.Now,
-                    status = true,
-                    total = 500
-                    // Các thuộc tính khác của đơn đặt hàng
-                },
-                new Order
-                {
-                    Id = 5,
-                    created_at = DateTime.Now,
-                    status = true,
-                    total = 500
-                    // Các thuộc tính khác của đơn đặt hàng
-                },
-            };
+                    Id = i,
+                    created_at = DateTime.Now.AddDays(-random.Next(1, 365)),
+                    status = random.Next(0, 2) == 0,
+                    total = random.Next(100, 1000)
+                };
+
+                orders.Add(order);
+            }
 
             return orders;
         }
 
-        private async Task GetOrders(int pageIndex, int pageSize)
+        private void GetOrders(int pageIndex, int pageSize)
         {
-            PaginatedList<Order> pagedOrders = await PaginatedList<Order>.CreateAsync(
-                _orders,
+            PaginatedList<Order> pagedOrders = PaginatedList<Order>.Create(
+                _allOrders,
                 pageIndex,
                 pageSize);
 
             PageNumber = pagedOrders.PageIndex;
             PageCount = pagedOrders.PageCount;
             Orders = pagedOrders;
-            FirstAsyncCommand.NotifyCanExecuteChanged();
-            PreviousAsyncCommand.NotifyCanExecuteChanged();
-            NextAsyncCommand.NotifyCanExecuteChanged();
-            LastAsyncCommand.NotifyCanExecuteChanged();
-        }
-
-        private void UpdateData(List<Order> orders)
-        {
-            // Cập nhật dữ liệu danh sách đơn đặt hàng
-            _pageNumber = 0;
-            GetOrders(1, _pageSize);
+            FirstCommand.NotifyCanExecuteChanged();
+            PreviousCommand.NotifyCanExecuteChanged();
+            NextCommand.NotifyCanExecuteChanged();
+            LastCommand.NotifyCanExecuteChanged();
         }
 
         private void Refresh()
         {
             _pageNumber = 0;
-            FirstAsyncCommand.Execute(null);
+            FirstCommand.Execute(null);
         }
     }
 }

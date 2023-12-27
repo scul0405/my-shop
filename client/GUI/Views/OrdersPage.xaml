@@ -27,10 +27,10 @@
                         OverflowButtonVisibility="Collapsed">
                 <AppBarButton ToolTipService.ToolTip="First"
                               Icon="Previous"
-                              Command="{x:Bind ViewModel.FirstAsyncCommand, Mode=OneWay}"/>
+                              Command="{x:Bind ViewModel.FirstCommand, Mode=OneWay}"/>
                 <AppBarButton ToolTipService.ToolTip="Previous"
                               Icon="Back"
-                              Command="{x:Bind ViewModel.PreviousAsyncCommand, Mode=OneWay}"/>
+                              Command="{x:Bind ViewModel.PreviousCommand, Mode=OneWay}"/>
                 <AppBarElementContainer VerticalContentAlignment="Center">
                     <TextBlock Text="Page"
                                Margin="12 0 8 0" />
@@ -48,10 +48,10 @@
                 </AppBarElementContainer>
                 <AppBarButton ToolTipService.ToolTip="Next"
                               Icon="Forward"
-                              Command="{x:Bind ViewModel.NextAsyncCommand, Mode=OneWay}"/>
+                              Command="{x:Bind ViewModel.NextCommand, Mode=OneWay}"/>
                 <AppBarButton ToolTipService.ToolTip="Last"
                               Icon="Next"
-                              Command="{x:Bind ViewModel.LastAsyncCommand, Mode=OneWay}"/>
+                              Command="{x:Bind ViewModel.LastCommand, Mode=OneWay}"/>
                 <AppBarSeparator />
                 <AppBarElementContainer VerticalContentAlignment="Center">
                     <ComboBox ItemsSource="{x:Bind ViewModel.PageSizes}"
@@ -60,6 +60,11 @@
                 <AppBarElementContainer VerticalContentAlignment="Center">
                     <TextBlock Text="rows per page"
                                Margin="8 0" />
+                </AppBarElementContainer>
+                <AppBarElementContainer HorizontalAlignment="Right">
+                    <AppBarButton ToolTipService.ToolTip="Add New Order"
+                      Icon="Add"
+                      Command="{x:Bind ViewModel.AddNewOrderCommand, Mode=OneWay}"/>
                 </AppBarElementContainer>
             </CommandBar>
         </StackPanel>
@@ -82,7 +87,7 @@
                                             Binding="{Binding Id}"
                                             Tag="Id" />
                 <ctWinUI:DataGridTextColumn Header="Created At"
-                                            Binding="{Binding create_at}"
+                                            Binding="{Binding created_at}"
                                             Tag="CreatedAt" />
                 <ctWinUI:DataGridCheckBoxColumn Header="Status"
                                                 Binding="{Binding status}"

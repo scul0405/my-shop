@@ -18,7 +18,7 @@ namespace GUI.Services
             AddRange(items);
         }
 
-        public static async Task<PaginatedList<T>> CreateAsync(List<T> source, int pageIndex, int pageSize)
+        public static PaginatedList<T> Create(List<T> source, int pageIndex, int pageSize)
         {
             if (source == null || source.Count == 0)
             {
