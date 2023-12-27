@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +10,12 @@ using System.Threading.Tasks;
 
 namespace Entity
 {
-    public class BookCategory
+    public class BookCategory: INotifyPropertyChanged
     {
        public BookCategory() { }
        public int Id { get; set; }
        public string Name { get; set; }
+
+       public event PropertyChangedEventHandler? PropertyChanged;
     }
 }
