@@ -34,8 +34,9 @@
                           >
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
+                                <!--<Run Text="{Binding Id}" />-->
                             <TextBlock>
-                                <Run Text="{Binding Id}" />-<Run Text="{Binding Name}" />
+                                <Run Text="{Binding Name}" />
                             </TextBlock>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>

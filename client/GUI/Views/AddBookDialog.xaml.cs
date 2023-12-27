@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -29,13 +30,14 @@ namespace GUI.Views
         public event AddNew Handler;
 
 
-        List<BookCategory> _categories;
+        //List<BookCategory> _categories;
         public Book _newBook;
 
-
-        public AddBookDialog()
+        ObservableCollection<BookCategory> _categories;
+        public AddBookDialog(ObservableCollection<BookCategory> cate)
         {
             this.InitializeComponent();
+            this._categories = cate;
             LoadCategories();
 
             _newBook = new Book() { name="" };
@@ -45,10 +47,10 @@ namespace GUI.Views
 
         private void LoadCategories()
         {
-            _categories = new List<BookCategory>() {
-                new BookCategory() { Id=1, Name="Novel"},
-                new BookCategory() { Id=2, Name="Manga"}
-            };
+            //_categories = new List<BookCategory>() {
+            //    new BookCategory() { Id=1, Name="Novel"},
+            //    new BookCategory() { Id=2, Name="Manga"}
+            //};
 
             categoriesComboBox.ItemsSource = _categories;
             categoriesComboBox.SelectedIndex = 0;

@@ -62,40 +62,39 @@ namespace GUI.Views
             //};
             var configuration = new Dictionary<string, string>();
             _list = new ObservableCollection<Book>(_bus["Book"].Get(configuration));
-
-            _categories = new ObservableCollection<BookCategory>
-            {
-                new BookCategory() { Id=1, Name="Truyen"},
-                new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
-                new BookCategory() { Id=0, Name="Tat ca"},
-                new BookCategory() { Id=1, Name="Truyen"},
-                new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
-                new BookCategory() { Id=0, Name="Tat ca"},
-                new BookCategory() { Id=1, Name="Truyen"},
-                new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
-                new BookCategory() { Id=0, Name="Tat ca"},
-                new BookCategory() { Id=1, Name="Truyen"},
-                new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
-                new BookCategory() { Id=3, Name="Sach"}
-            };
-
             dataGrid.ItemsSource = _list;
-            //categoriesComboBox.ItemsSource = _categories;
-            //categoriesComboBox.SelectedIndex = 0;
+
+
+            //_categories = new ObservableCollection<BookCategory>
+            //{
+            //    new BookCategory() { Id=1, Name="Truyen"},
+            //    new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
+            //    new BookCategory() { Id=0, Name="Tat ca"},
+            //    new BookCategory() { Id=1, Name="Truyen"},
+            //    new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
+            //    new BookCategory() { Id=0, Name="Tat ca"},
+            //    new BookCategory() { Id=1, Name="Truyen"},
+            //    new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
+            //    new BookCategory() { Id=0, Name="Tat ca"},
+            //    new BookCategory() { Id=1, Name="Truyen"},
+            //    new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
+            //    new BookCategory() { Id=3, Name="Sach"}
+            //};
+
+            _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(configuration));
             listCategory.ItemsSource = _categories;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
-            var screen = new AddBookDialog();
+            var screen = new AddBookDialog(_categories);
 
             var newBook = new Book() { name = "", sku = "string" };
             screen.Handler += (Book value) =>
             {
                 newBook = value;
                 newBook.sku = "string";
-                newBook.category_id = 1;
                 newBook.total_sold = 0;
             };
 
@@ -167,9 +166,12 @@ namespace GUI.Views
         {
             if (newCateName.Text != "")
             {
-                var newCate = new BookCategory() { Id = 0, Name = newCateName.Text };
-                _categories.Add(newCate);
-                newCateName.Text = "";
+                var newCate = new BookCategory() { Name = newCateName.Text };
+                if (_bus["BookCategory"].Post(newCate, null))
+                {
+                    _categories.Add(newCate);
+                    newCateName.Text = "";
+                }
             }
         }
 
