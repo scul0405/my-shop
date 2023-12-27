@@ -43,12 +43,14 @@ namespace GUI.Views
 
         private void LoadProduct(object sender, RoutedEventArgs e)
         {
-            _list = new ObservableCollection<Book>{
-                new Book() {ID=1,name="Lammm Di" ,author="Nam Cao", price=100000, quantity=10000 },
-                new Book() {ID=2,name="Lao Hac" ,author="Nam Cao", price=100000, quantity=10000 },
-                new Book() {ID=3,name="Cau Vang" ,author="Nam Cao", price=100000, quantity=10000 },
-                new Book() {ID=4,name="Chi Pheo" ,author="Nam Cao", price=100000, quantity=10000 }
-            };
+            //_list = new ObservableCollection<Book>{
+            //    new Book() {ID=1,name="Lammm Di" ,author="Nam Cao", price=100000, quantity=10000 },
+            //    new Book() {ID=2,name="Lao Hac" ,author="Nam Cao", price=100000, quantity=10000 },
+            //    new Book() {ID=3,name="Cau Vang" ,author="Nam Cao", price=100000, quantity=10000 },
+            //    new Book() {ID=4,name="Chi Pheo" ,author="Nam Cao", price=100000, quantity=10000 }
+            //};
+            var configuration = new Dictionary<string, string>();
+            _list = new ObservableCollection<Book>(_bus["Book"].Get(configuration));
 
             _categories = new ObservableCollection<BookCategory>
             {
@@ -83,8 +85,13 @@ namespace GUI.Views
             {
                 if (newBook.name == "")
                     return;
-                _list.Add(newBook);
-                _bus["Book"].Post(newBook, null);
+                
+                
+                bool isSuccess = _bus["Book"].Post(newBook, null);
+                if (isSuccess)
+                {
+                    _list.Add(newBook);
+                }
                 //Dictionary<string, string> empty = null;
                 //_bus["Book"].Post(newBook, empty);
                 //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
@@ -98,8 +105,20 @@ namespace GUI.Views
             if (dataGrid.SelectedItems.Count > 0)
             {
                 for (int i = selectedItems.Count - 1; i >= 0; i--)
-                    _list.Remove((Book)selectedItems[i]);
+                {
+                    Book item = (Book)selectedItems[i];
+                    if (deleteBook(item.ID))
+                    {
+                        _list.Remove(item);
+                    }
+                }
             }
+        }
+
+        private bool deleteBook(int id)
+        {
+            var configuration = new Dictionary<string, string> { { "id", id.ToString() } };
+            return _bus["Book"].Delete(configuration);
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
