@@ -15,6 +15,7 @@ using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Entity;
+using ThreeLayerContract;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,8 +28,10 @@ namespace GUI.Views
     public sealed partial class Dashboard : Page
     {
         private SettingViewModel settingsViewModel = new SettingViewModel();
+        //Dictionary<string, IBus> _bus;
         public Dashboard()
         {
+            
             this.InitializeComponent();
             SetInitialPage();
             nvSample.SelectionChanged += NavigationView_SelectionChanged;

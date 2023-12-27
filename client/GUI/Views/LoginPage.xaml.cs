@@ -13,16 +13,25 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using ThreeLayerContract;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace GUI.Views
 {
+    public static class BusInstance
+    {
+        public static Dictionary<string, IBus> _bus;
+    }
+
     public sealed partial class LoginPage : UserControl
     {
-        public LoginPage()
+        //public Dictionary<string, IBus> _bus;
+        
+        public LoginPage(Dictionary<string, IBus>bus)
         {
+            BusInstance._bus = bus;
             this.InitializeComponent();
         }
         private void Button_Login_OnClick(object sender, TappedRoutedEventArgs e)

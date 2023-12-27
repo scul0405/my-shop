@@ -18,6 +18,7 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Entity;
 using GUI.Views;
 using Windows.UI.Popups;
+using ThreeLayerContract;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -29,11 +30,14 @@ namespace GUI.Views
     /// </summary>
     public sealed partial class ProductsPage : Page
     {
+        Dictionary<string, IBus> _bus = BusInstance._bus;
 
         ObservableCollection<Book> _list;
         ObservableCollection<BookCategory> _categories;
+        //Dictionary<string, IBus> _bus;
         public ProductsPage()
         {
+            //_bus = bus;
             this.InitializeComponent();
         }
 
@@ -65,10 +69,13 @@ namespace GUI.Views
             //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             var screen = new AddBookDialog();
 
-            var newBook = new Book() { name=""};
+            var newBook = new Book() { name="", sku="string"};
             screen.Handler += (Book value) =>
             {
                 newBook = value;
+                newBook.sku = "string";
+                newBook.category_id = 1;
+                newBook.total_sold = 0;
             };
 
             screen.Activate();
@@ -77,6 +84,9 @@ namespace GUI.Views
                 if (newBook.name == "")
                     return;
                 _list.Add(newBook);
+                _bus["Book"].Post(newBook, null);
+                //Dictionary<string, string> empty = null;
+                //_bus["Book"].Post(newBook, empty);
                 //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             };
         }
