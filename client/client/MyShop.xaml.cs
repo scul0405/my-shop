@@ -42,7 +42,7 @@ namespace client
             Content.Width = control.Width;
             Content.Height = control.Height;
 
-            Content.DataContext = control;
+            //Content.DataContext = control;
         }
 
         private void Window_Closed(object sender, EventArgs e)
