@@ -121,7 +121,7 @@
                     <telerikGrid:DataGridTemplateColumn Header="Category">
                         <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding category_id, Converter={StaticResource idConverter}}" />
+                                <TextBlock VerticalAlignment="Center" Text="{Binding category_id, Converter={StaticResource idConverter}}" />
                             </DataTemplate>
                         </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
                     </telerikGrid:DataGridTemplateColumn>

@@ -86,7 +86,7 @@ namespace GUI.Views
 
         private async void ShowSuccessMessage()
         {
-            
+
             var successDialog = new ContentDialog
             {
                 Title = "Success",
@@ -189,7 +189,57 @@ namespace GUI.Views
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            _list[0].name = "Cau Vang";
+            //_list[0].name = "Cau Vang1234567890qwertyuiopadfghjklzxcvbnm,1234567890008765432123456789098765432123456789";
+            if (dataGrid.SelectedItems.Count != 1)
+            {
+                ShowFailMessage();
+                return;
+            }
+            var newBook = (Book)dataGrid.SelectedItem;
+            var index = _list.IndexOf(newBook);
+            var screen = new EditBookDialog(_categories, newBook);
+
+            bool _isEditted = false;
+
+            screen.Handler += (Book value, bool isEditted) =>
+            {
+                newBook = value;
+                newBook.sku = "string";
+                _isEditted = isEditted;
+            };
+
+            screen.Activate();
+            screen.Closed += (s, args) =>
+            {
+                if (_isEditted)
+                {
+                    var res = _bus["Book"].Patch(newBook, null);
+                    if (res)
+                    {
+                        ShowSuccessMessage();
+                        _list[index] = newBook;
+                    }
+                    else
+                    {
+                        ShowFailMessage();
+                    }
+                    return;
+                }
+                //if (newBook.name == "")
+                //    return;
+
+
+                //bool isSuccess = _bus["Book"].Post(newBook, null);
+                //if (isSuccess)
+                //{
+                //    ShowSuccessMessage();
+                //    _list.Add(newBook);
+                //}
+                //else
+                //{
+                //    ShowFailMessage();
+                //}
+            };
         }
 
         private void addBtnCate(object sender, RoutedEventArgs e)
@@ -255,7 +305,7 @@ namespace GUI.Views
                 int index = listCategory.SelectedIndex;
                 _categories[index].Name = newCateName_Edit.Text;
             }
-            
+
         }
 
         private void editBtnCate(object sender, RoutedEventArgs e)
