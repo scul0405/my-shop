@@ -131,7 +131,6 @@ namespace GUI.Views
             screen.Handler += (Book value) =>
             {
                 newBook = value;
-                newBook.sku = "string";
                 newBook.total_sold = 0;
             };
 
@@ -204,7 +203,6 @@ namespace GUI.Views
             screen.Handler += (Book value, bool isEditted) =>
             {
                 newBook = value;
-                newBook.sku = "string";
                 _isEditted = isEditted;
             };
 
