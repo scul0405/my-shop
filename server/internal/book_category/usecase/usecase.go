@@ -33,6 +33,24 @@ func (u *bookCategoryUseCase) Create(ctx context.Context, bc *dto.BookCategoryDT
 	return dbconverter.BookCategoryModelToDto(createdBookCategory), nil
 }
 
+func (u *bookCategoryUseCase) Update(ctx context.Context, bc *dto.BookCategoryDTO) error {
+	err := u.bcRepo.Update(ctx, bc.ToModel())
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (u *bookCategoryUseCase) Delete(ctx context.Context, id uint64) error {
+	err := u.bcRepo.Delete(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (u *bookCategoryUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*utils.PaginationList, error) {
 	var (
 		paginationList *utils.PaginationList

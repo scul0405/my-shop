@@ -59,5 +59,10 @@ docker_dev:
 docker_local:
 	docker-compose -f docker-compose.local.yaml up --build
 
-.PHONY: run build test tidy deps-cleancache deps-upgrade deps-reset force version migrate_up migrate_down boiler docker_dev docker_local
+# ==============================================================================
+# Swagger
+swagger:
+	swag init -g ./cmd/api/main.go
+
+.PHONY: run build test tidy deps-cleancache deps-upgrade deps-reset force version migrate_up migrate_down boiler docker_dev docker_local swagger
 

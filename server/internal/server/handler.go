@@ -55,6 +55,8 @@ func (s *Server) MapHandlers() error {
 		r.Get("/*", httpSwagger.WrapHandler)
 	})
 
+	s.logger.Infof("Swagger docs: http://localhost%s/swagger/index.html", s.cfg.Server.Port)
+
 	// group routes
 	v1 := chi.NewRouter()
 	s.chi.Mount("/api/v1", v1)
