@@ -10,6 +10,7 @@ func BookModelToDto(book *dbmodels.Book) *dto.BookDTO {
 		ID:         uint64(book.ID),
 		CategoryID: uint64(book.CategoryID),
 		Name:       book.Name,
+		Author:     book.Author,
 		Desc:       book.Desc.String,
 		Price:      book.Price,
 		TotalSold:  book.TotalSold,
