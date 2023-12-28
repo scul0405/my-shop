@@ -28,6 +28,20 @@ func (r *bookCategoryRepo) Create(ctx context.Context, bc *dbmodels.BookCategory
 	return bc, nil
 }
 
+func (r *bookCategoryRepo) Update(ctx context.Context, bc *dbmodels.BookCategory) error {
+	_, err := bc.Update(ctx, r.db, boil.Infer())
+	return err
+}
+
+func (r *bookCategoryRepo) Delete(ctx context.Context, id uint64) error {
+	bc := &dbmodels.BookCategory{
+		ID: int64(id),
+	}
+
+	_, err := bc.Delete(ctx, r.db)
+	return err
+}
+
 func (r *bookCategoryRepo) List(ctx context.Context, pq *utils.PaginationQuery) (*utils.PaginationList, error) {
 	countAll, err := dbmodels.BookCategories().Count(ctx, r.db)
 	if err != nil {

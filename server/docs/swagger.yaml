@@ -153,6 +153,69 @@ paths:
       summary: Create book category
       tags:
       - Book Category
+  /book_categories/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete book category
+      parameters:
+      - description: book category id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Delete book category
+      tags:
+      - Book Category
+    patch:
+      consumes:
+      - application/json
+      description: update book category, returns book category
+      parameters:
+      - description: book category id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: input data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BookCategoryDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BookCategoryDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Update book category
+      tags:
+      - Book Category
   /books:
     get:
       consumes:
