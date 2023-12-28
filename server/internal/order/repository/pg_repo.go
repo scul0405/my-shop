@@ -8,7 +8,6 @@ import (
 	"github.com/scul0405/my-shop/server/internal/order"
 	"github.com/scul0405/my-shop/server/pkg/utils"
 	"github.com/volatiletech/sqlboiler/v4/boil"
-	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
 
@@ -30,12 +29,9 @@ func (r *orderRepo) Create(ctx context.Context, order *dbmodels.Order) (*dbmodel
 	return order, nil
 }
 
-func (r *orderRepo) AddBook(ctx context.Context, oid, bid uint64) error {
+func (r *orderRepo) AddBook(ctx context.Context, bookOrder *dbmodels.BookOrder) error {
 
-	if _, err := queries.Raw(`
-		INSERT INTO book_order (order_id, book_id)
-		VALUES ($1, $2)
-	`, oid, bid).Exec(r.db); err != nil {
+	if err := bookOrder.Insert(ctx, r.db, boil.Infer()); err != nil {
 		return err
 	}
 

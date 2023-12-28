@@ -446,7 +446,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.OrderDTO"
+                            "$ref": "#/definitions/dto.CreateOrderDTO"
                         }
                     }
                 ],
@@ -624,6 +624,15 @@ const docTemplate = `{
                 "summary": "Add book to order",
                 "parameters": [
                     {
+                        "description": "input data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateBookOrderDTO"
+                        }
+                    },
+                    {
                         "type": "string",
                         "description": "id",
                         "name": "id",
@@ -780,9 +789,6 @@ const docTemplate = `{
                 "desc": {
                     "type": "string"
                 },
-                "image": {
-                    "type": "string"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -792,13 +798,29 @@ const docTemplate = `{
                 "quantity": {
                     "type": "integer"
                 },
-                "sku": {
-                    "type": "string"
-                },
                 "status": {
                     "type": "boolean"
                 },
                 "total_sold": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.CreateBookOrderDTO": {
+            "type": "object",
+            "properties": {
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.CreateOrderDTO": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                },
+                "total": {
                     "type": "integer"
                 }
             }

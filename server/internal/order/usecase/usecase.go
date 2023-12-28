@@ -29,9 +29,7 @@ func NewOrderUseCase(
 	return &orderUseCase{cfg: cfg, bookRepo: bookRepo, orderRepo: orderRepo, logger: logger}
 }
 
-func (u *orderUseCase) Create(ctx context.Context, order *dto.OrderDTO) (*dto.OrderDTO, error) {
-	// set created at to null because it will be set by db
-	order.CreatedAt = time.Time{}
+func (u *orderUseCase) Create(ctx context.Context, order *dto.CreateOrderDTO) (*dto.OrderDTO, error) {
 	createdOrder, err := u.orderRepo.Create(ctx, order.ToModel())
 	if err != nil {
 		return nil, err
@@ -40,7 +38,7 @@ func (u *orderUseCase) Create(ctx context.Context, order *dto.OrderDTO) (*dto.Or
 	return dbconverter.OrderModelToDto(createdOrder), nil
 }
 
-func (u *orderUseCase) AddBook(ctx context.Context, oid, bid uint64) error {
+func (u *orderUseCase) AddBook(ctx context.Context, oid, bid uint64, data *dto.CreateBookOrderDTO) error {
 	// check if book is exist
 	bookModel, err := u.bookRepo.GetByID(ctx, bid)
 	if err != nil {
@@ -53,8 +51,14 @@ func (u *orderUseCase) AddBook(ctx context.Context, oid, bid uint64) error {
 		return err
 	}
 
+	bookOrder := &dbmodels.BookOrder{
+		BookID:   int64(bid),
+		OrderID:  int64(oid),
+		Quantity: data.Quantity,
+	}
+
 	// Add book to order
-	err = u.orderRepo.AddBook(ctx, oid, bid)
+	err = u.orderRepo.AddBook(ctx, bookOrder)
 	if err != nil {
 		return err
 	}

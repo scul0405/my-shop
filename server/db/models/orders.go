@@ -93,17 +93,17 @@ var OrderWhere = struct {
 
 // OrderRels is where relationship names are stored.
 var OrderRels = struct {
-	Books     string
-	Discounts string
+	BookOrders string
+	Discounts  string
 }{
-	Books:     "Books",
-	Discounts: "Discounts",
+	BookOrders: "BookOrders",
+	Discounts:  "Discounts",
 }
 
 // orderR is where relationships are stored.
 type orderR struct {
-	Books     BookSlice     `boil:"Books" json:"Books" toml:"Books" yaml:"Books"`
-	Discounts DiscountSlice `boil:"Discounts" json:"Discounts" toml:"Discounts" yaml:"Discounts"`
+	BookOrders BookOrderSlice `boil:"BookOrders" json:"BookOrders" toml:"BookOrders" yaml:"BookOrders"`
+	Discounts  DiscountSlice  `boil:"Discounts" json:"Discounts" toml:"Discounts" yaml:"Discounts"`
 }
 
 // NewStruct creates a new relationship struct
@@ -111,11 +111,11 @@ func (*orderR) NewStruct() *orderR {
 	return &orderR{}
 }
 
-func (r *orderR) GetBooks() BookSlice {
+func (r *orderR) GetBookOrders() BookOrderSlice {
 	if r == nil {
 		return nil
 	}
-	return r.Books
+	return r.BookOrders
 }
 
 func (r *orderR) GetDiscounts() DiscountSlice {
@@ -414,19 +414,18 @@ func (q orderQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bool
 	return count > 0, nil
 }
 
-// Books retrieves all the book's Books with an executor.
-func (o *Order) Books(mods ...qm.QueryMod) bookQuery {
+// BookOrders retrieves all the book_order's BookOrders with an executor.
+func (o *Order) BookOrders(mods ...qm.QueryMod) bookOrderQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
 		queryMods = append(queryMods, mods...)
 	}
 
 	queryMods = append(queryMods,
-		qm.InnerJoin("\"book_order\" on \"books\".\"id\" = \"book_order\".\"book_id\""),
 		qm.Where("\"book_order\".\"order_id\"=?", o.ID),
 	)
 
-	return Books(queryMods...)
+	return BookOrders(queryMods...)
 }
 
 // Discounts retrieves all the discount's Discounts with an executor.
@@ -444,9 +443,9 @@ func (o *Order) Discounts(mods ...qm.QueryMod) discountQuery {
 	return Discounts(queryMods...)
 }
 
-// LoadBooks allows an eager lookup of values, cached into the
+// LoadBookOrders allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for a 1-M or N-M relationship.
-func (orderL) LoadBooks(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOrder interface{}, mods queries.Applicator) error {
+func (orderL) LoadBookOrders(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOrder interface{}, mods queries.Applicator) error {
 	var slice []*Order
 	var object *Order
 
@@ -500,10 +499,8 @@ func (orderL) LoadBooks(ctx context.Context, e boil.ContextExecutor, singular bo
 	}
 
 	query := NewQuery(
-		qm.Select("\"books\".\"id\", \"books\".\"category_id\", \"books\".\"name\", \"books\".\"author\", \"books\".\"sku\", \"books\".\"desc\", \"books\".\"image\", \"books\".\"price\", \"books\".\"total_sold\", \"books\".\"quantity\", \"books\".\"status\", \"a\".\"order_id\""),
-		qm.From("\"books\""),
-		qm.InnerJoin("\"book_order\" as \"a\" on \"books\".\"id\" = \"a\".\"book_id\""),
-		qm.WhereIn("\"a\".\"order_id\" in ?", args...),
+		qm.From(`book_order`),
+		qm.WhereIn(`book_order.order_id in ?`, args...),
 	)
 	if mods != nil {
 		mods.Apply(query)
@@ -511,36 +508,22 @@ func (orderL) LoadBooks(ctx context.Context, e boil.ContextExecutor, singular bo
 
 	results, err := query.QueryContext(ctx, e)
 	if err != nil {
-		return errors.Wrap(err, "failed to eager load books")
+		return errors.Wrap(err, "failed to eager load book_order")
 	}
 
-	var resultSlice []*Book
-
-	var localJoinCols []int64
-	for results.Next() {
-		one := new(Book)
-		var localJoinCol int64
-
-		err = results.Scan(&one.ID, &one.CategoryID, &one.Name, &one.Author, &one.Sku, &one.Desc, &one.Image, &one.Price, &one.TotalSold, &one.Quantity, &one.Status, &localJoinCol)
-		if err != nil {
-			return errors.Wrap(err, "failed to scan eager loaded results for books")
-		}
-		if err = results.Err(); err != nil {
-			return errors.Wrap(err, "failed to plebian-bind eager loaded slice books")
-		}
-
-		resultSlice = append(resultSlice, one)
-		localJoinCols = append(localJoinCols, localJoinCol)
+	var resultSlice []*BookOrder
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice book_order")
 	}
 
 	if err = results.Close(); err != nil {
-		return errors.Wrap(err, "failed to close results in eager load on books")
+		return errors.Wrap(err, "failed to close results in eager load on book_order")
 	}
 	if err = results.Err(); err != nil {
-		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for books")
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for book_order")
 	}
 
-	if len(bookAfterSelectHooks) != 0 {
+	if len(bookOrderAfterSelectHooks) != 0 {
 		for _, obj := range resultSlice {
 			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
 				return err
@@ -548,25 +531,24 @@ func (orderL) LoadBooks(ctx context.Context, e boil.ContextExecutor, singular bo
 		}
 	}
 	if singular {
-		object.R.Books = resultSlice
+		object.R.BookOrders = resultSlice
 		for _, foreign := range resultSlice {
 			if foreign.R == nil {
-				foreign.R = &bookR{}
+				foreign.R = &bookOrderR{}
 			}
-			foreign.R.Orders = append(foreign.R.Orders, object)
+			foreign.R.Order = object
 		}
 		return nil
 	}
 
-	for i, foreign := range resultSlice {
-		localJoinCol := localJoinCols[i]
+	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if local.ID == localJoinCol {
-				local.R.Books = append(local.R.Books, foreign)
+			if local.ID == foreign.OrderID {
+				local.R.BookOrders = append(local.R.BookOrders, foreign)
 				if foreign.R == nil {
-					foreign.R = &bookR{}
+					foreign.R = &bookOrderR{}
 				}
-				foreign.R.Orders = append(foreign.R.Orders, local)
+				foreign.R.Order = local
 				break
 			}
 		}
@@ -706,149 +688,57 @@ func (orderL) LoadDiscounts(ctx context.Context, e boil.ContextExecutor, singula
 	return nil
 }
 
-// AddBooks adds the given related objects to the existing relationships
+// AddBookOrders adds the given related objects to the existing relationships
 // of the order, optionally inserting them as new records.
-// Appends related to o.R.Books.
-// Sets related.R.Orders appropriately.
-func (o *Order) AddBooks(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
+// Appends related to o.R.BookOrders.
+// Sets related.R.Order appropriately.
+func (o *Order) AddBookOrders(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*BookOrder) error {
 	var err error
 	for _, rel := range related {
 		if insert {
+			rel.OrderID = o.ID
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE \"book_order\" SET %s WHERE %s",
+				strmangle.SetParamNames("\"", "\"", 1, []string{"order_id"}),
+				strmangle.WhereClause("\"", "\"", 2, bookOrderPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.BookID, rel.OrderID}
+
+			if boil.IsDebug(ctx) {
+				writer := boil.DebugWriterFrom(ctx)
+				fmt.Fprintln(writer, updateQuery)
+				fmt.Fprintln(writer, values)
+			}
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.OrderID = o.ID
 		}
 	}
 
-	for _, rel := range related {
-		query := "insert into \"book_order\" (\"order_id\", \"book_id\") values ($1, $2)"
-		values := []interface{}{o.ID, rel.ID}
-
-		if boil.IsDebug(ctx) {
-			writer := boil.DebugWriterFrom(ctx)
-			fmt.Fprintln(writer, query)
-			fmt.Fprintln(writer, values)
-		}
-		_, err = exec.ExecContext(ctx, query, values...)
-		if err != nil {
-			return errors.Wrap(err, "failed to insert into join table")
-		}
-	}
 	if o.R == nil {
 		o.R = &orderR{
-			Books: related,
+			BookOrders: related,
 		}
 	} else {
-		o.R.Books = append(o.R.Books, related...)
+		o.R.BookOrders = append(o.R.BookOrders, related...)
 	}
 
 	for _, rel := range related {
 		if rel.R == nil {
-			rel.R = &bookR{
-				Orders: OrderSlice{o},
+			rel.R = &bookOrderR{
+				Order: o,
 			}
 		} else {
-			rel.R.Orders = append(rel.R.Orders, o)
+			rel.R.Order = o
 		}
 	}
 	return nil
-}
-
-// SetBooks removes all previously related items of the
-// order replacing them completely with the passed
-// in related items, optionally inserting them as new records.
-// Sets o.R.Orders's Books accordingly.
-// Replaces o.R.Books with related.
-// Sets related.R.Orders's Books accordingly.
-func (o *Order) SetBooks(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Book) error {
-	query := "delete from \"book_order\" where \"order_id\" = $1"
-	values := []interface{}{o.ID}
-	if boil.IsDebug(ctx) {
-		writer := boil.DebugWriterFrom(ctx)
-		fmt.Fprintln(writer, query)
-		fmt.Fprintln(writer, values)
-	}
-	_, err := exec.ExecContext(ctx, query, values...)
-	if err != nil {
-		return errors.Wrap(err, "failed to remove relationships before set")
-	}
-
-	removeBooksFromOrdersSlice(o, related)
-	if o.R != nil {
-		o.R.Books = nil
-	}
-
-	return o.AddBooks(ctx, exec, insert, related...)
-}
-
-// RemoveBooks relationships from objects passed in.
-// Removes related items from R.Books (uses pointer comparison, removal does not keep order)
-// Sets related.R.Orders.
-func (o *Order) RemoveBooks(ctx context.Context, exec boil.ContextExecutor, related ...*Book) error {
-	if len(related) == 0 {
-		return nil
-	}
-
-	var err error
-	query := fmt.Sprintf(
-		"delete from \"book_order\" where \"order_id\" = $1 and \"book_id\" in (%s)",
-		strmangle.Placeholders(dialect.UseIndexPlaceholders, len(related), 2, 1),
-	)
-	values := []interface{}{o.ID}
-	for _, rel := range related {
-		values = append(values, rel.ID)
-	}
-
-	if boil.IsDebug(ctx) {
-		writer := boil.DebugWriterFrom(ctx)
-		fmt.Fprintln(writer, query)
-		fmt.Fprintln(writer, values)
-	}
-	_, err = exec.ExecContext(ctx, query, values...)
-	if err != nil {
-		return errors.Wrap(err, "failed to remove relationships before set")
-	}
-	removeBooksFromOrdersSlice(o, related)
-	if o.R == nil {
-		return nil
-	}
-
-	for _, rel := range related {
-		for i, ri := range o.R.Books {
-			if rel != ri {
-				continue
-			}
-
-			ln := len(o.R.Books)
-			if ln > 1 && i < ln-1 {
-				o.R.Books[i] = o.R.Books[ln-1]
-			}
-			o.R.Books = o.R.Books[:ln-1]
-			break
-		}
-	}
-
-	return nil
-}
-
-func removeBooksFromOrdersSlice(o *Order, related []*Book) {
-	for _, rel := range related {
-		if rel.R == nil {
-			continue
-		}
-		for i, ri := range rel.R.Orders {
-			if o.ID != ri.ID {
-				continue
-			}
-
-			ln := len(rel.R.Orders)
-			if ln > 1 && i < ln-1 {
-				rel.R.Orders[i] = rel.R.Orders[ln-1]
-			}
-			rel.R.Orders = rel.R.Orders[:ln-1]
-			break
-		}
-	}
 }
 
 // AddDiscounts adds the given related objects to the existing relationships
