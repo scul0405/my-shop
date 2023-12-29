@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="GUI.Views.CreateOrderPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,9 +6,34 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <telerikGrid:RadDataGrid x:Name="BooksGrid" AutoGenerateColumns="False" Margin="10">
+            <telerikGrid:RadDataGrid.Columns>
+                <!-- DataGridComboBoxColumn -->
+                <telerikGrid:DataGridComboBoxColumn
+                        x:Name="ComboboxColumn"
+                        PropertyName="SelectedBook" 
+                        Header="Book">
+                </telerikGrid:DataGridComboBoxColumn>
+
+                <!-- DataGridTextColumn for Quantity -->
+                <telerikGrid:DataGridTextColumn PropertyName="Quantity" Header="Quantity"/>
+
+                <!-- DataGridTemplateColumn -->
+                <telerikGrid:DataGridTemplateColumn>
+                    <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                        <DataTemplate>
+                            <Button Content="Remove" Click="RemoveBookButton_Click"/>
+                        </DataTemplate>
+                    </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                </telerikGrid:DataGridTemplateColumn>
+            </telerikGrid:RadDataGrid.Columns>
+        </telerikGrid:RadDataGrid>
+
+        <Button Content="Add Book" Click="AddBookButton_Click" Margin="10"/>
 
     </Grid>
 </Page>

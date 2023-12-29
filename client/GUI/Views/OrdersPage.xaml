@@ -61,11 +61,10 @@
                     <TextBlock Text="rows per page"
                                Margin="8 0" />
                 </AppBarElementContainer>
-                <AppBarElementContainer HorizontalAlignment="Right">
-                    <AppBarButton ToolTipService.ToolTip="Add New Order"
-                      Icon="Add"
-                      Command="{x:Bind ViewModel.AddNewOrderCommand, Mode=OneWay}"/>
-                </AppBarElementContainer>
+                <AppBarButton 
+                              ToolTipService.ToolTip="Add new order"
+                              Icon="Add" Label="Add"/>
+
             </CommandBar>
         </StackPanel>
         <ctWinUI:DataGrid x:Name="DataGrid"
