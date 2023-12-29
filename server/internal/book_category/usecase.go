@@ -8,5 +8,7 @@ import (
 
 type UseCase interface {
 	Create(ctx context.Context, bc *dto.BookCategoryDTO) (*dto.BookCategoryDTO, error)
+	Update(ctx context.Context, bc *dto.BookCategoryDTO) error
+	Delete(ctx context.Context, id uint64) error
 	List(ctx context.Context, pq *utils.PaginationQuery) (*utils.PaginationList, error)
 }

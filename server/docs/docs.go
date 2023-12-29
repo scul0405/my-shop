@@ -113,6 +113,101 @@ const docTemplate = `{
                 }
             }
         },
+        "/book_categories/{id}": {
+            "delete": {
+                "description": "delete book category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Book Category"
+                ],
+                "summary": "Delete book category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "book category id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "update book category, returns book category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Book Category"
+                ],
+                "summary": "Update book category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "book category id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "input data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.BookCategoryDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BookCategoryDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            }
+        },
         "/books": {
             "get": {
                 "description": "List books, return list of books",
@@ -446,7 +541,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.OrderDTO"
+                            "$ref": "#/definitions/dto.CreateOrderDTO"
                         }
                     }
                 ],
@@ -624,6 +719,15 @@ const docTemplate = `{
                 "summary": "Add book to order",
                 "parameters": [
                     {
+                        "description": "input data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateBookOrderDTO"
+                        }
+                    },
+                    {
                         "type": "string",
                         "description": "id",
                         "name": "id",
@@ -780,9 +884,6 @@ const docTemplate = `{
                 "desc": {
                     "type": "string"
                 },
-                "image": {
-                    "type": "string"
-                },
                 "name": {
                     "type": "string"
                 },
@@ -792,13 +893,29 @@ const docTemplate = `{
                 "quantity": {
                     "type": "integer"
                 },
-                "sku": {
-                    "type": "string"
-                },
                 "status": {
                     "type": "boolean"
                 },
                 "total_sold": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.CreateBookOrderDTO": {
+            "type": "object",
+            "properties": {
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.CreateOrderDTO": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                },
+                "total": {
                     "type": "integer"
                 }
             }

@@ -13,6 +13,7 @@ import "testing"
 // Separating the tests thusly grants avoidance of Postgres deadlocks.
 func TestParent(t *testing.T) {
 	t.Run("BookCategories", testBookCategories)
+	t.Run("BookOrders", testBookOrders)
 	t.Run("Books", testBooks)
 	t.Run("Discounts", testDiscounts)
 	t.Run("Orders", testOrders)
@@ -22,6 +23,7 @@ func TestParent(t *testing.T) {
 
 func TestDelete(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesDelete)
+	t.Run("BookOrders", testBookOrdersDelete)
 	t.Run("Books", testBooksDelete)
 	t.Run("Discounts", testDiscountsDelete)
 	t.Run("Orders", testOrdersDelete)
@@ -31,6 +33,7 @@ func TestDelete(t *testing.T) {
 
 func TestQueryDeleteAll(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesQueryDeleteAll)
+	t.Run("BookOrders", testBookOrdersQueryDeleteAll)
 	t.Run("Books", testBooksQueryDeleteAll)
 	t.Run("Discounts", testDiscountsQueryDeleteAll)
 	t.Run("Orders", testOrdersQueryDeleteAll)
@@ -40,6 +43,7 @@ func TestQueryDeleteAll(t *testing.T) {
 
 func TestSliceDeleteAll(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesSliceDeleteAll)
+	t.Run("BookOrders", testBookOrdersSliceDeleteAll)
 	t.Run("Books", testBooksSliceDeleteAll)
 	t.Run("Discounts", testDiscountsSliceDeleteAll)
 	t.Run("Orders", testOrdersSliceDeleteAll)
@@ -49,6 +53,7 @@ func TestSliceDeleteAll(t *testing.T) {
 
 func TestExists(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesExists)
+	t.Run("BookOrders", testBookOrdersExists)
 	t.Run("Books", testBooksExists)
 	t.Run("Discounts", testDiscountsExists)
 	t.Run("Orders", testOrdersExists)
@@ -58,6 +63,7 @@ func TestExists(t *testing.T) {
 
 func TestFind(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesFind)
+	t.Run("BookOrders", testBookOrdersFind)
 	t.Run("Books", testBooksFind)
 	t.Run("Discounts", testDiscountsFind)
 	t.Run("Orders", testOrdersFind)
@@ -67,6 +73,7 @@ func TestFind(t *testing.T) {
 
 func TestBind(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesBind)
+	t.Run("BookOrders", testBookOrdersBind)
 	t.Run("Books", testBooksBind)
 	t.Run("Discounts", testDiscountsBind)
 	t.Run("Orders", testOrdersBind)
@@ -76,6 +83,7 @@ func TestBind(t *testing.T) {
 
 func TestOne(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesOne)
+	t.Run("BookOrders", testBookOrdersOne)
 	t.Run("Books", testBooksOne)
 	t.Run("Discounts", testDiscountsOne)
 	t.Run("Orders", testOrdersOne)
@@ -85,6 +93,7 @@ func TestOne(t *testing.T) {
 
 func TestAll(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesAll)
+	t.Run("BookOrders", testBookOrdersAll)
 	t.Run("Books", testBooksAll)
 	t.Run("Discounts", testDiscountsAll)
 	t.Run("Orders", testOrdersAll)
@@ -94,6 +103,7 @@ func TestAll(t *testing.T) {
 
 func TestCount(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesCount)
+	t.Run("BookOrders", testBookOrdersCount)
 	t.Run("Books", testBooksCount)
 	t.Run("Discounts", testDiscountsCount)
 	t.Run("Orders", testOrdersCount)
@@ -103,6 +113,7 @@ func TestCount(t *testing.T) {
 
 func TestHooks(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesHooks)
+	t.Run("BookOrders", testBookOrdersHooks)
 	t.Run("Books", testBooksHooks)
 	t.Run("Discounts", testDiscountsHooks)
 	t.Run("Orders", testOrdersHooks)
@@ -113,6 +124,8 @@ func TestHooks(t *testing.T) {
 func TestInsert(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesInsert)
 	t.Run("BookCategories", testBookCategoriesInsertWhitelist)
+	t.Run("BookOrders", testBookOrdersInsert)
+	t.Run("BookOrders", testBookOrdersInsertWhitelist)
 	t.Run("Books", testBooksInsert)
 	t.Run("Books", testBooksInsertWhitelist)
 	t.Run("Discounts", testDiscountsInsert)
@@ -128,6 +141,8 @@ func TestInsert(t *testing.T) {
 // TestToOne tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOne(t *testing.T) {
+	t.Run("BookOrderToBookUsingBook", testBookOrderToOneBookUsingBook)
+	t.Run("BookOrderToOrderUsingOrder", testBookOrderToOneOrderUsingOrder)
 	t.Run("BookToBookCategoryUsingCategory", testBookToOneBookCategoryUsingCategory)
 }
 
@@ -139,15 +154,17 @@ func TestOneToOne(t *testing.T) {}
 // or deadlocks can occur.
 func TestToMany(t *testing.T) {
 	t.Run("BookCategoryToCategoryBooks", testBookCategoryToManyCategoryBooks)
-	t.Run("BookToOrders", testBookToManyOrders)
+	t.Run("BookToBookOrders", testBookToManyBookOrders)
 	t.Run("DiscountToOrders", testDiscountToManyOrders)
-	t.Run("OrderToBooks", testOrderToManyBooks)
+	t.Run("OrderToBookOrders", testOrderToManyBookOrders)
 	t.Run("OrderToDiscounts", testOrderToManyDiscounts)
 }
 
 // TestToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOneSet(t *testing.T) {
+	t.Run("BookOrderToBookUsingBookOrders", testBookOrderToOneSetOpBookUsingBook)
+	t.Run("BookOrderToOrderUsingBookOrders", testBookOrderToOneSetOpOrderUsingOrder)
 	t.Run("BookToBookCategoryUsingCategoryBooks", testBookToOneSetOpBookCategoryUsingCategory)
 }
 
@@ -167,32 +184,29 @@ func TestOneToOneRemove(t *testing.T) {}
 // or deadlocks can occur.
 func TestToManyAdd(t *testing.T) {
 	t.Run("BookCategoryToCategoryBooks", testBookCategoryToManyAddOpCategoryBooks)
-	t.Run("BookToOrders", testBookToManyAddOpOrders)
+	t.Run("BookToBookOrders", testBookToManyAddOpBookOrders)
 	t.Run("DiscountToOrders", testDiscountToManyAddOpOrders)
-	t.Run("OrderToBooks", testOrderToManyAddOpBooks)
+	t.Run("OrderToBookOrders", testOrderToManyAddOpBookOrders)
 	t.Run("OrderToDiscounts", testOrderToManyAddOpDiscounts)
 }
 
 // TestToManySet tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToManySet(t *testing.T) {
-	t.Run("BookToOrders", testBookToManySetOpOrders)
 	t.Run("DiscountToOrders", testDiscountToManySetOpOrders)
-	t.Run("OrderToBooks", testOrderToManySetOpBooks)
 	t.Run("OrderToDiscounts", testOrderToManySetOpDiscounts)
 }
 
 // TestToManyRemove tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToManyRemove(t *testing.T) {
-	t.Run("BookToOrders", testBookToManyRemoveOpOrders)
 	t.Run("DiscountToOrders", testDiscountToManyRemoveOpOrders)
-	t.Run("OrderToBooks", testOrderToManyRemoveOpBooks)
 	t.Run("OrderToDiscounts", testOrderToManyRemoveOpDiscounts)
 }
 
 func TestReload(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesReload)
+	t.Run("BookOrders", testBookOrdersReload)
 	t.Run("Books", testBooksReload)
 	t.Run("Discounts", testDiscountsReload)
 	t.Run("Orders", testOrdersReload)
@@ -202,6 +216,7 @@ func TestReload(t *testing.T) {
 
 func TestReloadAll(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesReloadAll)
+	t.Run("BookOrders", testBookOrdersReloadAll)
 	t.Run("Books", testBooksReloadAll)
 	t.Run("Discounts", testDiscountsReloadAll)
 	t.Run("Orders", testOrdersReloadAll)
@@ -211,6 +226,7 @@ func TestReloadAll(t *testing.T) {
 
 func TestSelect(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesSelect)
+	t.Run("BookOrders", testBookOrdersSelect)
 	t.Run("Books", testBooksSelect)
 	t.Run("Discounts", testDiscountsSelect)
 	t.Run("Orders", testOrdersSelect)
@@ -220,6 +236,7 @@ func TestSelect(t *testing.T) {
 
 func TestUpdate(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesUpdate)
+	t.Run("BookOrders", testBookOrdersUpdate)
 	t.Run("Books", testBooksUpdate)
 	t.Run("Discounts", testDiscountsUpdate)
 	t.Run("Orders", testOrdersUpdate)
@@ -229,6 +246,7 @@ func TestUpdate(t *testing.T) {
 
 func TestSliceUpdateAll(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesSliceUpdateAll)
+	t.Run("BookOrders", testBookOrdersSliceUpdateAll)
 	t.Run("Books", testBooksSliceUpdateAll)
 	t.Run("Discounts", testDiscountsSliceUpdateAll)
 	t.Run("Orders", testOrdersSliceUpdateAll)
