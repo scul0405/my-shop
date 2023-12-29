@@ -17,9 +17,14 @@
 
     <ScrollViewer VerticalScrollMode="Enabled"
                   VerticalScrollBarVisibility="Auto">
+
         <StackPanel ScrollViewer.VerticalScrollMode="Enabled"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     Margin="20">
+
+            <TextBlock Text="Categories"
+                       Margin="0,0,0,20"
+                       Style="{StaticResource SubtitleTextBlockStyle}" />
 
             <StackPanel Orientation="Horizontal"
                         Spacing="20">
@@ -86,6 +91,10 @@
                 </StackPanel>
             </StackPanel>
 
+            <TextBlock Text="Books"
+                       Margin="0,20,0,0"
+                       Style="{StaticResource SubtitleTextBlockStyle}" />
+
 
             <StackPanel Orientation="Horizontal"
                         Spacing="10"
@@ -98,42 +107,55 @@
                         Foreground="Blue">Edit</Button>
             </StackPanel>
 
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Filter by category"
+                        Click="filterByCate" />
+                <TextBlock Text="(please pick category first)"
+                           VerticalAlignment="Center"
+                           Margin="10,0,0,0"
+                           FontStyle="Italic" />
+            </StackPanel>
+
+            <Button Content="Reset filter"
+                    Click="resetFilter" />
 
             <telerikGrid:RadDataGrid x:Name="dataGrid"
                                      AutoGenerateColumns="False"
-                                     UserEditMode="Inline"
+                                     UserEditMode="None"
                                      SelectionMode="Extended"
-                                     MaxHeight="500"
+                                     Height="600"
                                      ScrollViewer.HorizontalScrollMode="Enabled"
                                      ScrollViewer.VerticalScrollMode="Enabled"
                                      IncrementalLoadingMode="Explicit"
                                      ItemsSource="{Binding}">
                 <telerikGrid:RadDataGrid.Columns>
-                    <telerikGrid:DataGridTextColumn Header="Tên"
-                                                    CanUserEdit="True"
+                    <telerikGrid:DataGridTextColumn Header="Name"
                                                     SizeMode="Auto"
+                                                    ShowDistinctValuesFilter="False"
                                                     PropertyName="name" />
-                    <telerikGrid:DataGridTextColumn Header="Tác giả"
-                                                    CanUserEdit="True"
+                    <telerikGrid:DataGridTextColumn Header="Author"
+                                                    ShowDistinctValuesFilter="False"
                                                     PropertyName="author" />
-                    <!--<telerikGrid:DataGridTextColumn Header="Category"
-                                                    PropertyName="category_id" />-->
-                    <telerikGrid:DataGridTemplateColumn Header="Category">
+                    <telerikGrid:DataGridTextColumn Header="Category"
+                                                    PropertyName="category_id" />
+                    <!--<telerikGrid:DataGridTemplateColumn Header="Category"
+                                                        CanUserGroup="True">
                         <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
                             <DataTemplate>
-                                <TextBlock VerticalAlignment="Center" Text="{Binding category_id, Converter={StaticResource idConverter}}" />
+                                <TextBlock VerticalAlignment="Center"
+                                           Text="{Binding category_id, Converter={StaticResource idConverter}}" />
                             </DataTemplate>
                         </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                    </telerikGrid:DataGridTemplateColumn>
+                    </telerikGrid:DataGridTemplateColumn>-->
 
-                    <telerikGrid:DataGridNumericalColumn  Header="Đã bán"
-                                                          CanUserEdit="True"
+                    <telerikGrid:DataGridNumericalColumn  Header="Total sold"
+                                                          ShowDistinctValuesFilter="False"
                                                           PropertyName="total_sold" />
-                    <telerikGrid:DataGridNumericalColumn  Header="Giá"
-                                                          CanUserEdit="True"
+                    <telerikGrid:DataGridNumericalColumn  Header="Price"
+                                                          ShowDistinctValuesFilter="False"
                                                           PropertyName="price" />
-                    <telerikGrid:DataGridNumericalColumn  Header="Tồn kho"
-                                                          CanUserEdit="True"
+                    <telerikGrid:DataGridNumericalColumn  Header="Quantity"
+                                                          ShowDistinctValuesFilter="False"
                                                           PropertyName="quantity" />
                 </telerikGrid:RadDataGrid.Columns>
             </telerikGrid:RadDataGrid>

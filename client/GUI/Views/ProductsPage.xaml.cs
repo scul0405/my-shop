@@ -332,6 +332,23 @@ namespace GUI.Views
                 editCateBox.Visibility = Visibility.Visible;
             }
         }
+
+        private void filterByCate(object sender, RoutedEventArgs e)
+        {
+            if (listCategory.SelectedItem == null)
+            {
+                ShowFailMessage();
+                return;
+            }
+
+            var cate = ((BookCategory)listCategory.SelectedItem).Id;
+            dataGrid.ItemsSource = _list.Where(book => book.category_id == cate);
+        }
+
+        private void resetFilter(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = _list;
+        }
     }
 
 }
