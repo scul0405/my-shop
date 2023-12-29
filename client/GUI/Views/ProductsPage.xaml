@@ -1,52 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Page
-    x:Class="GUI.Views.ProductsPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:GUI"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
-    Loaded="LoadProduct"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+<Page x:Class="GUI.Views.ProductsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:GUI"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
+      xmlns:telerikData="using:Telerik.UI.Xaml.Controls.Data"
+      Loaded="LoadProduct"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel>
-        <StackPanel Orientation="Horizontal"
-                    Spacing="10"
-                    HorizontalAlignment="Right">
-            <Button Click="Add_Click"
-                    Foreground="Red">Add</Button>
-            <Button Click="Delete_Click"
-                    Foreground="Blue">Delete</Button>
-            <Button Click="Edit_Click"
-                    Foreground="Blue">Edit</Button>
+    <ScrollViewer VerticalScrollMode="Enabled"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel ScrollViewer.VerticalScrollMode="Enabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Margin="20">
+
+            <!--<ComboBox Name="categoriesComboBox"
+                      Width="200"
+                      Height="35">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Left">
+                            <TextBlock TextWrapping="Wrap">
+                            <Run Text="{Binding Id}" />-<Run Text="{Binding Name}" />
+                            </TextBlock>
+                            <Button Margin="20,0,0,0">Xoá</Button>
+                        </StackPanel>
+
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>-->
+
+            <!--<telerikData:RadListView x:Name="listCategory" ItemsSource="{Binding Name}"/>-->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                <ListView HorizontalAlignment="Left"
+                          Name="listCategory"
+                          Width="350"
+                          MaxHeight="300"
+                          BorderThickness="1"
+                          ScrollViewer.VerticalScrollMode="Auto"
+                          SelectionChanged="updateToBind"
+                          ItemsSource="{Binding}"
+                          BorderBrush="Aqua">
+                    <!--<ListView.Resources>
+                    <MenuFlyout x:Key="TenCuaContextMenu">
+                        <MenuFlyoutItem Text="Delet"
+                                  Click="deleteMenuItem_Click">
+                            <MenuFlyoutItem.Icon>
+                                <ImageIcon 
+                                       Source="assets/error copy.png" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Edit"
+                                  Click="editMenuItem_Click">
+                            <MenuFlyoutItem.Icon>
+                                <ImageIcon
+                                       Source="assets/pencil.png" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="MenuFlyout"
+                            Value="{StaticResource TenCuaContextMenu}" />
+                </Style>-->
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <StackPanel>
+                    <Button Click="addBtnCate">
+                        Thêm
+                    </Button>
+                    <StackPanel Visibility="Collapsed" Name="addCateBox"
+                                Orientation="Horizontal"
+                                Margin="20,0,0,0"
+                                Spacing="20">
+                        <TextBlock Text="Tên thể loại"
+                                   VerticalAlignment="Center" />
+                        <TextBox Name="newCateName" Text="{Binding}" Width="200" />
+                        <Button Click="addCateHandle">✔</Button>
+                        <Button Click="cancelCateBox">❌</Button>
+                    </StackPanel>
+                    <Button Click="editBtnCate" Margin="0,10,0,0">
+                        Sửa
+                    </Button>
+                    <StackPanel Name="editCateBox"
+                                Orientation="Horizontal"
+                                Margin="20,0,0,0"
+                                Visibility="Collapsed"
+                                Spacing="20">
+                        <TextBlock Text="Tên mới"
+                                   VerticalAlignment="Center" />
+                        <TextBox Name="newCateName_Edit"
+                                 Text="{Binding}"
+                                 Width="200" />
+                        <Button Click="editCateHandle">✔</Button>
+                        <Button Click="cancelEditCate">❌</Button>
+                    </StackPanel>
+                    <Button Margin="0,10,0,0" Click="deleteCateHandle">
+                        Xoá
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal"
+                        Spacing="10"
+                        HorizontalAlignment="Right">
+                <Button Click="Add_Click"
+                        Foreground="Red">Add</Button>
+                <Button Click="Delete_Click"
+                        Foreground="Blue">Delete</Button>
+                <Button Click="Edit_Click"
+                        Foreground="Blue">Edit</Button>
+            </StackPanel>
+
+
+            <telerikGrid:RadDataGrid x:Name="dataGrid"
+                                     AutoGenerateColumns="False"
+                                     UserEditMode="Inline"
+                                     SelectionMode="Extended"
+                                     MaxHeight="500"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                     ScrollViewer.HorizontalScrollMode="Enabled"
+                                     ScrollViewer.VerticalScrollMode="Enabled"
+                                     IncrementalLoadingMode="Explicit"
+                                     ItemsSource="{Binding}">
+                <telerikGrid:RadDataGrid.Columns>
+                    <telerikGrid:DataGridTextColumn Header="Tên"
+                                                    CanUserEdit="True"
+                                                    PropertyName="name" />
+                    <telerikGrid:DataGridTextColumn Header="Tác giả"
+                                                    CanUserEdit="True"
+                                                    PropertyName="author" />
+                    <telerikGrid:DataGridNumericalColumn  Header="Đã bán"
+                                                          CanUserEdit="True"
+                                                          PropertyName="total_sold" />
+                    <telerikGrid:DataGridNumericalColumn  Header="Giá"
+                                                          CanUserEdit="True"
+                                                          PropertyName="price" />
+                    <telerikGrid:DataGridNumericalColumn  Header="Tồn kho"
+                                                          CanUserEdit="True"
+                                                          PropertyName="quantity" />
+                </telerikGrid:RadDataGrid.Columns>
+            </telerikGrid:RadDataGrid>
+
         </StackPanel>
-        <telerikGrid:RadDataGrid x:Name="dataGrid"
-                                 AutoGenerateColumns="False"
-                                 UserEditMode="Inline"
-                                 SelectionMode="Single"
-                                 ItemsSource="{Binding}">
-            <telerikGrid:RadDataGrid.Columns>
-                <telerikGrid:DataGridTextColumn Header="Tên"
-                                                CanUserEdit="True"
-                                                PropertyName="name" />
-                <telerikGrid:DataGridTextColumn Header="Tác giả"
-                                                CanUserEdit="True"
-                                                PropertyName="author" />
-                <telerikGrid:DataGridNumericalColumn  Header="Đã bán"
-                                                CanUserEdit="True"
-                                                PropertyName="total_sold" />
-                <telerikGrid:DataGridNumericalColumn  Header="Giá"
-                                                CanUserEdit="True"
-                                                PropertyName="price" />
-                <telerikGrid:DataGridNumericalColumn  Header="Tồn kho"
-                                                CanUserEdit="True"
-                                                PropertyName="quantity" />
-            </telerikGrid:RadDataGrid.Columns>
-        </telerikGrid:RadDataGrid>
-
-        <TextBlock Text="123" Name="testSelect"/>
-    </StackPanel>
+    </ScrollViewer>
 
 </Page>
