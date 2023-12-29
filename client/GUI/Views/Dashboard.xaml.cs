@@ -54,7 +54,7 @@ namespace GUI.Views
                         break;
 
                     case "NavItem_OrdersPage":
-                        contentFrame.Navigate(typeof(OrdersPage));
+                        contentFrame.Navigate(typeof(CreateOrderPage));
                         break;
 
                     case "NavItem_ProductsPage":
