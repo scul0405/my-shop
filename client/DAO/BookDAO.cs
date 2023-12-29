@@ -57,7 +57,7 @@ namespace DAO
         {
             string id;
 
-            if (configuration.TryGetValue("id", out id))
+            if (configuration != null && configuration.TryGetValue("id", out id))
             {
                 // handle book detail
                 var request = new RestRequest($"{Endpoint}/{id}", Method.Get);
@@ -111,6 +111,9 @@ namespace DAO
         {
             try
             {
+                // if configuration is null, then create an empty config
+                configuration ??= new Dictionary<string, string>();
+
                 var request = new RestRequest($"{Endpoint}/{configuration["id"]}", Method.Delete);
 
                 return _client.Execute(request).IsSuccessful;

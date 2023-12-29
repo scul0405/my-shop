@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using ThreeLayerContract;
 
 namespace DAO
@@ -53,7 +52,7 @@ namespace DAO
         {
             string id;
 
-            if (configuration.TryGetValue("id", out id))
+            if (configuration != null && configuration.TryGetValue("id", out id))
             {
                 var request = new RestRequest($"{Endpoint}/{id}", Method.Get);
                 var response = _client.ExecuteGet(request);
