@@ -240,7 +240,7 @@
             </Grid>
 
             <Grid xmlns:telerikChart="using:Telerik.UI.Xaml.Controls.Chart"
-                  Height="400">
+                  Height="350">
                 <telerikChart:RadCartesianChart x:Name="lineSeries"
                                                 PaletteName="DefaultLight">
                     <telerikChart:RadCartesianChart.VerticalAxis>
