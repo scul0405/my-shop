@@ -93,6 +93,12 @@ namespace client
             var guiFactory = guis.Single(gui => gui.GetVersion() == mockGuiVersion).CreateNew(busFactory);
 
             // guiFactory.GetMainWindow();
+
+            var cateList = busFactory["BookCategory"].Get(null);
+            var cateEdited = cateList[4] as BookCategory; // id=5, name=Quái zật hồ nóck lét
+            cateEdited.Name = "Gorlock the destroyer";    // id=5, name=Gorlock the destroyer
+
+            var isSuccess = busFactory["BookCategory"].Patch(cateEdited, null);
            
             m_window = new MainWindow();
             m_window.Activate();
