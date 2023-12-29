@@ -14,6 +14,7 @@ using ThreeLayerContract;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Entity;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -99,6 +100,24 @@ namespace GUI.Views
 
             bookQuantity.ItemsSource = books.OrderBy(book => book.quantity).Take(5).ToList();
             bookBestSel.ItemsSource = books.OrderByDescending(book => book.total_sold).Take(5).ToList();
+
+            List<Data> data = new List<Data>();
+            data.Add(new Data() { Category = "Monday", Value = 1 });
+            data.Add(new Data() { Category = "Tuesday", Value = 25 });
+            data.Add(new Data() { Category = "Wednesday", Value = 25 });
+            data.Add(new Data() { Category = "Thursday", Value = 25 });
+            data.Add(new Data() { Category = "Friday", Value = 25 });
+            data.Add(new Data() { Category = "Saturday", Value = 25 });
+            data.Add(new Data() { Category = "Sunday", Value = 50 });
+
+            this.lineSeries.DataContext = data;
+        }
+        public class Data
+        {
+            public string Category { get; set; }
+
+            public double Value { get; set; }
+
         }
     }
 }
