@@ -8,6 +8,8 @@ import "testing"
 func TestUpsert(t *testing.T) {
 	t.Run("BookCategories", testBookCategoriesUpsert)
 
+	t.Run("BookOrders", testBookOrdersUpsert)
+
 	t.Run("Books", testBooksUpsert)
 
 	t.Run("Discounts", testDiscountsUpsert)

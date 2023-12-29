@@ -53,14 +53,14 @@ func (h *orderHandlers) GetByID() http.HandlerFunc {
 // @Tags Order
 // @Accept json
 // @Produce json
-// @Param request body dto.OrderDTO true "input data"
+// @Param request body dto.CreateOrderDTO true "input data"
 // @Success 201 {object} dto.OrderDTO
 // @Failure 400 {object} httpErrors.RestError
 // @Failure 500 {object} httpErrors.RestError
 // @Router /orders [post]
 func (h *orderHandlers) Create() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		data := &dto.OrderDTO{}
+		data := &dto.CreateOrderDTO{}
 		err := json.NewDecoder(r.Body).Decode(data)
 		if err != nil {
 			utils.RespondWithError(w, err)
@@ -83,6 +83,7 @@ func (h *orderHandlers) Create() http.HandlerFunc {
 // @Tags Order
 // @Accept json
 // @Produce json
+// @Param request body dto.CreateBookOrderDTO true "input data"
 // @Param id path string true "id"
 // @Param bid path string true "bid"
 // @Success 200 {string} string "success"
@@ -94,7 +95,14 @@ func (h *orderHandlers) AddBook() http.HandlerFunc {
 		oid, _ := strconv.Atoi(chi.URLParam(r, "id"))
 		bid, _ := strconv.Atoi(chi.URLParam(r, "bid"))
 
-		err := h.orderUC.AddBook(r.Context(), uint64(oid), uint64(bid))
+		data := &dto.CreateBookOrderDTO{}
+		err := json.NewDecoder(r.Body).Decode(data)
+		if err != nil {
+			utils.RespondWithError(w, err)
+			return
+		}
+
+		err = h.orderUC.AddBook(r.Context(), uint64(oid), uint64(bid), data)
 		if err != nil {
 			utils.RespondWithError(w, err)
 			return
