@@ -239,8 +239,11 @@
                 </Border>
             </Grid>
 
+            <TextBlock Text="Orders in week"
+                       Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <!--chart--> 
             <Grid xmlns:telerikChart="using:Telerik.UI.Xaml.Controls.Chart"
-                  Height="350">
+                  Height="320">
                 <telerikChart:RadCartesianChart x:Name="lineSeries"
                                                 PaletteName="DefaultLight">
                     <telerikChart:RadCartesianChart.VerticalAxis>

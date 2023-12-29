@@ -62,8 +62,9 @@ namespace GUI.Views
             }
 
 
-
+            //Handle chart numbers
             DateTime currentDate = DateTime.Now;
+            string curDateStr = currentDate.ToString("yyyy-MM-dd");
             string currentDay = currentDate.Day.ToString();
             string currentMonth = currentDate.Month.ToString();
             string currentYear = currentDate.Year.ToString();
@@ -82,10 +83,11 @@ namespace GUI.Views
                 ordersM.Text = "0";
             }
 
-            string currentDayOfWeek = ((int)currentDate.DayOfWeek).ToString();
+            int currentDayOfWeek = ((int)currentDate.DayOfWeek);
+            string firstDayWeek = currentDate.AddDays(-currentDayOfWeek + 1).ToString("yyyy-MM-dd");
             var configOrderWeek = new Dictionary<string, string>
-                        { { "from", $"{currentYear}-{currentMonth}-{1}" },
-                          { "to", $"{currentYear}-{currentMonth}-{currentDayOfWeek}" },
+                        { { "from", $"{firstDayWeek}" },
+                          { "to", $"{currentYear}-{currentMonth}-{currentDay}" },
                           {"size", int.MaxValue.ToString() } };
 
             try
@@ -100,16 +102,33 @@ namespace GUI.Views
 
             bookQuantity.ItemsSource = books.OrderBy(book => book.quantity).Take(5).ToList();
             bookBestSel.ItemsSource = books.OrderByDescending(book => book.total_sold).Take(5).ToList();
+            string preDay = currentDate.AddDays(-1).ToString("yyyy-MM-dd");
 
             List<Data> data = new List<Data>();
-            data.Add(new Data() { Category = "Monday", Value = 1 });
-            data.Add(new Data() { Category = "Tuesday", Value = 40 });
-            data.Add(new Data() { Category = "Wednesday", Value = 213 });
-            data.Add(new Data() { Category = "Thursday", Value = 100 });
-            data.Add(new Data() { Category = "Friday", Value = 12 });
-            data.Add(new Data() { Category = "Saturday", Value = 49 });
-            data.Add(new Data() { Category = "Sunday", Value = 525 });
-
+            data.Add(new Data() { Category = "Sunday", Value = 0 });
+            data.Add(new Data() { Category = "Monday", Value = 0 });
+            data.Add(new Data() { Category = "Tuesday", Value = 0 });
+            data.Add(new Data() { Category = "Wednesday", Value = 0 });
+            data.Add(new Data() { Category = "Thursday", Value = 0 });
+            data.Add(new Data() { Category = "Friday", Value = 0 });
+            data.Add(new Data() { Category = "Saturday", Value = 0 });
+            
+            for (int i = 0; i <= currentDayOfWeek; i++)
+            {
+                var configDayOrder = new Dictionary<string, string>
+                        { { "from", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-MM-dd")}" },
+                          { "to", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-MM-dd")}" },
+                          {"size", int.MaxValue.ToString() } };
+                //List<Order> temp = new List<Order>();
+                try
+                {
+                    data[i].Value = _bus["Order"].Get(configDayOrder).ToList().Count();
+                }
+                catch
+                {
+                }
+            }
+            
             this.lineSeries.DataContext = data;
         }
         public class Data
