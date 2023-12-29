@@ -19,17 +19,17 @@
                    Foreground="CornflowerBlue" />
         <StackPanel Spacing="20" Name="bookForm">
             <StackPanel>
-                <TextBlock Text="Tên sách" />
+                <TextBlock Text="Name" />
                 <TextBox Text="{Binding name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
 
             <StackPanel>
-                <TextBlock Text="Tên tác giả" />
+                <TextBlock Text="Author" />
                 <TextBox Text="{Binding author, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
 
             <StackPanel>
-                <TextBlock Text="Thể loại" />
+                <TextBlock Text="Category" />
                 <ComboBox Name="categoriesComboBox"
                           >
                     <ComboBox.ItemTemplate>
@@ -44,16 +44,20 @@
             </StackPanel>
 
             <StackPanel Name="price">
-                <TextBlock Text="Giá tiền" />
+                <TextBlock Text="Price" />
                 <TextBox TextChanged="checkPrice"
                          Text="{Binding price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
 
             <StackPanel>
-                <TextBlock Text="Số lượng" />
+                <TextBlock Text="Quanity" />
                 <TextBox Text="{Binding quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
+            <!--<StackPanel>
+                <TextBlock Text="Total sold" />
+                <TextBox Text="{Binding total_sold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>-->
 
         </StackPanel>
 

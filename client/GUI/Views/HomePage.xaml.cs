@@ -28,6 +28,8 @@ namespace GUI.Views
         Dictionary<string, IBus> _bus = BusInstance._bus;
         List<Book> books;
         List<BookCategory> bookCategories;
+        List<Order> ordersMonth;
+        List<Order> ordersWeek;
         public HomePage()
         {
             this.InitializeComponent();
@@ -36,13 +38,67 @@ namespace GUI.Views
 
         private void LoadData(object sender, RoutedEventArgs e)
         {
-            var configurationBook = new Dictionary<string, string> { { "size", "10000" } };
-            books = new List<Book>(_bus["Book"].Get(configurationBook));
-            productions.Text = books.Count.ToString();
+            var configurationBook = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
+            try
+            {
+                books = new List<Book>(_bus["Book"].Get(configurationBook));
+                productions.Text = books.Count.ToString();
+            }
+            catch
+            {
+                books = new List<Book>();
+                productions.Text = "0";
+            }
+
+            try
+            {
+                bookCategories = new List<BookCategory>(_bus["BookCategory"].Get(configurationBook));
+                categories.Text = bookCategories.Count.ToString();
+            }
+            catch
+            {
+                categories.Text = "0";
+            }
 
 
-            bookCategories = new List<BookCategory>(_bus["BookCategory"].Get(configurationBook));
-            categories.Text = bookCategories.Count.ToString();
+
+            DateTime currentDate = DateTime.Now;
+            string currentDay = currentDate.Day.ToString();
+            string currentMonth = currentDate.Month.ToString();
+            string currentYear = currentDate.Year.ToString();
+            var configOrderMonth = new Dictionary<string, string>
+                        { { "from", $"{currentYear}-{currentMonth}-{1}" },
+                          { "to", $"{currentYear}-{currentMonth}-{currentDay}" },
+                          {"size", int.MaxValue.ToString() }};
+
+            try
+            {
+                ordersMonth = new List<Order>(_bus["Order"].Get(configOrderMonth));
+                ordersM.Text = ordersMonth.Count.ToString();
+            }
+            catch
+            {
+                ordersM.Text = "0";
+            }
+
+            string currentDayOfWeek = ((int)currentDate.DayOfWeek).ToString();
+            var configOrderWeek = new Dictionary<string, string>
+                        { { "from", $"{currentYear}-{currentMonth}-{1}" },
+                          { "to", $"{currentYear}-{currentMonth}-{currentDayOfWeek}" },
+                          {"size", int.MaxValue.ToString() } };
+
+            try
+            {
+                ordersWeek = new List<Order>(_bus["Order"].Get(configOrderWeek));
+                ordersW.Text = ordersWeek.Count.ToString();
+            }
+            catch
+            {
+                ordersW.Text = "0";
+            }
+
+            bookQuantity.ItemsSource = books.OrderBy(book => book.quantity).Take(5).ToList();
+            bookBestSel.ItemsSource = books.OrderByDescending(book => book.total_sold).Take(5).ToList();
         }
     }
 }

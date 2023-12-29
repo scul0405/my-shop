@@ -59,8 +59,16 @@ namespace GUI.Views
             //    new Book() {ID=3,name="Cau Vang" ,author="Nam Cao", price=100000, quantity=10000 },
             //    new Book() {ID=4,name="Chi Pheo" ,author="Nam Cao", price=100000, quantity=10000 }
             //};
-            var configuration = new Dictionary<string, string>();
-            _list = new ObservableCollection<Book>(_bus["Book"].Get(configuration));
+            var configuration = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
+            try
+            {
+                _list = new ObservableCollection<Book>(_bus["Book"].Get(configuration));
+
+            }
+            catch
+            {
+                _list = new ObservableCollection<Book>();
+            }
             dataGrid.ItemsSource = _list;
 
 
@@ -79,8 +87,15 @@ namespace GUI.Views
             //    new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
             //    new BookCategory() { Id=3, Name="Sach"}
             //};
+            try
+            {
+                _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(configuration));
 
-            _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(configuration));
+            }
+            catch
+            {
+                _categories = new ObservableCollection<BookCategory>();
+            }
             listCategory.ItemsSource = _categories;
         }
 
@@ -127,7 +142,7 @@ namespace GUI.Views
             //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             var screen = new AddBookDialog(_categories);
 
-            var newBook = new Book() { name = "", sku = "string" };
+            var newBook = new Book() { name = "", sku="", desc="" };
             screen.Handler += (Book value) =>
             {
                 newBook = value;
