@@ -103,12 +103,12 @@ namespace GUI.Views
 
             List<Data> data = new List<Data>();
             data.Add(new Data() { Category = "Monday", Value = 1 });
-            data.Add(new Data() { Category = "Tuesday", Value = 25 });
-            data.Add(new Data() { Category = "Wednesday", Value = 25 });
-            data.Add(new Data() { Category = "Thursday", Value = 25 });
-            data.Add(new Data() { Category = "Friday", Value = 25 });
-            data.Add(new Data() { Category = "Saturday", Value = 25 });
-            data.Add(new Data() { Category = "Sunday", Value = 50 });
+            data.Add(new Data() { Category = "Tuesday", Value = 40 });
+            data.Add(new Data() { Category = "Wednesday", Value = 213 });
+            data.Add(new Data() { Category = "Thursday", Value = 100 });
+            data.Add(new Data() { Category = "Friday", Value = 12 });
+            data.Add(new Data() { Category = "Saturday", Value = 49 });
+            data.Add(new Data() { Category = "Sunday", Value = 525 });
 
             this.lineSeries.DataContext = data;
         }
