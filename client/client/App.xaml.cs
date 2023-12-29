@@ -1,5 +1,7 @@
 ﻿
 using Entity;
+using GUI;
+using GUI.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -40,13 +42,14 @@ namespace client
         {
             this.InitializeComponent();
         }
-
+        
         /// <summary>
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            
             string exePath = Assembly.GetExecutingAssembly().Location;
             string folder = System.IO.Path.GetDirectoryName(exePath);
             FileInfo[] fis = new DirectoryInfo(folder).GetFiles("*.dll");
@@ -94,12 +97,6 @@ namespace client
 
             // guiFactory.GetMainWindow();
 
-            var cateList = busFactory["BookCategory"].Get(null);
-            var cateEdited = cateList[4] as BookCategory; // id=5, name=Quái zật hồ nóck lét
-            cateEdited.Name = "Gorlock the destroyer";    // id=5, name=Gorlock the destroyer
-
-            var isSuccess = busFactory["BookCategory"].Patch(cateEdited, null);
-           
             m_window = new MainWindow();
             m_window.Activate();
         }

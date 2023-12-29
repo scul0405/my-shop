@@ -1,3 +1,4 @@
+﻿using Entity;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -16,22 +17,36 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace GUI
+namespace GUI.Views
 {
     /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Dashboard : Window
+    public sealed partial class OrderDetailPage : ContentDialog
     {
-        public Dashboard()
+        public OrderDetailPage()
         {
             this.InitializeComponent();
-            contentFrame.Navigate(typeof(HomePage));
         }
 
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
+        public Order Order { get; set; }
 
+        private void DeleteOrder_Click(object sender, RoutedEventArgs e)
+        {
+            // Thực hiện xóa đơn hàng
+            // ...
+
+            // Đóng ContentDialog sau khi xóa
+            Hide();
+        }
+
+        private void DeleteBooks_Click(object sender, RoutedEventArgs e)
+        {
+            // Thực hiện xóa các quyển sách
+            // ...
+
+            // Đóng ContentDialog sau khi xóa
+            Hide();
         }
     }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentDialog
+    x:Class="GUI.Views.OrderDetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GUI.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <!-- Thêm các controls để hiển thị thông tin chi tiết và cho phép xóa đơn hoặc xóa sách -->
+        <!-- Ví dụ: -->
+        <TextBlock Text="{Binding Id}" FontSize="16" FontWeight="Bold"/>
+        <TextBlock Text="{Binding created_at}" FontSize="14"/>
+        <TextBlock Text="{Binding total}" FontSize="14"/>
+        <TextBlock Text="{Binding status}" FontSize="14"/>
+
+        <!-- Button để xóa đơn hàng -->
+        <Button Content="Xóa Đơn Hàng" Click="DeleteOrder_Click"/>
+
+        <!-- Button để xóa các quyển sách trong đơn hàng -->
+        <Button Content="Xóa Các Quyển Sách" Click="DeleteBooks_Click"/>
+    </Grid>
+</ContentDialog>
