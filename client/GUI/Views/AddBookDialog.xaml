@@ -54,10 +54,10 @@
                 <TextBox Text="{Binding quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
-            <!--<StackPanel>
+            <StackPanel>
                 <TextBlock Text="Total sold" />
                 <TextBox Text="{Binding total_sold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>-->
+            </StackPanel>
 
         </StackPanel>
 

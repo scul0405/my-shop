@@ -146,7 +146,7 @@ namespace GUI.Views
             screen.Handler += (Book value) =>
             {
                 newBook = value;
-                newBook.total_sold = 0;
+                //newBook.total_sold = 0;
             };
 
             screen.Activate();
