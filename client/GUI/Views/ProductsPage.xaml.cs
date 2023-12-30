@@ -209,7 +209,8 @@ namespace GUI.Views
                 ShowFailMessage();
                 return;
             }
-            var newBook = (Book)dataGrid.SelectedItem;
+            var oldBook = (Book)dataGrid.SelectedItem;
+            var newBook = oldBook;
             var index = _list.IndexOf(newBook);
             var screen = new EditBookDialog(_categories, newBook);
 
@@ -235,9 +236,11 @@ namespace GUI.Views
                     else
                     {
                         ShowFailMessage();
+                        _list[index] = oldBook;
                     }
                     return;
                 }
+                _list[index] = oldBook;
                 //if (newBook.name == "")
                 //    return;
 

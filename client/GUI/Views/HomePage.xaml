@@ -152,28 +152,28 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Spacing="10"
-                                                Margin="20,10,20,0">    
+                                                Margin="0,10,0,0">    
                                         
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <!--Cột 1 và 2 có kích thước mặc định (1*)-->
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="220" />
                                                     <ColumnDefinition Width="1*" />
                                                     <!--Cột 3 có kích thước nhỏ (Auto)-->
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Text="{Binding name}"
                                                            VerticalAlignment="Center"
-                                                           HorizontalAlignment="Center"
+                                                           HorizontalAlignment="Left"
                                                            TextWrapping="Wrap"
-                                                           Padding="10,0,10,0"
+                                                           Padding="0,0,10,0"
                                                            Grid.Column="0" />
                                                 <!--Nội dung trong cột 2-->
                                                 <TextBlock Text="{Binding author}"
                                                            VerticalAlignment="Center"
-                                                           HorizontalAlignment="Center"
+                                                           HorizontalAlignment="Left"
                                                            TextWrapping="Wrap"
-                                                           Padding="10,0,10,0"
+                                                           Padding="0,0,10,0"
                                                            Grid.Column="1" />
                                                 <!--Nội dung trong cột 3-->
                                                 <TextBlock VerticalAlignment="Center"
@@ -200,28 +200,28 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Spacing="10"
-                                                Margin="20,10,20,0">
+                                                Margin="0,10,0,0">
                                         
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <!--Cột 1 và 2 có kích thước mặc định (1*)-->
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="220" />
                                                     <ColumnDefinition Width="1*" />
-                                                    <!--Cột 3 có kích thước nhỏ (Auto)-->
+                                                <!--Cột 3 có kích thước nhỏ (Auto)-->
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Text="{Binding name}"
                                                            VerticalAlignment="Center"
-                                                           HorizontalAlignment="Center"
+                                                           HorizontalAlignment="Left"
                                                            TextWrapping="Wrap"
-                                                           Padding="10,0,10,0"
+                                                           Padding="0,0,10,0"
                                                            Grid.Column="0" />
                                                 <!--Nội dung trong cột 2-->
                                                 <TextBlock Text="{Binding author}"
                                                            VerticalAlignment="Center"
-                                                           HorizontalAlignment="Center"
+                                                           HorizontalAlignment="Left"
                                                            TextWrapping="Wrap"
-                                                           Padding="10,0,10,0"
+                                                           Padding="0,0,10,0"
                                                            Grid.Column="1" />
                                                 <!--Nội dung trong cột 3-->
                                                 <TextBlock VerticalAlignment="Center"
