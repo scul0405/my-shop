@@ -308,6 +308,9 @@ namespace GUI.Views
             if (listCategory.SelectedItem != null)
             {
                 int index = listCategory.SelectedIndex;
+                var cate = (BookCategory)listCategory.SelectedItem;
+                cate.Name = newCateName_Edit.Text;
+                _bus["BookCategory"].Patch(cate,null);
                 _categories[index].Name = newCateName_Edit.Text;
             }
 
