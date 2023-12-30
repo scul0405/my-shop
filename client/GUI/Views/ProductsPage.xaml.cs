@@ -128,13 +128,17 @@ namespace GUI.Views
             {
                 if (newBook.name == "")
                     return;
-
+                
 
                 bool isSuccess = _bus["Book"].Post(newBook, null);
                 if (isSuccess)
                 {
                     ShowSuccessMessage();
-                    _list.Add(newBook);
+                    var config = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
+                    var tempList = new List<Book>(_bus["Book"].Get(config)).Where(book => book.status);
+                    _list = new ObservableCollection<Book>(tempList);
+                    dataGrid.ItemsSource = _list;
+                    //_list.Add(newBook);
                 }
                 else
                 {
@@ -246,7 +250,10 @@ namespace GUI.Views
                 if (_bus["BookCategory"].Post(newCate, null))
                 {
                     ShowSuccessMessage();
-                    _categories.Add(newCate);
+                    var config = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
+                    _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(config));
+                    listCategory.ItemsSource = _categories;
+                    //_categories.Add(newCate);
                     newCateName.Text = "";
                 }
                 else
@@ -296,6 +303,7 @@ namespace GUI.Views
 
         private void editCateHandle(object sender, RoutedEventArgs e)
         {
+
 
             if (listCategory.SelectedItem != null)
             {
