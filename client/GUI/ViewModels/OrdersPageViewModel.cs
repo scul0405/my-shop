@@ -4,9 +4,9 @@ using Entity;
 using GUI.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using ThreeLayerContract;
+using Windows.Foundation.Numerics;
 
 namespace GUI.ViewModels
 {
@@ -16,26 +16,27 @@ namespace GUI.ViewModels
         private int _pageNumber;
         private int _pageCount;
         private List<Order> _orders;
-        private List<Order> _allOrders;
+        Dictionary<string, IBus> _bus = BusInstance._bus;
 
         public OrdersPageViewModel()
         {
             FirstCommand = new RelayCommand(
                 () => GetOrders(1, _pageSize),
                 () => _pageNumber != 1
-              );
+            );
             PreviousCommand = new RelayCommand(
                 () => GetOrders(_pageNumber - 1, _pageSize),
                 () => _pageNumber > 1
-              );
+            );
             NextCommand = new RelayCommand(
                 () => GetOrders(_pageNumber + 1, _pageSize),
                 () => _pageNumber < _pageCount
-              );
+            );
             LastCommand = new RelayCommand(
                 () => GetOrders(_pageCount, _pageSize),
                 () => _pageNumber != _pageCount
-              );
+            );
+
             Refresh();
         }
 
@@ -79,42 +80,27 @@ namespace GUI.ViewModels
 
         public void InitializeAsync()
         {
-            // đổ dữ liệu vào allOrders
-            _allOrders = CreateOrders();
             GetOrders(1, _pageSize);
-        }
-
-        private List<Order> CreateOrders()
-        {
-            List<Order> orders = new List<Order>();
-            Random random = new Random();
-
-            for (int i = 1; i <= 100; i++)
-            {
-                Order order = new Order
-                {
-                    Id = i,
-                    created_at = DateTime.Now.AddDays(-random.Next(1, 365)),
-                    status = random.Next(0, 2) == 0,
-                    total = random.Next(100, 1000)
-                };
-
-                orders.Add(order);
-            }
-
-            return orders;
         }
 
         private void GetOrders(int pageIndex, int pageSize)
         {
-            PaginatedList<Order> pagedOrders = PaginatedList<Order>.Create(
-                _allOrders,
-                pageIndex,
-                pageSize);
+        // Lấy danh sách đơn hàng từ API
+            var configuration = new Dictionary<string, string> {
+               { "page", pageIndex.ToString() },                         
+               { "size", pageSize.ToString() },                                          
+            };
 
-            PageNumber = pagedOrders.PageIndex;
-            PageCount = pagedOrders.PageCount;
-            Orders = pagedOrders;
+            List<Order> orders = new List<Order>(_bus["Order"].Get(configuration));
+
+            // Tính toán các thuộc tính phân trang
+            PageNumber = pageIndex;
+            PageCount = CalculatePageCount(pageSize);
+
+            // Gán danh sách đơn hàng trực tiếp
+            Orders = orders;
+
+            // Cập nhật trạng thái của các nút điều hướng
             FirstCommand.NotifyCanExecuteChanged();
             PreviousCommand.NotifyCanExecuteChanged();
             NextCommand.NotifyCanExecuteChanged();
@@ -125,6 +111,15 @@ namespace GUI.ViewModels
         {
             _pageNumber = 0;
             FirstCommand.Execute(null);
+        }
+
+        private int CalculatePageCount(int pageSize)
+        {
+            var configuration = new Dictionary<string, string> {
+            };
+
+            List<Order> orders = new List<Order>(_bus["Order"].Get(configuration));
+            return (int)Math.Ceiling((double)orders.Count / pageSize);
         }
     }
 }

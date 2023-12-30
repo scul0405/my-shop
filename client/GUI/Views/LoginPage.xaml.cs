@@ -22,7 +22,7 @@ namespace GUI.Views
 {
     public sealed partial class LoginPage : UserControl
     {
-        //public Dictionary<string, IBus> _bus;
+        Dictionary<string, IBus> _bus = BusInstance._bus;
         public LoginPage(Dictionary<string, IBus>bus)
         {
             BusInstance._bus = bus;
@@ -59,7 +59,11 @@ namespace GUI.Views
         private bool IsAdminAccount(string username, string password)
         {
             // Thực hiện kiểm tra tài khoản và mật khẩu ở đây
-            return username == "admin" && password == "admin";
+            bool flag = false;
+            var configuration = new Dictionary<string, string> {
+                { "type", "login" },
+            };
+            return true;
         }
 
         private async void ShowSuccessMessage()
