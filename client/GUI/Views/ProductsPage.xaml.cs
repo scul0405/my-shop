@@ -19,6 +19,7 @@ using Entity;
 using GUI.Views;
 using Windows.UI.Popups;
 using ThreeLayerContract;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -44,26 +45,13 @@ namespace GUI.Views
 
         private void LoadProduct(object sender, RoutedEventArgs e)
         {
-            //_list = new ObservableCollection<Book>{
-            //    new Book() {ID=1,name="Lammm Di" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=2,name="Lao Hac" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=3,name="Cau Vang" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=1,name="Lammm Di" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=2,name="Lao Hac" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=3,name="Cau Vang" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=1,name="Lammm Di" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=2,name="Lao Hac" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=3,name="Cau Vang" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=1,name="Lammm Di" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=2,name="Lao Hac" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=3,name="Cau Vang" ,author="Nam Cao", price=100000, quantity=10000 },
-            //    new Book() {ID=4,name="Chi Pheo" ,author="Nam Cao", price=100000, quantity=10000 }
-            //};
             var configuration = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
             try
             {
-                _list = new ObservableCollection<Book>(_bus["Book"].Get(configuration));
+                var tempList = new List<Book>(_bus["Book"].Get(configuration)).Where(book => book.status);
 
+                //_list = new ObservableCollection<Book>(_bus["Book"].Get(configuration));
+                _list = new ObservableCollection<Book>(tempList);
             }
             catch
             {
@@ -71,22 +59,6 @@ namespace GUI.Views
             }
             dataGrid.ItemsSource = _list;
 
-
-            //_categories = new ObservableCollection<BookCategory>
-            //{
-            //    new BookCategory() { Id=1, Name="Truyen"},
-            //    new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
-            //    new BookCategory() { Id=0, Name="Tat ca"},
-            //    new BookCategory() { Id=1, Name="Truyen"},
-            //    new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
-            //    new BookCategory() { Id=0, Name="Tat ca"},
-            //    new BookCategory() { Id=1, Name="Truyen"},
-            //    new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
-            //    new BookCategory() { Id=0, Name="Tat ca"},
-            //    new BookCategory() { Id=1, Name="Truyen"},
-            //    new BookCategory() { Id=2, Name="Tieu thuyet123215436576856534423432"},
-            //    new BookCategory() { Id=3, Name="Sach"}
-            //};
             try
             {
                 _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(configuration));
@@ -97,6 +69,8 @@ namespace GUI.Views
                 _categories = new ObservableCollection<BookCategory>();
             }
             listCategory.ItemsSource = _categories;
+
+
         }
 
         private async void ShowSuccessMessage()
@@ -179,8 +153,9 @@ namespace GUI.Views
                 for (int i = selectedItems.Count - 1; i >= 0; i--)
                 {
                     Book item = (Book)selectedItems[i];
-                    if (deleteBook(item.ID))
+                    if (deleteBook(item.ID, item))
                     {
+                        ShowSuccessMessage();
                         _list.Remove(item);
                     }
                     else
@@ -195,10 +170,11 @@ namespace GUI.Views
             }
         }
 
-        private bool deleteBook(int id)
+        private bool deleteBook(int id, Book book)
         {
             var configuration = new Dictionary<string, string> { { "id", id.ToString() } };
-            return _bus["Book"].Delete(configuration);
+            book.status = false;
+            return _bus["Book"].Patch(book,configuration);
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
@@ -241,20 +217,6 @@ namespace GUI.Views
                     return;
                 }
                 _list[index] = oldBook;
-                //if (newBook.name == "")
-                //    return;
-
-
-                //bool isSuccess = _bus["Book"].Post(newBook, null);
-                //if (isSuccess)
-                //{
-                //    ShowSuccessMessage();
-                //    _list.Add(newBook);
-                //}
-                //else
-                //{
-                //    ShowFailMessage();
-                //}
             };
         }
 

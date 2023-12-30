@@ -157,7 +157,7 @@
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <!--Cột 1 và 2 có kích thước mặc định (1*)-->
-                                                    <ColumnDefinition Width="220" />
+                                                    <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="1*" />
                                                     <!--Cột 3 có kích thước nhỏ (Auto)-->
                                                     <ColumnDefinition Width="Auto" />
@@ -166,14 +166,14 @@
                                                            VerticalAlignment="Center"
                                                            HorizontalAlignment="Left"
                                                            TextWrapping="Wrap"
-                                                           Padding="0,0,10,0"
+                                                           Margin="0,0,10,0"
                                                            Grid.Column="0" />
                                                 <!--Nội dung trong cột 2-->
                                                 <TextBlock Text="{Binding author}"
                                                            VerticalAlignment="Center"
                                                            HorizontalAlignment="Left"
                                                            TextWrapping="Wrap"
-                                                           Padding="0,0,10,0"
+                                                           Margin="0,0,10,0"
                                                            Grid.Column="1" />
                                                 <!--Nội dung trong cột 3-->
                                                 <TextBlock VerticalAlignment="Center"
@@ -205,7 +205,7 @@
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <!--Cột 1 và 2 có kích thước mặc định (1*)-->
-                                                    <ColumnDefinition Width="220" />
+                                                    <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="1*" />
                                                 <!--Cột 3 có kích thước nhỏ (Auto)-->
                                                     <ColumnDefinition Width="Auto" />

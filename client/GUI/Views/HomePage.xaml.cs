@@ -42,7 +42,8 @@ namespace GUI.Views
             var configurationBook = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
             try
             {
-                books = new List<Book>(_bus["Book"].Get(configurationBook));
+                //books = new List<Book>(_bus["Book"].Get(configurationBook));
+                books = new List<Book>(_bus["Book"].Get(configurationBook)).Where(book => book.status).ToList();
                 productions.Text = books.Count.ToString();
             }
             catch
