@@ -258,7 +258,26 @@ namespace GUI.Views
 
         private void deleteCateHandle(object sender, RoutedEventArgs e)
         {
-            _categories.Remove((BookCategory)listCategory.SelectedItem);
+            
+            if (listCategory.SelectedItems.Count == 1)
+            {
+                var cate = (BookCategory)listCategory.SelectedItem;
+                var config = new Dictionary<string, string> { { "id", $"{cate.Id}" } };
+                if (_bus["BookCategory"].Delete(config))
+                {
+                    ShowSuccessMessage();
+                    _categories.Remove((BookCategory)listCategory.SelectedItem);
+                }
+                else
+                {
+                    ShowFailMessage();
+                }
+            }
+            else
+            {
+                ShowFailMessage();
+            }
+
         }
 
         private void cancelEditCate(object sender, RoutedEventArgs e)
