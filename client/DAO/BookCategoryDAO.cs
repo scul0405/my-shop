@@ -35,8 +35,12 @@ namespace DAO
         public override dynamic Get(Dictionary<string, string> configuration)
         {
             var request = new RestRequest(Endpoint, Method.Get);
+
             try
             {
+                // if configuration is null, then create an empty config
+                configuration ??= new Dictionary<string, string>(); 
+
                 var args = new
                 {
                     size = configuration["size"],
@@ -64,12 +68,28 @@ namespace DAO
         }
         public override dynamic Delete(Dictionary<string, string> configuration)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // if configuration is null, then create an empty config
+                configuration ??= new Dictionary<string, string>();
+
+                var request = new RestRequest($"{Endpoint}/{configuration["id"]}", Method.Delete);
+
+                return _client.Execute(request).IsSuccessful;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new Exception("Error at BookCategoryDAO - Delete method must include ID parameter.");
+            }
         }
 
         public override dynamic Patch(object entity, Dictionary<string, string> configuration)
         {
-            throw new NotImplementedException();
+            var bookCategory = (BookCategory)entity;
+            var request = new RestRequest($"{Endpoint}/{bookCategory.Id}", Method.Patch);
+            request.AddBody(bookCategory);
+
+            return _client.Execute(request).IsSuccessful;
         }
 
         public override string ToString() => "BookCategoryDAO";

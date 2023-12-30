@@ -116,7 +116,7 @@ namespace GUI.Views
             //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             var screen = new AddBookDialog(_categories);
 
-            var newBook = new Book() { name = "", sku="", desc="" };
+            var newBook = new Book() { name = "", desc="" };
             screen.Handler += (Book value) =>
             {
                 newBook = value;

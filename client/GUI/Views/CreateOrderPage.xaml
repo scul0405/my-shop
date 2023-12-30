@@ -10,30 +10,34 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <telerikGrid:RadDataGrid x:Name="BooksGrid" AutoGenerateColumns="False" Margin="10">
+        <telerikGrid:RadDataGrid x:Name="BooksGrid" AutoGenerateColumns="False" Margin="10" ItemsSource="{Binding BooksWithSelection}">
             <telerikGrid:RadDataGrid.Columns>
-                <!-- DataGridComboBoxColumn -->
-                <telerikGrid:DataGridComboBoxColumn
-                        x:Name="ComboboxColumn"
-                        PropertyName="SelectedBook" 
-                        Header="Book">
-                </telerikGrid:DataGridComboBoxColumn>
+
+                <!-- DataGridCheckBoxColumn -->
+                <telerikGrid:DataGridBooleanColumn PropertyName="IsSelected" Header="Select">
+                </telerikGrid:DataGridBooleanColumn>
+
+                <!-- DataGridTextColumn for Book Name -->
+                <telerikGrid:DataGridTextColumn PropertyName="Name" Header="Book Name"/>
+
+                <!-- DataGridTextColumn for Author -->
+                <telerikGrid:DataGridTextColumn PropertyName="Author" Header="Author"/>
+
+                <!-- DataGridTextColumn for Price -->
+                <telerikGrid:DataGridTextColumn PropertyName="Price" Header="Price"/>
+
+                <!-- DataGridTextColumn for Total Sold -->
+                <telerikGrid:DataGridTextColumn PropertyName="TotalSold" Header="Total Sold"/>
 
                 <!-- DataGridTextColumn for Quantity -->
                 <telerikGrid:DataGridTextColumn PropertyName="Quantity" Header="Quantity"/>
 
-                <!-- DataGridTemplateColumn -->
-                <telerikGrid:DataGridTemplateColumn>
-                    <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                        <DataTemplate>
-                            <Button Content="Remove" Click="RemoveBookButton_Click"/>
-                        </DataTemplate>
-                    </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                </telerikGrid:DataGridTemplateColumn>
             </telerikGrid:RadDataGrid.Columns>
         </telerikGrid:RadDataGrid>
 
-        <Button Content="Add Book" Click="AddBookButton_Click" Margin="10"/>
-
+        <StackPanel Margin="10">
+            <!-- Display Total Price -->
+            <TextBlock Text="{Binding TotalAmount}" FontSize="16" FontWeight="Bold"/>
+        </StackPanel>
     </Grid>
 </Page>
