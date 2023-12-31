@@ -47,7 +47,7 @@
                 <labs:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE896;" />
                 </labs:SettingsCard.HeaderIcon>
-                <Button Content="Open File" Click="ImportButton_Click" />
+                <Button Content="Open File" />
             </labs:SettingsCard>
 
             <labs:SettingsExpander

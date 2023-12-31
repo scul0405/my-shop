@@ -55,58 +55,5 @@ namespace GUI.Views
                 item.IsEnabled = toggleSwitch.IsOn;
             }
         }
-
-        private async Task<List<BookCategory>> ReadBookCategoriesFromCsvAsync(Windows.Storage.StorageFile file)
-        {
-            List<BookCategory> bookCategories = new List<BookCategory>();
-
-            try
-            {
-                using (var stream = await file.OpenStreamForReadAsync())
-                using (var reader = new StreamReader(stream))
-                using (var csvParser = new TextFieldParser(reader))
-                {
-                    csvParser.SetDelimiters(new string[] { "," }); // Đặt ký tự phân cách CSV của bạn
-
-                    // Bỏ qua tiêu đề nếu có
-                    if (!csvParser.EndOfData)
-                        csvParser.ReadLine();
-
-                    while (!csvParser.EndOfData)
-                    {
-                        string[] fields = csvParser.ReadFields();
-                        if (fields != null && fields.Length > 0)
-                        {
-                            // Giả sử trường đầu tiên là cột 'Name'
-                            string name = fields[0];
-                            BookCategory category = new BookCategory { Name = name };
-                            bookCategories.Add(category);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Xử lý các ngoại lệ, ví dụ, tệp không tìm thấy, định dạng CSV không hợp lệ, vv.
-                Debug.WriteLine($"Lỗi đọc tệp CSV: {ex.Message}");
-            }
-
-            return bookCategories;
-        }
-
-        private async void ImportButton_Click(object sender, RoutedEventArgs e)
-        {
-            var openFileDialog = new FileOpenPicker();
-            openFileDialog.FileTypeFilter.Add(".csv");
-
-            var selectedFile = await openFileDialog.PickSingleFileAsync();
-            if (selectedFile != null)
-            {
-                // Bây giờ bạn đã có tệp đã chọn. Bạn có thể sử dụng nó theo cách cần.
-                // Ví dụ, bạn có thể gọi phương thức để đọc BookCategories từ tệp CSV.
-                List<BookCategory> bookCategories = await ReadBookCategoriesFromCsvAsync(selectedFile);
-            }
-        }
-
     }
 }
