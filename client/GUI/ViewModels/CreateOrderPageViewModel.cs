@@ -9,6 +9,7 @@ using System.Linq;
 using ThreeLayerContract;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using System;
 
 namespace GUI.ViewModels
 {
@@ -81,20 +82,34 @@ namespace GUI.ViewModels
             // Lấy danh sách những quyển sách đã được chọn
             var selectedBooks = BooksWithSelection.Where(b => b.IsSelected).ToList();
 
-            var selectedBookIds = selectedBooks.Select(b => b.Id).ToList();
+            // Chuyển danh sách này thành book
+            var books = selectedBooks.Select(b => b.Book).ToList();
 
-            // In danh sách ID ra màn hình để kiểm tra
-            foreach (var bookId in selectedBookIds)
+            // in id sách đã chọn
+            foreach (var book in books)
             {
-                System.Diagnostics.Debug.WriteLine($"Selected Book ID: {bookId}");
+                System.Diagnostics.Debug.WriteLine(book.ID);
             }
 
-            // Update quantity of selected books
-            foreach (var book in selectedBooks)
-            {
-                
-            }
-            // Create order
+            // create new order
+            var order = new Order();
+            order.total = (int)TotalAmount;
+            order.books = books;
+            order.Id = 2;
+
+            //if (_bus["Order"].Post(order, null))
+            //{
+            //    // Update quantity and total sold of selected books
+            //    foreach (var booksWithSelection in selectedBooks)
+            //    {
+            //        var book = new Book();
+            //        book = booksWithSelection.Book;
+
+            //        book.quantity = booksWithSelection.QuantityAvailable - booksWithSelection.Quantity;
+            //        book.total_sold = book.total_sold + booksWithSelection.Quantity;
+            //        _bus["Book"].Patch(book, null);
+            //    }
+            //}
 
         }
 
@@ -134,6 +149,7 @@ namespace GUI.ViewModels
             }
         }
 
+        public Book Book => _book;
         public int Id => _book.ID;
         public string Name => _book.name;
         public string Author => _book.author;
