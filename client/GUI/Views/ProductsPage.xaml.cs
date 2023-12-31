@@ -20,6 +20,8 @@ using GUI.Views;
 using Windows.UI.Popups;
 using ThreeLayerContract;
 using System.Threading.Tasks;
+using Windows.Storage.Pickers;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -343,6 +345,31 @@ namespace GUI.Views
         private void resetFilter(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = _list;
+        }
+
+        private  async void importCategory(object sender, RoutedEventArgs e)
+        {
+
+            var window = new Window();
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".txt");
+            
+
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+            var file = await picker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                filePicked.DataContext = file.Path;
+                ShowSuccessMessage();
+            }
+                else
+                {
+                ShowFailMessage();
+                }
+            window.Close();
+            
         }
     }
 

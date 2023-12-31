@@ -21,9 +21,17 @@
         <StackPanel ScrollViewer.VerticalScrollMode="Enabled"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     Margin="20">
+            <TextBlock Text="Import"
+                       Margin="0,0,0,20"
+                       Style="{StaticResource SubtitleTextBlockStyle}" />
+            <Button Content="Import category"  Click="importCategory"/>
+            <TextBlock Name="filePicked">
+                <Run Text="File picked: "></Run>
+                <Run Text="{Binding}"></Run>
+            </TextBlock>
 
             <TextBlock Text="Categories"
-                       Margin="0,0,0,20"
+                       Margin="0,20,0,20"
                        Style="{StaticResource SubtitleTextBlockStyle}" />
 
             <StackPanel Orientation="Horizontal"
