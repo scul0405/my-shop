@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Entity;
-using System;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using ThreeLayerContract;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GUI.ViewModels
 {
@@ -13,6 +16,9 @@ namespace GUI.ViewModels
     {
         private ObservableCollection<BookWithSelection> _booksWithSelection;
         private Dictionary<string, IBus> _bus = BusInstance._bus;
+        private string _quantityErrorMessage;
+
+        public ICommand SaveOrderCommand { get; }
 
         public CreateOrderViewModel()
         {
@@ -31,11 +37,11 @@ namespace GUI.ViewModels
                 bookWithSelection.PropertyChanged += BookWithSelection_PropertyChanged;
             }
 
+            SaveOrderCommand = new RelayCommand(SaveOrder, CanSaveOrder);
         }
 
         private void BookWithSelection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Cập nhật TotalAmount khi Quantity hoặc IsSelected thay đổi
             if (e.PropertyName == nameof(BookWithSelection.Quantity) || e.PropertyName == nameof(BookWithSelection.IsSelected))
             {
                 OnPropertyChanged(nameof(TotalAmount));
@@ -44,7 +50,7 @@ namespace GUI.ViewModels
 
         private BookWithSelection ConvertToBookWithSelection(Book book)
         {
-            return new BookWithSelection(book);
+            return new BookWithSelection(book, this);
         }
 
         public ObservableCollection<BookWithSelection> BooksWithSelection
@@ -54,19 +60,65 @@ namespace GUI.ViewModels
         }
 
         public decimal TotalAmount => BooksWithSelection.Where(b => b.IsSelected).Sum(b => b.Subtotal);
+
+        public string QuantityErrorMessage
+        {
+            get => _quantityErrorMessage;
+            set => SetProperty(ref _quantityErrorMessage, value);
+        }
+
+        internal void UpdateQuantityErrorMessage()
+        {
+            var errorMessage = BooksWithSelection.Any(b => b.Quantity <= 0 
+            || b.Quantity > b.QuantityAvailable)
+                ? "Số lượng nhập không hợp lệ."
+                : null;
+            QuantityErrorMessage = errorMessage;
+        }
+
+        private void SaveOrder()
+        {
+            // Lấy danh sách những quyển sách đã được chọn
+            var selectedBooks = BooksWithSelection.Where(b => b.IsSelected).ToList();
+
+            var selectedBookIds = selectedBooks.Select(b => b.Id).ToList();
+
+            // In danh sách ID ra màn hình để kiểm tra
+            foreach (var bookId in selectedBookIds)
+            {
+                System.Diagnostics.Debug.WriteLine($"Selected Book ID: {bookId}");
+            }
+
+            // Update quantity of selected books
+            foreach (var book in selectedBooks)
+            {
+                
+            }
+            // Create order
+
+        }
+
+        private bool CanSaveOrder()
+        {
+            // Kiểm tra xem có thể lưu đơn hàng hay không (kiểm tra các điều kiện hợp lệ)
+
+            // Return true nếu có thể lưu, ngược lại false
+            return true; // hoặc thêm các điều kiện kiểm tra khác
+        }
     }
 
-
-    // wrapper Book, thêm thuộc tính selected và quantity để tính tiền
     public class BookWithSelection : ObservableObject
     {
         private bool _isSelected = false;
         private Book _book;
         private int _quantity = 1;
+        private SolidColorBrush _quantityInputColor = new SolidColorBrush(Colors.Black);
+        private CreateOrderViewModel _parentViewModel;
 
-        public BookWithSelection(Book book)
+        public BookWithSelection(Book book, CreateOrderViewModel parentViewModel)
         {
             _book = book;
+            _parentViewModel = parentViewModel;
         }
 
         public bool IsSelected
@@ -82,10 +134,11 @@ namespace GUI.ViewModels
             }
         }
 
+        public int Id => _book.ID;
         public string Name => _book.name;
         public string Author => _book.author;
         public decimal Price => _book.price;
-        public int TotalSold => _book.total_sold;
+        public int QuantityAvailable => _book.quantity;
 
         public int Quantity
         {
@@ -96,13 +149,33 @@ namespace GUI.ViewModels
                 {
                     OnPropertyChanged(nameof(Subtotal));
                     OnPropertyChanged(nameof(TotalAmount));
+                    UpdateQuantityValidity();
                 }
             }
+        }
+
+        public SolidColorBrush QuantityInputColor
+        {
+            get => _quantityInputColor;
+            set => SetProperty(ref _quantityInputColor, value);
         }
 
         public decimal Subtotal => IsSelected ? _book.price * Quantity : 0;
 
         public decimal TotalAmount => IsSelected ? _book.price * Quantity : 0;
-    }
 
+        private void UpdateQuantityValidity()
+        {
+            if (Quantity <= 0 || Quantity > QuantityAvailable)
+            {
+                QuantityInputColor = new SolidColorBrush(Colors.Red);
+                _parentViewModel?.UpdateQuantityErrorMessage();
+            }
+            else
+            {
+                QuantityInputColor = new SolidColorBrush(Colors.Black);
+                _parentViewModel?.UpdateQuantityErrorMessage();
+            }
+        }
+    }
 }

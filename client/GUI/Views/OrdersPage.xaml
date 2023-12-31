@@ -63,7 +63,8 @@
                 </AppBarElementContainer>
                 <AppBarButton 
                               ToolTipService.ToolTip="Add new order"
-                              Icon="Add" Label="Add"/>
+                              Icon="Add" Label="Add"
+                              Click="AddButton_Click"/>
 
             </CommandBar>
         </StackPanel>

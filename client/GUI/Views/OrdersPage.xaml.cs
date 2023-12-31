@@ -36,5 +36,17 @@ namespace GUI.Views
         }
 
         private OrdersPageViewModel ViewModel => DataContext as OrdersPageViewModel;
+
+        private async void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            var createOrderDialog = new ContentDialog()
+            {
+                Title = "Create Order",
+                CloseButtonText = "Cancel"
+            };
+            createOrderDialog.Content = new CreateOrderDialog();
+            createOrderDialog.XamlRoot = this.Content.XamlRoot;
+            await createOrderDialog.ShowAsync();
+        }
     }
 }
