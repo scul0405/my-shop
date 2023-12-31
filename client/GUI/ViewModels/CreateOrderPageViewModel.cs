@@ -83,33 +83,31 @@ namespace GUI.ViewModels
             var selectedBooks = BooksWithSelection.Where(b => b.IsSelected).ToList();
 
             // Chuyển danh sách này thành book
-            var books = selectedBooks.Select(b => b.Book).ToList();
-
-            // in id sách đã chọn
-            foreach (var book in books)
-            {
-                System.Diagnostics.Debug.WriteLine(book.ID);
-            }
+            List<Book> books = selectedBooks.Select(b => b.Book).ToList();
 
             // create new order
             var order = new Order();
             order.total = (int)TotalAmount;
             order.books = books;
-            order.Id = 2;
+            var configuration = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
 
-            //if (_bus["Order"].Post(order, null))
-            //{
-            //    // Update quantity and total sold of selected books
-            //    foreach (var booksWithSelection in selectedBooks)
-            //    {
-            //        var book = new Book();
-            //        book = booksWithSelection.Book;
+            if (_bus["Order"].Post(order, null))
+            {
+                // Update quantity and total sold of selected books
+                foreach (var booksWithSelection in selectedBooks)
+                {
+                    var book = new Book();
+                    book = booksWithSelection.Book;
 
-            //        book.quantity = booksWithSelection.QuantityAvailable - booksWithSelection.Quantity;
-            //        book.total_sold = book.total_sold + booksWithSelection.Quantity;
-            //        _bus["Book"].Patch(book, null);
-            //    }
-            //}
+                    book.quantity = booksWithSelection.QuantityAvailable - booksWithSelection.Quantity;
+                    book.total_sold = book.total_sold + booksWithSelection.Quantity;
+                    _bus["Book"].Patch(book, null);
+                }
+            } 
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("ERRRRRRRRRRRRRRRRRRR");
+            }
 
         }
 

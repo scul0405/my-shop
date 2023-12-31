@@ -93,7 +93,7 @@ namespace DAO
             string id;
             RestRequest request;
 
-            if (configuration.TryGetValue("id", out id))
+            if (configuration != null && configuration.TryGetValue("id", out id))
             {
                 try
                 {
