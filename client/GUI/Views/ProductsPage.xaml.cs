@@ -22,6 +22,7 @@ using ThreeLayerContract;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 using Windows.Storage;
+using Telerik.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -118,7 +119,7 @@ namespace GUI.Views
             //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             var screen = new AddBookDialog(_categories);
 
-            var newBook = new Book() { name = "", desc="" };
+            var newBook = new Book() { name = "", desc = "" };
             screen.Handler += (Book value) =>
             {
                 newBook = value;
@@ -130,7 +131,7 @@ namespace GUI.Views
             {
                 if (newBook.name == "")
                     return;
-                
+
 
                 bool isSuccess = _bus["Book"].Post(newBook, null);
                 if (isSuccess)
@@ -180,7 +181,7 @@ namespace GUI.Views
         {
             var configuration = new Dictionary<string, string> { { "id", id.ToString() } };
             book.status = false;
-            return _bus["Book"].Patch(book,configuration);
+            return _bus["Book"].Patch(book, configuration);
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
@@ -267,7 +268,7 @@ namespace GUI.Views
 
         private void deleteCateHandle(object sender, RoutedEventArgs e)
         {
-            
+
             if (listCategory.SelectedItems.Count == 1)
             {
                 var cate = (BookCategory)listCategory.SelectedItem;
@@ -312,7 +313,7 @@ namespace GUI.Views
                 int index = listCategory.SelectedIndex;
                 var cate = (BookCategory)listCategory.SelectedItem;
                 cate.Name = newCateName_Edit.Text;
-                _bus["BookCategory"].Patch(cate,null);
+                _bus["BookCategory"].Patch(cate, null);
                 _categories[index].Name = newCateName_Edit.Text;
             }
 
@@ -346,30 +347,56 @@ namespace GUI.Views
         {
             dataGrid.ItemsSource = _list;
         }
-
-        private  async void importCategory(object sender, RoutedEventArgs e)
+        
+        private async void importCategory(object sender, RoutedEventArgs e)
         {
 
             var window = new Window();
             var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             var picker = new FileOpenPicker();
-            picker.FileTypeFilter.Add(".txt");
-            
+            picker.FileTypeFilter.Add(".csv");
+
 
             WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
-            var file = await picker.PickSingleFileAsync();
+            StorageFile file = await picker.PickSingleFileAsync();
 
             if (file != null)
             {
-                filePicked.DataContext = file.Path;
-                ShowSuccessMessage();
-            }
-                else
+                using (Stream stream = (await file.OpenReadAsync()).AsStreamForRead())
+                using (StreamReader sr = new StreamReader(stream))
                 {
-                ShowFailMessage();
+                    bool isFirstRow = true;
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if (isFirstRow)
+                        {
+                            isFirstRow = false;
+                            continue;
+                        }
+
+                        var cells1 = line.Split(',');
+                        //int ID = int.Parse(cells1[0]);
+                        string Name = cells1[0];
+
+                        if (_categories.Any(book => book.Name == Name)) continue;
+                        var newCate = new BookCategory() { Name = Name };
+                        _bus["BookCategory"].Post(newCate, null);                        
+                        //_categories.Add(new BookCategory() { Name = Name });
+                    }
+                    var config = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
+                    _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(config));
+                    listCategory.ItemsSource = _categories;
                 }
-            window.Close();
+                    ShowSuccessMessage();
+            }
+            else
+            {
+                ShowFailMessage();
+            }
             
+            window.Close();
+
         }
     }
 

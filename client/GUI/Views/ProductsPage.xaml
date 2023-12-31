@@ -24,11 +24,13 @@
             <TextBlock Text="Import"
                        Margin="0,0,0,20"
                        Style="{StaticResource SubtitleTextBlockStyle}" />
-            <Button Content="Import category"  Click="importCategory"/>
+            <Button Content="Select file category"
+                    Click="importCategory"/>
             <TextBlock Name="filePicked">
                 <Run Text="File picked: "></Run>
                 <Run Text="{Binding}"></Run>
             </TextBlock>
+            
 
             <TextBlock Text="Categories"
                        Margin="0,20,0,20"
