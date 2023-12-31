@@ -118,12 +118,12 @@ namespace GUI.Views
             for (int i = 0; i <= currentDayOfWeek; i++)
             {
                 var configDayOrder = new Dictionary<string, string>
-                        { { "from", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-dd-M")}" },
-                          { "to", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-dd-M")}" },
+                        { { "from", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-MM-dd")}" },
+                          { "to", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-MM-dd")}" },
                           {"size", int.MaxValue.ToString() } };
                 Debug.WriteLine("Test" + i.ToString());
-                Debug.WriteLine("from " + $"{currentDate.AddDays(+i - currentDayOfWeek).ToString("yyyy-dd-M")}");
-                Debug.WriteLine("to " + $"{currentDate.AddDays(+i - currentDayOfWeek).ToString("yyyy-dd-M")}");
+                Debug.WriteLine("from " + $"{currentDate.AddDays(+i - currentDayOfWeek).ToString("yyyy-MM-dd")}");
+                Debug.WriteLine("to " + $"{currentDate.AddDays(+i - currentDayOfWeek).ToString("yyyy-MM-dd")}");
                 //List<Order> temp = new List<Order>();
                 try
                 {
