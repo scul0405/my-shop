@@ -23,6 +23,8 @@ using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 using Windows.Storage;
 using Telerik.UI.Xaml.Controls;
+using DocumentFormat.OpenXml.Packaging;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -354,7 +356,7 @@ namespace GUI.Views
             var window = new Window();
             var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             var picker = new FileOpenPicker();
-            picker.FileTypeFilter.Add(".csv");
+            picker.FileTypeFilter.Add(".xlsx");
 
 
             WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
@@ -363,32 +365,11 @@ namespace GUI.Views
             if (file != null)
             {
                 using (Stream stream = (await file.OpenReadAsync()).AsStreamForRead())
-                using (StreamReader sr = new StreamReader(stream))
+                using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(stream,false))
                 {
-                    bool isFirstRow = true;
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        if (isFirstRow)
-                        {
-                            isFirstRow = false;
-                            continue;
-                        }
-
-                        var cells1 = line.Split(',');
-                        //int ID = int.Parse(cells1[0]);
-                        string Name = cells1[0];
-
-                        if (_categories.Any(book => book.Name == Name)) continue;
-                        var newCate = new BookCategory() { Name = Name };
-                        _bus["BookCategory"].Post(newCate, null);                        
-                        //_categories.Add(new BookCategory() { Name = Name });
-                    }
-                    var config = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
-                    _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(config));
-                    listCategory.ItemsSource = _categories;
-                }
                     ShowSuccessMessage();
+                }
+                    
             }
             else
             {
