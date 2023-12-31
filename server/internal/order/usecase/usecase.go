@@ -30,12 +30,31 @@ func NewOrderUseCase(
 }
 
 func (u *orderUseCase) Create(ctx context.Context, order *dto.CreateOrderDTO) (*dto.OrderDTO, error) {
-	createdOrder, err := u.orderRepo.Create(ctx, order.ToModel())
+
+	// Create order
+	orderModel := &dbmodels.Order{
+		Total:  0,
+		Status: true,
+	}
+
+	orderModel, err := u.orderRepo.Create(ctx, orderModel)
 	if err != nil {
 		return nil, err
 	}
 
-	return dbconverter.OrderModelToDto(createdOrder), nil
+	// Add each book to order
+	for _, book := range order.Books {
+		data := &dto.CreateBookOrderDTO{
+			Quantity: book.Quantity,
+		}
+		err = u.AddBook(ctx, uint64(orderModel.ID), uint64(book.ID), data)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	// return final order
+	return u.GetByID(ctx, uint64(orderModel.ID))
 }
 
 func (u *orderUseCase) AddBook(ctx context.Context, oid, bid uint64, data *dto.CreateBookOrderDTO) error {
@@ -63,8 +82,19 @@ func (u *orderUseCase) AddBook(ctx context.Context, oid, bid uint64, data *dto.C
 		return err
 	}
 
+	// Update book
+	bookModel.TotalSold += data.Quantity
+	bookModel.Quantity -= data.Quantity
+
+	u.logger.Info(bookModel)
+
+	err = u.bookRepo.Update(ctx, bookModel, "total_sold", "quantity")
+	if err != nil {
+		return err
+	}
+
 	// Update total of order
-	orderModel.Total += bookModel.Price
+	orderModel.Total += bookModel.Price * data.Quantity
 	err = u.Update(ctx, orderModel)
 	if err != nil {
 		return err
@@ -83,6 +113,8 @@ func (u *orderUseCase) GetByID(ctx context.Context, id uint64) (*dto.OrderDTO, e
 	if err != nil {
 		return nil, err
 	}
+
+	u.logger.Info(bookModelSlice)
 
 	orderDTO := dbconverter.OrderModelToDto(orderModel)
 
@@ -128,6 +160,7 @@ func (u *orderUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*ut
 		qms = append(qms, dbmodels.OrderWhere.CreatedAt.GTE(from))
 	}
 	if to != (time.Time{}) {
+		to = to.AddDate(0, 0, 1)
 		qms = append(qms, dbmodels.OrderWhere.CreatedAt.LTE(to))
 	}
 
