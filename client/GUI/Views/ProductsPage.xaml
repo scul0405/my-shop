@@ -136,7 +136,8 @@
                     <telerikGrid:DataGridTextColumn Header="Author"
                                                     ShowDistinctValuesFilter="False"
                                                     PropertyName="author" />
-                    <telerikGrid:DataGridTextColumn Header="Category"
+                    <telerikGrid:DataGridTextColumn Header="Category ID"
+                                                    ShowDistinctValuesFilter="False"
                                                     PropertyName="category_id" />
                     <!--<telerikGrid:DataGridTemplateColumn Header="Category"
                                                         CanUserGroup="True">
