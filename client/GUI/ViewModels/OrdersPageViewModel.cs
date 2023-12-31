@@ -116,6 +116,7 @@ namespace GUI.ViewModels
         private int CalculatePageCount(int pageSize)
         {
             var configuration = new Dictionary<string, string> {
+                    { "size", "100000" }
             };
 
             List<Order> orders = new List<Order>(_bus["Order"].Get(configuration));

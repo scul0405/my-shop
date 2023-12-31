@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using ThreeLayerContract;
 
 namespace DAO
@@ -57,9 +58,10 @@ namespace DAO
                 var request = new RestRequest($"{Endpoint}/{id}", Method.Get);
                 var response = _client.ExecuteGet(request);
 
-                if (!response.IsSuccessful) { return null; }
+                if (!response.IsSuccessful) { Debug.WriteLine("ERRRRRRRRRRRRRRRRRRRRRRR"); return null; }
 
                 var result = JsonConvert.DeserializeObject<Order>(response.Content);
+                Debug.WriteLine("ERRRRRRRRRR_____RRRRRRRRRRRRR");
                 return result;
             } 
             else
@@ -72,9 +74,10 @@ namespace DAO
 
                 var response = _client.ExecuteGet(request);
 
-                if (!response.IsSuccessful) { return null; }
+                if (!response.IsSuccessful) { Debug.WriteLine("ERRRRRRRRRRRRRRRRRRRRRRR"); return null; }
 
                 var result = JsonConvert.DeserializeObject<HttpResponse<Order>>(response.Content);
+                Debug.WriteLine("ERRRRRRRRRRRRRR___RRRRRRRRR");
                 return result.list;
             }
         }

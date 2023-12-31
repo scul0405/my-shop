@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -15,6 +15,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Entity;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Diagnostics;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -117,20 +118,34 @@ namespace GUI.Views
             for (int i = 0; i <= currentDayOfWeek; i++)
             {
                 var configDayOrder = new Dictionary<string, string>
-                        { { "from", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-MM-dd")}" },
-                          { "to", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-MM-dd")}" },
+                        { { "from", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-dd-M")}" },
+                          { "to", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-dd-M")}" },
                           {"size", int.MaxValue.ToString() } };
+                Debug.WriteLine("Test" + i.ToString());
+                Debug.WriteLine("from " + $"{currentDate.AddDays(+i - currentDayOfWeek).ToString("yyyy-dd-M")}");
+                Debug.WriteLine("to " + $"{currentDate.AddDays(+i - currentDayOfWeek).ToString("yyyy-dd-M")}");
                 //List<Order> temp = new List<Order>();
                 try
                 {
-                    data[i].Value = _bus["Order"].Get(configDayOrder).ToList().Count();
+                    if (_bus["Order"].Get(configDayOrder) != null)
+                    {
+                        List<Order> temp = new List<Order>(_bus["Order"].Get(configDayOrder));
+                        data[i].Value = temp.Count;
+                        Debug.WriteLine($"Data{i}: {data[i].Value}");
+                    }
+                    else
+                    {
+                        data[i].Value = 0;
+                    }
                 }
                 catch
                 {
+                    Debug.WriteLine("Fail");
                 }
             }
             
             this.lineSeries.DataContext = data;
+            Debug.WriteLine($"Data: {data}");
         }
         public class Data
         {
