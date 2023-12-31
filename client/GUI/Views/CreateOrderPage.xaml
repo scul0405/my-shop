@@ -1,4 +1,4 @@
-<Page
+﻿<Page
     x:Class="GUI.Views.CreateOrderPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,34 +10,43 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <telerikGrid:RadDataGrid x:Name="BooksGrid" AutoGenerateColumns="False" Margin="10" ItemsSource="{Binding BooksWithSelection}">
+        <!-- Main grid with two rows -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- RadDataGrid -->
+        <telerikGrid:RadDataGrid x:Name="BooksGrid" UserEditMode="Inline" AutoGenerateColumns="False" Margin="10" ItemsSource="{Binding BooksWithSelection}">
             <telerikGrid:RadDataGrid.Columns>
-
-                <!-- DataGridCheckBoxColumn -->
-                <telerikGrid:DataGridBooleanColumn PropertyName="IsSelected" Header="Select">
-                </telerikGrid:DataGridBooleanColumn>
-
-                <!-- DataGridTextColumn for Book Name -->
-                <telerikGrid:DataGridTextColumn PropertyName="Name" Header="Book Name"/>
-
-                <!-- DataGridTextColumn for Author -->
-                <telerikGrid:DataGridTextColumn PropertyName="Author" Header="Author"/>
-
-                <!-- DataGridTextColumn for Price -->
-                <telerikGrid:DataGridTextColumn PropertyName="Price" Header="Price"/>
-
-                <!-- DataGridTextColumn for Total Sold -->
-                <telerikGrid:DataGridTextColumn PropertyName="TotalSold" Header="Total Sold"/>
-
+                <!-- DataGridTemplateColumn for CheckBox -->
+                <telerikGrid:DataGridTemplateColumn CanUserEdit="True" Header="Select">
+                    <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" 
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                </telerikGrid:DataGridTemplateColumn>
                 <!-- DataGridTextColumn for Quantity -->
-                <telerikGrid:DataGridTextColumn PropertyName="Quantity" Header="Quantity"/>
-
+                <telerikGrid:DataGridTextColumn CanUserEdit="{Binding IsSelected}" PropertyName="Quantity" Header="Quantity"/>
+                <!-- DataGridTextColumn for Book Name -->
+                <telerikGrid:DataGridTextColumn CanUserEdit="False" PropertyName="Name" Header="Book Name"/>
+                <!-- DataGridTextColumn for Author -->
+                <telerikGrid:DataGridTextColumn CanUserEdit="False" PropertyName="Author" Header="Author"/>
+                <!-- DataGridTextColumn for Price -->
+                <telerikGrid:DataGridTextColumn CanUserEdit="False" PropertyName="Price" Header="Price"/>
+                <!-- DataGridTextColumn for Total Sold -->
+                <telerikGrid:DataGridTextColumn CanUserEdit="False" PropertyName="TotalSold" Header="Total Sold"/>
+               
             </telerikGrid:RadDataGrid.Columns>
         </telerikGrid:RadDataGrid>
 
-        <StackPanel Margin="10">
+        <StackPanel Grid.Row="1" Margin="10">
             <!-- Display Total Price -->
+            <TextBlock Text="Giá tiền tạm tính: " />
             <TextBlock Text="{Binding TotalAmount}" FontSize="16" FontWeight="Bold"/>
+            <!-- Display Total Amount Description -->
         </StackPanel>
     </Grid>
 </Page>

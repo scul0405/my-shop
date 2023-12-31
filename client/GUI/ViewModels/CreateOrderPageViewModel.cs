@@ -1,9 +1,9 @@
-﻿// CreateOrderViewModel.cs
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Entity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using ThreeLayerContract;
 
@@ -20,17 +20,26 @@ namespace GUI.ViewModels
             List<Book> availableBooks = new List<Book>(_bus["Book"].Get(configuration));
 
             _booksWithSelection = new ObservableCollection<BookWithSelection>();
+
             foreach (var book in availableBooks)
             {
                 _booksWithSelection.Add(ConvertToBookWithSelection(book));
             }
 
+            foreach (var bookWithSelection in _booksWithSelection)
+            {
+                bookWithSelection.PropertyChanged += BookWithSelection_PropertyChanged;
+            }
+
         }
 
-        public ObservableCollection<BookWithSelection> BookWithSelections
+        private void BookWithSelection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            get => _booksWithSelection;
-            set => SetProperty(ref _booksWithSelection, value);
+            // Cập nhật TotalAmount khi Quantity hoặc IsSelected thay đổi
+            if (e.PropertyName == nameof(BookWithSelection.Quantity) || e.PropertyName == nameof(BookWithSelection.IsSelected))
+            {
+                OnPropertyChanged(nameof(TotalAmount));
+            }
         }
 
         private BookWithSelection ConvertToBookWithSelection(Book book)
@@ -47,11 +56,13 @@ namespace GUI.ViewModels
         public decimal TotalAmount => BooksWithSelection.Where(b => b.IsSelected).Sum(b => b.Subtotal);
     }
 
+
+    // wrapper Book, thêm thuộc tính selected và quantity để tính tiền
     public class BookWithSelection : ObservableObject
     {
-        private bool _isSelected;
+        private bool _isSelected = false;
         private Book _book;
-        private int _quantity;
+        private int _quantity = 1;
 
         public BookWithSelection(Book book)
         {
