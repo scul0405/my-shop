@@ -160,6 +160,7 @@ func (u *orderUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*ut
 		qms = append(qms, dbmodels.OrderWhere.CreatedAt.GTE(from))
 	}
 	if to != (time.Time{}) {
+		to = to.AddDate(0, 0, 1)
 		qms = append(qms, dbmodels.OrderWhere.CreatedAt.LTE(to))
 	}
 
