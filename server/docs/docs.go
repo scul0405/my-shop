@@ -901,6 +901,17 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.BooksInCreateOrder": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.CreateBookOrderDTO": {
             "type": "object",
             "properties": {
@@ -912,11 +923,11 @@ const docTemplate = `{
         "dto.CreateOrderDTO": {
             "type": "object",
             "properties": {
-                "status": {
-                    "type": "boolean"
-                },
-                "total": {
-                    "type": "integer"
+                "books": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.BooksInCreateOrder"
+                    }
                 }
             }
         },

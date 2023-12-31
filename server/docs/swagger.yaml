@@ -28,6 +28,13 @@ definitions:
       total_sold:
         type: integer
     type: object
+  dto.BooksInCreateOrder:
+    properties:
+      id:
+        type: integer
+      quantity:
+        type: integer
+    type: object
   dto.CreateBookOrderDTO:
     properties:
       quantity:
@@ -35,10 +42,10 @@ definitions:
     type: object
   dto.CreateOrderDTO:
     properties:
-      status:
-        type: boolean
-      total:
-        type: integer
+      books:
+        items:
+          $ref: '#/definitions/dto.BooksInCreateOrder'
+        type: array
     type: object
   dto.OrderDTO:
     properties:
