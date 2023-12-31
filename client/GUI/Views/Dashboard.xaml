@@ -40,6 +40,11 @@
                         <SymbolIcon Symbol="Flag" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Content="Report" Tag="NavItem_ReportPage" x:Name="NavItem_ReportPage">
+                    <NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="PhoneBook" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
 
             <NavigationView.PaneCustomContent>

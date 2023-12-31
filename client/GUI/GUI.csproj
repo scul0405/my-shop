@@ -22,6 +22,7 @@
     <None Remove="Views\EditBookDialog.xaml" />
     <None Remove="Views\LoginPage.xaml" />
     <None Remove="Views\OrderDetailPage.xaml" />
+    <None Remove="Views\ReportPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,6 +79,12 @@
   <ItemGroup>
     <Resource Include="Assets\error copy.png" />
     <Resource Include="Assets\pencil.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\ReportPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
