@@ -13,16 +13,13 @@ type OrderDTO struct {
 	Books     []*BookDTO `json:"books,omitempty"`
 }
 
-type CreateOrderDTO struct {
-	Total  int  `json:"total"`
-	Status bool `json:"status"`
+type BooksInCreateOrder struct {
+	ID       int64 `json:"id"`
+	Quantity int   `json:"quantity"`
 }
 
-func (o *CreateOrderDTO) ToModel() *dbmodels.Order {
-	return &dbmodels.Order{
-		Total:  o.Total,
-		Status: o.Status,
-	}
+type CreateOrderDTO struct {
+	Books []*BooksInCreateOrder `json:"books"`
 }
 
 func (o *OrderDTO) ToModel() *dbmodels.Order {
