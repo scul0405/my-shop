@@ -152,8 +152,8 @@ func (u *orderUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*ut
 		qms            = make([]qm.QueryMod, 0)
 	)
 
-	from, _ := time.Parse(time.DateOnly, ctx.Value("from").(string))
-	to, _ := time.Parse(time.DateOnly, ctx.Value("to").(string))
+	from := utils.ConvertTimeUTC(ctx.Value("from").(string))
+	to := utils.ConvertTimeUTC(ctx.Value("to").(string))
 
 	// check if from and to is not default parse value
 	if from != (time.Time{}) {
@@ -161,7 +161,7 @@ func (u *orderUseCase) List(ctx context.Context, pq *utils.PaginationQuery) (*ut
 	}
 	if to != (time.Time{}) {
 		to = to.AddDate(0, 0, 1)
-		qms = append(qms, dbmodels.OrderWhere.CreatedAt.LTE(to))
+		qms = append(qms, dbmodels.OrderWhere.CreatedAt.LT(to))
 	}
 
 	paginationList, err = u.orderRepo.List(ctx, pq, qms...)
