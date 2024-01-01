@@ -60,16 +60,34 @@ namespace GUI.Views
                 Order myOrder = new Order();
                 myOrder = _bus["Order"].Get(configuration);
 
-                foreach (var book in myOrder.books)
+                foreach (var item in myOrder.books)
                 {
+                    Book book = new Book();
+                    book = ConvertToSpecificBook(item);
                     books.Add(book);
+                    Debug.WriteLine("Book id " + book.ID);
                 }
-                foreach(var book in books)
-                {
-                    Debug.WriteLine("DetailButton_Click: book: " + book.name);
-                }
-                Frame.Navigate(typeof(OrderDetailPage), order);
+                Frame.Navigate(typeof(OrderDetailPage), Tuple.Create(ID, books));
             }
+        }
+
+        private Book ConvertToSpecificBook(dynamic book)
+        {
+            Book specificBook = new Book
+            {
+                ID = book.ID,
+                category_id = book.category_id,
+                name = book.name,
+                author = book.author,
+                desc = book.desc,
+                price = book.price,
+                total_sold = book.total_sold,
+                order_quantity = book.order_quantity,
+                quantity = book.quantity,
+                status = book.status
+            };
+
+            return specificBook;
         }
     }
 }

@@ -115,7 +115,6 @@ namespace GUI.ViewModels
                         book.quantity = tempQuantity;
                         book.total_sold = book.total_sold + booksWithSelection.Quantity;
                         newOrder.Add(new { id = book.ID, quantity = booksWithSelection.Quantity });
-                        _bus["Book"].Patch(book, null);
                     }
                     else
                     {
@@ -142,6 +141,7 @@ namespace GUI.ViewModels
             // Return true nếu có thể lưu, ngược lại false
             return true; // hoặc thêm các điều kiện kiểm tra khác
         }
+
     }
 
     public class BookWithSelection : ObservableObject

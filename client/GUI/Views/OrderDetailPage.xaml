@@ -29,7 +29,7 @@
                                  AutoGenerateColumns="False"
                                  Grid.Row="1"
                                  Margin="10"
-                                 ItemsSource="{Binding BooksWithSelection}">
+                                 ItemsSource="{Binding BooksWithNotion}">
             <telerikGrid:RadDataGrid.Columns>
                 <!-- DataGridTemplateColumn for CheckBox -->
                 <telerikGrid:DataGridTemplateColumn CanUserEdit="True"
@@ -44,7 +44,7 @@
                 </telerikGrid:DataGridTemplateColumn>
                 <!-- DataGridTextColumn for Quantity -->
                 <telerikGrid:DataGridTextColumn CanUserEdit="{Binding IsSelected}"
-                                                PropertyName="Quantity"
+                                                PropertyName="OrderQuantity"
                                                 Header="Quantity">
                     <telerikGrid:DataGridTextColumn.CellEditorStyle>
                         <Style TargetType="TextBox">
