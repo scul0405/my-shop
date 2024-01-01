@@ -6,6 +6,7 @@ import (
 	dbconverter "github.com/scul0405/my-shop/server/db/converter"
 	dbmodels "github.com/scul0405/my-shop/server/db/models"
 	"github.com/scul0405/my-shop/server/internal/book"
+	bookorder "github.com/scul0405/my-shop/server/internal/book_order"
 	"github.com/scul0405/my-shop/server/internal/dto"
 	"github.com/scul0405/my-shop/server/internal/order"
 	"github.com/scul0405/my-shop/server/pkg/logger"
@@ -15,18 +16,20 @@ import (
 )
 
 type orderUseCase struct {
-	cfg       *config.Config
-	bookRepo  book.Repository
-	orderRepo order.Repository
-	logger    logger.Logger
+	cfg           *config.Config
+	bookRepo      book.Repository
+	bookOrderRepo bookorder.Repository
+	orderRepo     order.Repository
+	logger        logger.Logger
 }
 
 func NewOrderUseCase(
 	cfg *config.Config,
 	bookRepo book.Repository,
+	bookOrderRepo bookorder.Repository,
 	orderRepo order.Repository,
 	logger logger.Logger) order.UseCase {
-	return &orderUseCase{cfg: cfg, bookRepo: bookRepo, orderRepo: orderRepo, logger: logger}
+	return &orderUseCase{cfg: cfg, bookRepo: bookRepo, bookOrderRepo: bookOrderRepo, orderRepo: orderRepo, logger: logger}
 }
 
 func (u *orderUseCase) Create(ctx context.Context, order *dto.CreateOrderDTO) (*dto.OrderDTO, error) {
@@ -136,7 +139,37 @@ func (u *orderUseCase) Update(ctx context.Context, order *dto.OrderDTO) error {
 }
 
 func (u *orderUseCase) Delete(ctx context.Context, id uint64) error {
-	err := u.orderRepo.Delete(ctx, id)
+	// get book order
+
+	// update quantity for each book
+	bookModelSlice, err := u.bookRepo.GetByOrderIDDefault(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	for _, bookModel := range bookModelSlice {
+		// get book order
+		bookOrderModel, err := u.bookOrderRepo.Get(ctx, uint64(bookModel.ID), id)
+		if err != nil {
+			return err
+		}
+
+		bookModel.Quantity += bookOrderModel.Quantity
+		bookModel.TotalSold -= bookOrderModel.Quantity
+		err = u.bookRepo.Update(ctx, bookModel, "quantity", "total_sold")
+		if err != nil {
+			return err
+		}
+	}
+
+	// delete book order
+	err = u.bookOrderRepo.DeleteByOrderID(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	// delete order
+	err = u.orderRepo.Delete(ctx, id)
 	if err != nil {
 		return err
 	}
