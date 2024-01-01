@@ -24,7 +24,7 @@
             <TextBlock Text="Import"
                        Margin="0,0,0,20"
                        Style="{StaticResource SubtitleTextBlockStyle}" />
-            <Button Content="Select file category"
+            <Button Content="Select file to import data"
                     Click="importCategory"/>
             <TextBlock Name="filePicked">
                 <Run Text="File picked: "></Run>
@@ -42,11 +42,11 @@
                           Name="listCategory"
                           Width="350"
                           MaxHeight="300"
-                          BorderThickness="1"
+                          BorderThickness="2"
                           ScrollViewer.VerticalScrollMode="Auto"
                           SelectionChanged="updateToBind"
                           ItemsSource="{Binding}"
-                          BorderBrush="Aqua">
+                          BorderBrush="MediumAquamarine">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel />
@@ -110,11 +110,11 @@
                         Spacing="10"
                         HorizontalAlignment="Right">
                 <Button Click="Add_Click"
-                        Foreground="Red">Add</Button>
+                        >Add</Button>
                 <Button Click="Delete_Click"
-                        Foreground="Blue">Delete</Button>
+                        Foreground="Red">Delete</Button>
                 <Button Click="Edit_Click"
-                        Foreground="Blue">Edit</Button>
+                        >Edit</Button>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">

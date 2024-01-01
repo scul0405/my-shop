@@ -358,7 +358,9 @@ namespace GUI.Views
             var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             var picker = new FileOpenPicker();
             picker.FileTypeFilter.Add(".xlsx");
-
+            List<Book> listBookImport = new List<Book>();
+            List<string> listCategoryName = new List<string>();
+            List<BookCategory> listCategoryImport = new List<BookCategory>();
 
             WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
             StorageFile file = await picker.PickSingleFileAsync();
@@ -368,8 +370,78 @@ namespace GUI.Views
                 using (Stream stream = (await file.OpenReadAsync()).AsStreamForRead())
                 using (SpreadsheetDocument document = SpreadsheetDocument.Open(stream,false))
                 {
-                    var wbPart = document.WorkbookPart!;
-                    var sheets = wbPart.Workbook.Descendants<Sheet>()!;
+                    filePicked.DataContext = file.Name;
+
+                    WorkbookPart workbookPart = document.WorkbookPart;
+                    //Import Category
+                    Sheet sheetCate = workbookPart.Workbook.Descendants<Sheet>().ElementAt(0);
+
+                    if (sheetCate == null)
+                    {
+                        ShowFailMessage();
+                        return;
+                    }
+
+                    WorksheetPart worksheetPart = (WorksheetPart)workbookPart.GetPartById(sheetCate.Id);
+                    SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
+
+                    foreach (Row row in sheetData.Elements<Row>())
+                    {
+                        foreach (Cell cell in row.Elements<Cell>())
+                        {
+                            string cellValue = GetCellCategory(cell, workbookPart);
+                            if (_categories.Any(cate => cate.Name == cellValue)) continue;
+                            //testRead.Add(cellValue);
+                            BookCategory newCate = new BookCategory() { Name = cellValue };
+                            listCategoryImport.Add(newCate);
+                            // Process each cell individually (in this example, just print the value)
+                            Console.WriteLine(cellValue);
+                        }
+                    }
+
+                    //Import Book
+                    Sheet sheetBook = workbookPart.Workbook.Descendants<Sheet>().ElementAt(1);
+
+                    if (sheetBook == null)
+                    {
+                        ShowFailMessage();
+                        return;
+                    }
+
+                    WorksheetPart worksheetPartBook = (WorksheetPart)workbookPart.GetPartById(sheetBook.Id);
+                    SheetData sheetDataBook = worksheetPartBook.Worksheet.Elements<SheetData>().First();
+
+                    foreach (Row row in sheetDataBook.Elements<Row>())
+                    {
+                        //foreach (Cell cell in row.Elements<Cell>())
+                        //{
+                        //    string cellValue = GetCellBook(cell, workbookPart);
+                        //    testReadBook.Add(cellValue);
+                        //    // Process each cell individually (in this example, just print the value)
+                        //    Console.WriteLine(cellValue);
+                        //}
+                        string name = GetCellValueInRow(row, "A", workbookPart);
+                        if (_list.Any(book => book.name == name)) continue;
+                        string author = GetCellValueInRow(row, "B", workbookPart);
+                        string category_name = GetCellValueInRow(row, "C", workbookPart);
+                        int totalSold = GetCellValueInRowAsInt(row, "D", workbookPart);
+                        int price = GetCellValueInRowAsInt(row, "E", workbookPart);
+                        int quantity = GetCellValueInRowAsInt(row, "F", workbookPart);
+                        Book newBook = new Book() { name= name, author=author, total_sold=totalSold, price=price, quantity=quantity, status=true };
+                        //testReadBook_string.Add(name);
+                        //testReadBook_int.Add(intValue);
+                        listCategoryName.Add(category_name);
+                        listBookImport.Add(newBook);
+                    }
+                    //TODO call BE to pass listCategoryImport, listBookImport, listCategoryName
+
+                    //GEt data again to update new data
+                    var config = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
+                    _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(config));
+                    listCategory.ItemsSource = _categories;
+
+                    _list = new ObservableCollection<Book>(_bus["Book"].Get(config));
+                    dataGrid.ItemsSource = _list;
                     ShowSuccessMessage();
                 }
                     
@@ -380,7 +452,59 @@ namespace GUI.Views
             }
             
             window.Close();
+        }
+        static string GetCellCategory(Cell cell, WorkbookPart workbookPart)
+        {
+            if (cell.DataType != null && cell.DataType == CellValues.SharedString)
+            {
+                int sharedStringIndex = int.Parse(cell.InnerText);
+                SharedStringTablePart sharedStringPart = workbookPart.SharedStringTablePart;
+                return sharedStringPart.SharedStringTable.Elements<SharedStringItem>().ElementAt(sharedStringIndex).InnerText;
+            }
+            else
+            {
+                return cell.InnerText;
+            }
+        }
 
+        static string GetCellBook(Cell cell, WorkbookPart workbookPart)
+        {
+            if (cell.DataType != null && cell.DataType == CellValues.SharedString)
+            {
+                int sharedStringIndex = int.Parse(cell.InnerText);
+                SharedStringTablePart sharedStringPart = workbookPart.SharedStringTablePart;
+                return sharedStringPart.SharedStringTable.Elements<SharedStringItem>().ElementAt(sharedStringIndex).InnerText;
+            }
+            else
+            {
+                return cell.InnerText;
+            }
+        }
+
+        static string GetCellValueInRow(Row row, string columnName, WorkbookPart workbookPart)
+        {
+            Cell cell = row.Elements<Cell>().FirstOrDefault(c => c.CellReference == columnName + row.RowIndex);
+            return cell != null ? GetCellValue(cell, workbookPart) : null;
+        }
+
+        static int GetCellValueInRowAsInt(Row row, string columnName, WorkbookPart workbookPart)
+        {
+            Cell cell = row.Elements<Cell>().FirstOrDefault(c => c.CellReference == columnName + row.RowIndex);
+            return cell != null ? int.Parse(GetCellValue(cell, workbookPart)) : 0; // Assumes a default value of 0 if the cell is empty or not a valid integer.
+        }
+
+        static string GetCellValue(Cell cell, WorkbookPart workbookPart)
+        {
+            if (cell.DataType != null && cell.DataType == CellValues.SharedString)
+            {
+                int sharedStringIndex = int.Parse(cell.InnerText);
+                SharedStringTablePart sharedStringPart = workbookPart.SharedStringTablePart;
+                return sharedStringPart.SharedStringTable.Elements<SharedStringItem>().ElementAt(sharedStringIndex).InnerText;
+            }
+            else
+            {
+                return cell.InnerText;
+            }
         }
     }
 
