@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -23,10 +24,73 @@ namespace GUI.Views
 {
     public sealed partial class CreateOrderPage : Page
     {
+        CreateOrderViewModel viewModel = new CreateOrderViewModel();
         public CreateOrderPage()
         {
             this.InitializeComponent();
-            this.DataContext = new CreateOrderViewModel();
+            this.DataContext = viewModel;
+        }
+
+        private void SaveOrder_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.SaveOrderCommand.Execute(null);
+            Debug.WriteLine("SaveOrder_Click " + viewModel.isSave);
+            if (viewModel.isSave)
+            {
+                ShowSuccessMessage();
+            }
+            else
+            {
+                ShowFailureMessage(viewModel.failMessage);
+            }
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(OrdersPage));
+        }
+
+        private async void ShowSuccessMessage()
+        {
+            var successDialog = new ContentDialog
+            {
+                Title = "Create Order Successful",
+                Content = "Click OK to navigate to OrderPage",
+                CloseButtonText = "OK"
+            };
+
+            if (successDialog.XamlRoot != null)
+            {
+                successDialog.XamlRoot = null;
+            }
+
+            successDialog.XamlRoot = this.Content.XamlRoot;
+
+            successDialog.Closed += (sender, args) =>
+            {
+                Frame.Navigate(typeof(OrdersPage));
+            };
+
+            await successDialog.ShowAsync();
+        }
+
+        private async void ShowFailureMessage(string msg)
+        {
+            var failureDialog = new ContentDialog
+            {
+                Title = "Create Order Failed",
+                Content = msg,
+                CloseButtonText = "OK"
+            };
+
+            if (failureDialog.XamlRoot != null)
+            {
+                failureDialog.XamlRoot = null;
+            }
+
+            failureDialog.XamlRoot = this.Content.XamlRoot;
+
+            await failureDialog.ShowAsync();
         }
     }
 

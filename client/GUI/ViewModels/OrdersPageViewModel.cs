@@ -85,13 +85,20 @@ namespace GUI.ViewModels
 
         private void GetOrders(int pageIndex, int pageSize)
         {
-        // Lấy danh sách đơn hàng từ API
+            // Lấy danh sách đơn hàng từ API
+            List<Order> orders;
             var configuration = new Dictionary<string, string> {
                { "page", pageIndex.ToString() },                         
                { "size", pageSize.ToString() },                                          
             };
 
-            List<Order> orders = new List<Order>(_bus["Order"].Get(configuration));
+            try
+            {
+                orders = new List<Order>(_bus["Order"].Get(configuration));
+            } catch
+            {
+                orders = new List<Order>();
+            }
 
             // Tính toán các thuộc tính phân trang
             PageNumber = pageIndex;
@@ -115,12 +122,20 @@ namespace GUI.ViewModels
 
         private int CalculatePageCount(int pageSize)
         {
+            List<Order> orders;
+            double count = 0;
             var configuration = new Dictionary<string, string> {
                     { "size", "100000" }
             };
-
-            List<Order> orders = new List<Order>(_bus["Order"].Get(configuration));
-            return (int)Math.Ceiling((double)orders.Count / pageSize);
+            try
+            {
+                orders = new List<Order>(_bus["Order"].Get(configuration));
+                count = (double)orders.Count;
+            } catch
+            {
+                // eat
+            }
+            return (int)Math.Ceiling(count / pageSize);
         }
     }
 }

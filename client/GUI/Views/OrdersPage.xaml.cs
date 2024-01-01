@@ -13,6 +13,9 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using System.Diagnostics;
+using Entity;
+using ThreeLayerContract;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -37,16 +40,36 @@ namespace GUI.Views
 
         private OrdersPageViewModel ViewModel => DataContext as OrdersPageViewModel;
 
-        private async void AddButton_Click(object sender, RoutedEventArgs e)
+        private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var createOrderDialog = new ContentDialog()
+            Frame.Navigate(typeof(CreateOrderPage));
+        }
+
+        private void DetailButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var order = button?.DataContext as Order;
+
+            if (order != null)
             {
-                Title = "Create Order",
-                CloseButtonText = "Cancel"
-            };
-            createOrderDialog.Content = new CreateOrderDialog();
-            createOrderDialog.XamlRoot = this.Content.XamlRoot;
-            await createOrderDialog.ShowAsync();
+                // Chuyển hướng đến trang Detail và chuyển đối tượng Order qua trang đó
+                List<Book> books = new List<Book>();
+                string ID = order.Id.ToString();
+                var configuration = new Dictionary<string, string> { { "id", ID } };
+                Dictionary<string, IBus> _bus = BusInstance._bus;
+                Order myOrder = new Order();
+                myOrder = _bus["Order"].Get(configuration);
+
+                foreach (var book in myOrder.books)
+                {
+                    books.Add(book);
+                }
+                foreach(var book in books)
+                {
+                    Debug.WriteLine("DetailButton_Click: book: " + book.name);
+                }
+                Frame.Navigate(typeof(OrderDetailPage), order);
+            }
         }
     }
 }

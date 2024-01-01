@@ -13,6 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="MyShop.xaml" />
+    <None Remove="MyShopPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +52,11 @@
     <ProjectReference Include="..\Entity\Entity.csproj" />
     <ProjectReference Include="..\GUI\GUI.csproj" />
     <ProjectReference Include="..\ThreeLayerContract\ThreeLayerContract.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MyShopPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MyShop.xaml">

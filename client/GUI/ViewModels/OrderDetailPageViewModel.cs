@@ -1,22 +1,25 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Entity;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using ThreeLayerContract;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
-using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using ThreeLayerContract;
 
 namespace GUI.ViewModels
 {
-    public class CreateOrderViewModel : ObservableObject
+    public class OrderDetailPageViewModel : ObservableObject
     {
-        private ObservableCollection<BookWithSelection> _booksWithSelection;
+        private Order orderFromOrderPage;
+        private ObservableCollection<BookWithNotion> _booksWithNotion;
         private Dictionary<string, IBus> _bus = BusInstance._bus;
         private string _quantityErrorMessage;
         public bool isSave = true;
@@ -24,19 +27,19 @@ namespace GUI.ViewModels
 
         public ICommand SaveOrderCommand { get; }
 
-        public CreateOrderViewModel()
+        public OrderDetailPageViewModel()
         {
             var configuration = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
             List<Book> availableBooks = new List<Book>(_bus["Book"].Get(configuration));
 
-            _booksWithSelection = new ObservableCollection<BookWithSelection>();
+            _booksWithNotion = new ObservableCollection<BookWithNotion>();
 
             foreach (var book in availableBooks)
             {
-                _booksWithSelection.Add(ConvertToBookWithSelection(book));
+                _booksWithNotion.Add(ConvertToBookWithNotion(book));
             }
 
-            foreach (var bookWithSelection in _booksWithSelection)
+            foreach (var bookWithSelection in _booksWithNotion)
             {
                 bookWithSelection.PropertyChanged += BookWithSelection_PropertyChanged;
             }
@@ -46,21 +49,21 @@ namespace GUI.ViewModels
 
         private void BookWithSelection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(BookWithSelection.Quantity) || e.PropertyName == nameof(BookWithSelection.IsSelected))
+            if (e.PropertyName == nameof(BookWithNotion.Quantity) || e.PropertyName == nameof(BookWithNotion.IsSelected))
             {
                 OnPropertyChanged(nameof(TotalAmount));
             }
         }
 
-        private BookWithSelection ConvertToBookWithSelection(Book book)
+        private BookWithNotion ConvertToBookWithNotion(Book book)
         {
-            return new BookWithSelection(book, this);
+            return new BookWithNotion(book, this);
         }
 
-        public ObservableCollection<BookWithSelection> BooksWithSelection
+        public ObservableCollection<BookWithNotion> BooksWithSelection
         {
-            get => _booksWithSelection;
-            set => SetProperty(ref _booksWithSelection, value);
+            get => _booksWithNotion;
+            set => SetProperty(ref _booksWithNotion, value);
         }
 
         public decimal TotalAmount => BooksWithSelection.Where(b => b.IsSelected).Sum(b => b.Subtotal);
@@ -73,7 +76,7 @@ namespace GUI.ViewModels
 
         internal void UpdateQuantityErrorMessage()
         {
-            var errorMessage = BooksWithSelection.Any(b => b.Quantity <= 0 
+            var errorMessage = BooksWithSelection.Any(b => b.Quantity <= 0
             || b.Quantity > b.QuantityAvailable)
                 ? "Số lượng nhập không hợp lệ."
                 : null;
@@ -94,7 +97,8 @@ namespace GUI.ViewModels
                 isSave = false;
                 Debug.WriteLine("SaveOrder_func count" + isSave);
                 failMessage = "Can't create order with no book selected.";
-            } else
+            }
+            else
             {
                 // create new order
                 var order = new Order();
@@ -144,15 +148,15 @@ namespace GUI.ViewModels
         }
     }
 
-    public class BookWithSelection : ObservableObject
+    public class BookWithNotion : ObservableObject
     {
         private bool _isSelected = false;
         private Book _book;
         private int _quantity = 1;
         private SolidColorBrush _quantityInputColor = new SolidColorBrush(Colors.Black);
-        private CreateOrderViewModel _parentViewModel;
+        private OrderDetailPageViewModel _parentViewModel;
 
-        public BookWithSelection(Book book, CreateOrderViewModel parentViewModel)
+        public BookWithNotion(Book book, OrderDetailPageViewModel parentViewModel)
         {
             _book = book;
             _parentViewModel = parentViewModel;

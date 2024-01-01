@@ -8,9 +8,9 @@ namespace Entity
 {
     public class Order
     {
+        public List<dynamic> books { get; set; }
         public Order() { }
         public int Id { get; set; }
-        public List<Book> books { get; set; }
         public DateTime created_at { get; set; }
         public bool status { get; set; }
         public int total { get; set; }

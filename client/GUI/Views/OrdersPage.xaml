@@ -95,7 +95,18 @@
                 <ctWinUI:DataGridTextColumn Header="Total"
                                             Binding="{Binding total}"
                                             Tag="Total" />
+                <ctWinUI:DataGridTemplateColumn Header="Detail">
+                    <ctWinUI:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Detail"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Click="DetailButton_Click" />
+                        </DataTemplate>
+                    </ctWinUI:DataGridTemplateColumn.CellTemplate>
+                </ctWinUI:DataGridTemplateColumn>
             </ctWinUI:DataGrid.Columns>
+            
         </ctWinUI:DataGrid>
     </Grid>
 
