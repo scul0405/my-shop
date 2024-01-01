@@ -196,8 +196,15 @@ namespace GUI.Views
                 return;
             }
             var oldBook = (Book)dataGrid.SelectedItem;
-            var newBook = oldBook;
-            var index = _list.IndexOf(newBook);
+            var newBook = new Book();
+            newBook.ID = oldBook.ID;
+            newBook.name = oldBook.name;
+            newBook.category_id = oldBook.category_id;
+            newBook.author = oldBook.author;
+            newBook.price = oldBook.price;
+            newBook.quantity = oldBook.quantity;
+            newBook.status = oldBook.status;
+            var index = _list.IndexOf(oldBook);
             var screen = new EditBookDialog(_categories, newBook);
 
             bool _isEditted = false;

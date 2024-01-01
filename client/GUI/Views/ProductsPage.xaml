@@ -69,7 +69,7 @@
                                 Orientation="Horizontal"
                                 Margin="20,0,0,0"
                                 Spacing="20">
-                        <TextBlock Text="Tên thể loại"
+                        <TextBlock Text="Category name"
                                    VerticalAlignment="Center" />
                         <TextBox Name="newCateName"
                                  Text="{Binding}"
@@ -86,7 +86,7 @@
                                 Margin="20,0,0,0"
                                 Visibility="Collapsed"
                                 Spacing="20">
-                        <TextBlock Text="Tên mới"
+                        <TextBlock Text="New category name"
                                    VerticalAlignment="Center" />
                         <TextBox Name="newCateName_Edit"
                                  Text="{Binding}"
