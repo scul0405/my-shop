@@ -13,6 +13,7 @@ namespace GUI.Views
     public sealed partial class OrderDetailPage : Page
     {
         private OrderDetailPageViewModel viewModel;
+        private bool isClose = false;
 
         public OrderDetailPage()
         {
@@ -34,7 +35,7 @@ namespace GUI.Views
         {
             viewModel.UpdateOrderCommand.Execute(null);
             Debug.WriteLine("SaveOrder_Click " + viewModel.isSave);
-
+            
             if (viewModel.isSave)
             {
                 ShowSuccessMessage("Cập Nhật Đơn Đặt Hàng Thành Công", "Nhấn OK để chuyển đến Trang Đơn Hàng.");
@@ -49,14 +50,18 @@ namespace GUI.Views
         {
             var result = await ShowConfirmDialog();
 
-            if (result)
+            if (!isClose)
             {
-                ShowSuccessMessage("Xóa Đơn Đặt Hàng Thành Công", "Nhấn OK để chuyển đến Trang Đơn Hàng.");
+                if (result)
+                {
+                    ShowSuccessMessage("Xóa Đơn Đặt Hàng Thành Công", "Nhấn OK để chuyển đến Trang Đơn Hàng.");
+                }
+                else
+                {
+                    ShowFailureMessage("Xóa Đơn Đặt Hàng Thất Bại", viewModel.failMessage);
+                }
             }
-            else
-            {
-                ShowFailureMessage("Xóa Đơn Đặt Hàng Thất Bại", viewModel.failMessage);
-            }
+
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -82,10 +87,11 @@ namespace GUI.Views
             {
                 viewModel.DeleteOrderCommand.Execute(null);
                 result = viewModel.isDelete;
-                if (result)
-                {
-                    Frame.Navigate(typeof(OrdersPage));
-                }
+            };
+
+            confirmDialog.CloseButtonClick += (sender, args) =>
+            {
+                isClose = true;
             };
 
             await confirmDialog.ShowAsync();
