@@ -15,6 +15,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Entity;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Diagnostics;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -123,10 +124,12 @@ namespace GUI.Views
                 //List<Order> temp = new List<Order>();
                 try
                 {
-                    data[i].Value = _bus["Order"].Get(configDayOrder).ToList().Count();
+                    var temp = new List<Order>(_bus["Order"].Get(configDayOrder));
+                    data[i].Value = temp.Count();
                 }
                 catch
                 {
+                    continue;
                 }
             }
             
