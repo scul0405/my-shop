@@ -21,9 +21,19 @@
         <StackPanel ScrollViewer.VerticalScrollMode="Enabled"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"
                     Margin="20">
+            <TextBlock Text="Import"
+                       Margin="0,0,0,20"
+                       Style="{StaticResource SubtitleTextBlockStyle}" />
+            <Button Content="Select file to import data"
+                    Click="importCategory"/>
+            <TextBlock Name="filePicked">
+                <Run Text="File picked: "></Run>
+                <Run Text="{Binding}"></Run>
+            </TextBlock>
+            
 
             <TextBlock Text="Categories"
-                       Margin="0,0,0,20"
+                       Margin="0,20,0,20"
                        Style="{StaticResource SubtitleTextBlockStyle}" />
 
             <StackPanel Orientation="Horizontal"
@@ -32,11 +42,11 @@
                           Name="listCategory"
                           Width="350"
                           MaxHeight="300"
-                          BorderThickness="1"
+                          BorderThickness="2"
                           ScrollViewer.VerticalScrollMode="Auto"
                           SelectionChanged="updateToBind"
                           ItemsSource="{Binding}"
-                          BorderBrush="Aqua">
+                          BorderBrush="MediumAquamarine">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel />
@@ -59,7 +69,7 @@
                                 Orientation="Horizontal"
                                 Margin="20,0,0,0"
                                 Spacing="20">
-                        <TextBlock Text="Tên thể loại"
+                        <TextBlock Text="Category name"
                                    VerticalAlignment="Center" />
                         <TextBox Name="newCateName"
                                  Text="{Binding}"
@@ -76,7 +86,7 @@
                                 Margin="20,0,0,0"
                                 Visibility="Collapsed"
                                 Spacing="20">
-                        <TextBlock Text="Tên mới"
+                        <TextBlock Text="New category name"
                                    VerticalAlignment="Center" />
                         <TextBox Name="newCateName_Edit"
                                  Text="{Binding}"
@@ -100,11 +110,11 @@
                         Spacing="10"
                         HorizontalAlignment="Right">
                 <Button Click="Add_Click"
-                        Foreground="Red">Add</Button>
+                        >Add</Button>
                 <Button Click="Delete_Click"
-                        Foreground="Blue">Delete</Button>
+                        Foreground="Red">Delete</Button>
                 <Button Click="Edit_Click"
-                        Foreground="Blue">Edit</Button>
+                        >Edit</Button>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
