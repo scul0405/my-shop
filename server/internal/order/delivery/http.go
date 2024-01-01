@@ -119,7 +119,7 @@ func (h *orderHandlers) AddBook() http.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
-// @Param request body dto.OrderDTO true "input data"
+// @Param request body dto.UpdateOrderDTO true "input data"
 // @Success 200 {object} dto.OrderDTO
 // @Failure 400 {object} httpErrors.RestError
 // @Failure 500 {object} httpErrors.RestError
@@ -128,7 +128,7 @@ func (h *orderHandlers) Update() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id, _ := strconv.Atoi(chi.URLParam(r, "id"))
 
-		data := &dto.OrderDTO{}
+		data := &dto.UpdateOrderDTO{}
 		err := json.NewDecoder(r.Body).Decode(data)
 		if err != nil {
 			utils.RespondWithError(w, err)
