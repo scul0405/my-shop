@@ -10,6 +10,7 @@ import (
 	bcDelivery "github.com/scul0405/my-shop/server/internal/book_category/delivery"
 	bcRepository "github.com/scul0405/my-shop/server/internal/book_category/repository"
 	bcUseCase "github.com/scul0405/my-shop/server/internal/book_category/usecase"
+	importdata "github.com/scul0405/my-shop/server/internal/import_data"
 	orderDelivery "github.com/scul0405/my-shop/server/internal/order/delivery"
 	orderRepository "github.com/scul0405/my-shop/server/internal/order/repository"
 	orderUseCase "github.com/scul0405/my-shop/server/internal/order/usecase"
@@ -71,6 +72,11 @@ func (s *Server) MapHandlers() error {
 	bookDelivery.MapBookRoutes(v1, "/books", bookHandler)
 	bcDelivery.MapBookCategoryRoutes(v1, "/book_categories", bcHandler)
 	orderDelivery.MapOrderRoutes(v1, "/orders", orderHandler)
+
+	// import data api
+	v1.Route("/import", func(r chi.Router) {
+		r.Post("/", importdata.DataHandler(s.db))
+	})
 
 	return nil
 }
