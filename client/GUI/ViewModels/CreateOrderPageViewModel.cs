@@ -114,7 +114,7 @@ namespace GUI.ViewModels
                     {
                         book.quantity = tempQuantity;
                         book.total_sold = book.total_sold + booksWithSelection.Quantity;
-                        newOrder.Add(new { id = book.ID, quantity = booksWithSelection.Quantity });
+                        newOrder.Add(new { Id = book.ID, Quantity = booksWithSelection.Quantity });
                     }
                     else
                     {
