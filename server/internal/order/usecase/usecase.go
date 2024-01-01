@@ -98,7 +98,7 @@ func (u *orderUseCase) AddBook(ctx context.Context, oid, bid uint64, data *dto.C
 
 	// Update total of order
 	orderModel.Total += bookModel.Price * data.Quantity
-	err = u.Update(ctx, orderModel)
+	err = u.orderRepo.Update(ctx, orderModel.ToModel(), "total")
 	if err != nil {
 		return err
 	}
@@ -128,12 +128,87 @@ func (u *orderUseCase) GetByID(ctx context.Context, id uint64) (*dto.OrderDTO, e
 	return orderDTO, nil
 }
 
-func (u *orderUseCase) Update(ctx context.Context, order *dto.OrderDTO) error {
-	whiteList := []string{"total", "status"}
-	err := u.orderRepo.Update(ctx, order.ToModel(), whiteList...)
+func (u *orderUseCase) Update(ctx context.Context, order *dto.UpdateOrderDTO) error {
+	orderModel, err := u.orderRepo.GetByID(ctx, order.ID)
 	if err != nil {
 		return err
 	}
+
+	bookOrders, err := u.bookOrderRepo.GetByOrderID(ctx, order.ID)
+	if err != nil {
+		return err
+	}
+	flags := make([]bool, len(bookOrders))
+
+	// update quantity and total sold for each book
+	for _, book := range order.Books {
+		// get book order
+		bookOrderModel, err := u.bookOrderRepo.Get(ctx, uint64(book.ID), order.ID)
+		if err != nil {
+			return err
+		}
+
+		bookModel, err := u.bookRepo.GetByID(ctx, uint64(book.ID))
+		if err != nil {
+			return err
+		}
+
+		if book.Quantity > bookOrderModel.Quantity {
+			bookModel.Quantity -= book.Quantity - bookOrderModel.Quantity
+			bookModel.TotalSold += book.Quantity - bookOrderModel.Quantity
+			orderModel.Total += bookModel.Price * (book.Quantity - bookOrderModel.Quantity)
+		} else {
+			bookModel.Quantity += bookOrderModel.Quantity - book.Quantity
+			bookModel.TotalSold -= bookOrderModel.Quantity - book.Quantity
+			orderModel.Total -= bookModel.Price * (bookOrderModel.Quantity - book.Quantity)
+		}
+
+		// update book
+		err = u.bookRepo.Update(ctx, bookModel, "quantity", "total_sold")
+		if err != nil {
+			return err
+		}
+
+		// update book order
+		bookOrderModel.Quantity = book.Quantity
+		err = u.bookOrderRepo.Update(ctx, bookOrderModel)
+		if err != nil {
+			return err
+		}
+
+		for i, _ := range bookOrders {
+			if bookOrders[i].BookID == book.ID {
+				flags[i] = true
+			}
+		}
+	}
+
+	// delete book order not in update list
+	for i, flag := range flags {
+		if !flag {
+			bookModel, err := u.bookRepo.GetByID(ctx, uint64(bookOrders[i].BookID))
+			if err != nil {
+				return err
+			}
+
+			bookModel.Quantity += bookOrders[i].Quantity
+			bookModel.TotalSold -= bookOrders[i].Quantity
+			orderModel.Total -= bookModel.Price * bookOrders[i].Quantity
+
+			err = u.bookRepo.Update(ctx, bookModel, "quantity", "total_sold")
+			if err != nil {
+				return err
+			}
+
+			err = u.bookOrderRepo.Delete(ctx, uint64(bookOrders[i].BookID), order.ID)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	// update order
+	err = u.orderRepo.Update(ctx, orderModel, "total")
 
 	return nil
 }
@@ -141,7 +216,7 @@ func (u *orderUseCase) Update(ctx context.Context, order *dto.OrderDTO) error {
 func (u *orderUseCase) Delete(ctx context.Context, id uint64) error {
 	// get book order
 
-	// update quantity for each book
+	// update quantity and total sold for each book
 	bookModelSlice, err := u.bookRepo.GetByOrderIDDefault(ctx, id)
 	if err != nil {
 		return err
