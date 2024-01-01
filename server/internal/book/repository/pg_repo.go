@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"github.com/jmoiron/sqlx"
+	customdbmodels "github.com/scul0405/my-shop/server/db/customModels"
 	dbmodels "github.com/scul0405/my-shop/server/db/models"
 	"github.com/scul0405/my-shop/server/internal/book"
 	"github.com/scul0405/my-shop/server/pkg/utils"
@@ -161,13 +162,33 @@ func (r *bookRepo) ListByCategoryName(ctx context.Context, pq *utils.PaginationQ
 	}, nil
 }
 
-func (r *bookRepo) GetByOrderID(ctx context.Context, id uint64) (dbmodels.BookSlice, error) {
-	books, err := dbmodels.Books(
-		qm.Select("*"),
+func (r *bookRepo) GetByOrderID(ctx context.Context, id uint64) (customdbmodels.BookInOrderSlice, error) {
+	var books customdbmodels.BookInOrderSlice
+
+	err := dbmodels.NewQuery(
+		qm.Select("books.*", "book_order.quantity as order_quantity"),
+		qm.From("books"),
 		qm.InnerJoin("book_order ON book_order.book_id = books.id"),
 		qm.InnerJoin("orders ON orders.id = book_order.order_id"),
 		qm.Where("orders.id = ?", id),
-	).All(ctx, r.db)
+	).Bind(ctx, r.db, &books)
+	if err != nil {
+		return nil, err
+	}
+
+	return books, nil
+}
+
+func (r *bookRepo) GetByOrderIDDefault(ctx context.Context, id uint64) (dbmodels.BookSlice, error) {
+	var books dbmodels.BookSlice
+
+	err := dbmodels.NewQuery(
+		qm.Select("books.*"),
+		qm.From("books"),
+		qm.InnerJoin("book_order ON book_order.book_id = books.id"),
+		qm.InnerJoin("orders ON orders.id = book_order.order_id"),
+		qm.Where("orders.id = ?", id),
+	).Bind(ctx, r.db, &books)
 	if err != nil {
 		return nil, err
 	}

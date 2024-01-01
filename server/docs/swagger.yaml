@@ -28,6 +28,29 @@ definitions:
       total_sold:
         type: integer
     type: object
+  dto.BookInOrderDTO:
+    properties:
+      ID:
+        type: integer
+      author:
+        type: string
+      category_id:
+        type: integer
+      desc:
+        type: string
+      name:
+        type: string
+      order_quantity:
+        type: integer
+      price:
+        type: integer
+      quantity:
+        type: integer
+      status:
+        type: boolean
+      total_sold:
+        type: integer
+    type: object
   dto.BooksInCreateOrder:
     properties:
       id:
@@ -51,7 +74,7 @@ definitions:
     properties:
       books:
         items:
-          $ref: '#/definitions/dto.BookDTO'
+          $ref: '#/definitions/dto.BookInOrderDTO'
         type: array
       created_at:
         type: string
@@ -75,6 +98,36 @@ definitions:
         type: string
       status:
         type: integer
+    type: object
+  importdata.BookImport:
+    properties:
+      author:
+        type: string
+      desc:
+        type: string
+      name:
+        type: string
+      price:
+        type: integer
+      quantity:
+        type: integer
+      total_sold:
+        type: integer
+    type: object
+  importdata.ImportData:
+    properties:
+      book_categories:
+        items:
+          type: string
+        type: array
+      books:
+        items:
+          $ref: '#/definitions/importdata.BookImport'
+        type: array
+      categories:
+        items:
+          type: string
+        type: array
     type: object
   utils.PaginationList:
     properties:
@@ -391,6 +444,36 @@ paths:
       summary: Update book by id
       tags:
       - Book
+  /import:
+    post:
+      consumes:
+      - application/json
+      description: import data including books, book_categories, categories
+      parameters:
+      - description: input data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/importdata.ImportData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Import Data
+      tags:
+      - Import Data
   /orders:
     get:
       consumes:
