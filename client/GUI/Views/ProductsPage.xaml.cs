@@ -113,6 +113,7 @@ namespace GUI.Views
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
+            //Frame.Navigate(typeof(AddBookPage));
             //_list.Add(new Book() { ID = 2, name = "Chi Pheo", author = "Nam Cao", price = 100000, quantity = 10000 });
             var screen = new AddBookDialog(_categories);
 
