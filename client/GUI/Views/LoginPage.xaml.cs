@@ -59,11 +59,12 @@ namespace GUI.Views
         private bool IsAdminAccount(string username, string password)
         {
             // Thực hiện kiểm tra tài khoản và mật khẩu ở đây
-            bool flag = false;
+            bool flag = true;
             var configuration = new Dictionary<string, string> {
                 { "type", "login" },
             };
-            return true;
+            
+            return flag;
         }
 
         private async void ShowSuccessMessage()

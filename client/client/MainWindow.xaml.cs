@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -89,13 +89,21 @@ namespace client
 
         private void myButton_Click(object sender, RoutedEventArgs e)
         {
-            IGUI gui = cmbGUIList.SelectedItem as IGUI;
+            //IGUI gui = cmbGUIList.SelectedItem as IGUI;
 
+            //var guiFactory = gui.CreateNew(busFactory);
+
+            //var screen = new MyShop(guiFactory);
+            //this.Close();
+            //screen.Activate();
+
+            IGUI gui = cmbGUIList.SelectedItem as IGUI;
             var guiFactory = gui.CreateNew(busFactory);
 
-            var screen = new MyShop(guiFactory);
-            this.Close();
-            screen.Activate();
+            var myShopPageType = typeof(MyShopPage);
+
+            myFrame.Navigate(myShopPageType, guiFactory);
+            myControlsContainer.Visibility = Visibility.Collapsed;
         }
     }
 }

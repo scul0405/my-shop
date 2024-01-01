@@ -40,6 +40,16 @@
                 </labs:SettingsExpander.Items>
             </labs:SettingsExpander>
 
+            <labs:SettingsCard
+                x:Name="importCard"
+                Description="Import BookCategory from file."
+                Header="Import Data">
+                <labs:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xE896;" />
+                </labs:SettingsCard.HeaderIcon>
+                <Button Content="Open File" />
+            </labs:SettingsCard>
+
             <labs:SettingsExpander
                 x:Name="MultipleItemsSettingsExpander"
                 Description="This SettingsExpander has multiple items."

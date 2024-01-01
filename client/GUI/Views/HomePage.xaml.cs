@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -121,19 +121,32 @@ namespace GUI.Views
                         { { "from", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-MM-dd")}" },
                           { "to", $"{currentDate.AddDays(+i-currentDayOfWeek).ToString("yyyy-MM-dd")}" },
                           {"size", int.MaxValue.ToString() } };
+                Debug.WriteLine("Test" + i.ToString());
+                Debug.WriteLine("from " + $"{currentDate.AddDays(+i - currentDayOfWeek).ToString("yyyy-MM-dd")}");
+                Debug.WriteLine("to " + $"{currentDate.AddDays(+i - currentDayOfWeek).ToString("yyyy-MM-dd")}");
                 //List<Order> temp = new List<Order>();
                 try
                 {
-                    var temp = new List<Order>(_bus["Order"].Get(configDayOrder));
-                    data[i].Value = temp.Count();
+
+                    if (_bus["Order"].Get(configDayOrder) != null)
+                    {
+                        List<Order> temp = new List<Order>(_bus["Order"].Get(configDayOrder));
+                        data[i].Value = temp.Count;
+                        Debug.WriteLine($"Data{i}: {data[i].Value}");
+                    }
+                    else
+                    {
+                        data[i].Value = 0;
+                    }
                 }
                 catch
                 {
-                    continue;
+                    Debug.WriteLine("Fail");
                 }
             }
             
             this.lineSeries.DataContext = data;
+            Debug.WriteLine($"Data: {data}");
         }
         public class Data
         {

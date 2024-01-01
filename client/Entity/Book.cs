@@ -21,6 +21,7 @@ namespace Entity
         public int quantity { get; set;}
         public bool status { get; set;}
         public int total_sold { get; set;}
+        public int order_quantity { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
     }

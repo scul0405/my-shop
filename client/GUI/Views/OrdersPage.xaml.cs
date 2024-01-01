@@ -13,6 +13,9 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using System.Diagnostics;
+using Entity;
+using ThreeLayerContract;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -36,5 +39,69 @@ namespace GUI.Views
         }
 
         private OrdersPageViewModel ViewModel => DataContext as OrdersPageViewModel;
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(CreateOrderPage));
+        }
+
+        private void DetailButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var order = button?.DataContext as Order;
+
+            if (order != null)
+            {
+                // Chuyển hướng đến trang Detail và chuyển đối tượng Order qua trang đó
+                List<Book> books = new List<Book>();
+                string ID = order.Id.ToString();
+                var configuration = new Dictionary<string, string> { { "id", ID } };
+                Dictionary<string, IBus> _bus = BusInstance._bus;
+                Order myOrder = new Order();
+
+                try
+                {
+                    myOrder = _bus["Order"].Get(configuration);
+                } catch
+                {
+                    //eat
+                }               
+
+                if (myOrder == null)
+                {
+                    Debug.WriteLine("Order is null");
+                }
+                else
+                {
+                    foreach (var item in myOrder.books)
+                    {
+                        Book book = new Book();
+                        book = ConvertToSpecificBook(item);
+                        books.Add(book);
+                        Debug.WriteLine("Book id " + book.ID);
+                    }
+                }
+                Frame.Navigate(typeof(OrderDetailPage), Tuple.Create(ID, books));
+            }
+        }
+
+        private Book ConvertToSpecificBook(dynamic book)
+        {
+            Book specificBook = new Book
+            {
+                ID = book.ID,
+                category_id = book.category_id,
+                name = book.name,
+                author = book.author,
+                desc = book.desc,
+                price = book.price,
+                total_sold = book.total_sold,
+                order_quantity = book.order_quantity,
+                quantity = book.quantity,
+                status = book.status
+            };
+
+            return specificBook;
+        }
     }
 }
