@@ -893,6 +893,41 @@
                 }
             }
         },
+        "dto.BookInOrderDTO": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "author": {
+                    "type": "string"
+                },
+                "category_id": {
+                    "type": "integer"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order_quantity": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "total_sold": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.BooksInCreateOrder": {
             "type": "object",
             "properties": {
@@ -929,7 +964,7 @@
                 "books": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/dto.BookDTO"
+                        "$ref": "#/definitions/dto.BookInOrderDTO"
                     }
                 },
                 "created_at": {

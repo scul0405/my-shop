@@ -17,6 +17,19 @@ type BookDTO struct {
 	Status     bool   `json:"status,omitempty"`
 }
 
+type BookInOrderDTO struct {
+	ID            uint64 `json:"ID,omitempty"`
+	CategoryID    uint64 `json:"category_id,omitempty"`
+	Name          string `json:"name,omitempty"`
+	Author        string `json:"author,omitempty"`
+	Desc          string `json:"desc,omitempty"`
+	Price         int    `json:"price,omitempty"`
+	TotalSold     int    `json:"total_sold,omitempty"`
+	OrderQuantity int    `json:"order_quantity,omitempty"`
+	Quantity      int    `json:"quantity,omitempty"`
+	Status        bool   `json:"status,omitempty"`
+}
+
 func (b *BookDTO) ToModel() *dbmodels.Book {
 	nullStrDesc := null.String{String: b.Desc, Valid: b.Desc != ""}
 
