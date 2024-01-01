@@ -7,6 +7,7 @@ import (
 
 type Repository interface {
 	Get(ctx context.Context, bid, oid uint64) (*dbmodels.BookOrder, error)
+	GetByOrderID(ctx context.Context, id uint64) ([]*dbmodels.BookOrder, error)
 	Create(ctx context.Context, book *dbmodels.BookOrder) error
 	Update(ctx context.Context, book *dbmodels.BookOrder) error
 	Delete(ctx context.Context, bid, oid uint64) error

@@ -28,6 +28,15 @@ func (r *bookOrderRepo) Get(ctx context.Context, bid uint64, oid uint64) (*dbmod
 	return bc, nil
 }
 
+func (r *bookOrderRepo) GetByOrderID(ctx context.Context, id uint64) ([]*dbmodels.BookOrder, error) {
+	bc, err := dbmodels.BookOrders(dbmodels.BookOrderWhere.OrderID.EQ(int64(id))).All(ctx, r.db)
+	if err != nil {
+		return nil, err
+	}
+
+	return bc, nil
+}
+
 func (r *bookOrderRepo) Create(ctx context.Context, bookOrder *dbmodels.BookOrder) error {
 
 	if err := bookOrder.Insert(ctx, r.db, boil.Infer()); err != nil {
