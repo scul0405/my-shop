@@ -24,6 +24,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage;
 using Telerik.UI.Xaml.Controls;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -34,7 +35,7 @@ namespace GUI.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ProductsPage : Page
+    public sealed partial class ProductsPage : Microsoft.UI.Xaml.Controls.Page
     {
         Dictionary<string, IBus> _bus = BusInstance._bus;
 
@@ -365,8 +366,10 @@ namespace GUI.Views
             if (file != null)
             {
                 using (Stream stream = (await file.OpenReadAsync()).AsStreamForRead())
-                using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(stream,false))
+                using (SpreadsheetDocument document = SpreadsheetDocument.Open(stream,false))
                 {
+                    var wbPart = document.WorkbookPart!;
+                    var sheets = wbPart.Workbook.Descendants<Sheet>()!;
                     ShowSuccessMessage();
                 }
                     
