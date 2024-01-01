@@ -11,7 +11,7 @@ namespace DAO
 
         public override dynamic Post(object entity, Dictionary<string, string> configuration)
         {
-            var request = new RestRequest($"{Endpoint}", Method.Post);
+            var request = new RestRequest(Endpoint, Method.Post);
             request.AddBody(entity);
             
             return _client.ExecuteGet(request).IsSuccessful;
