@@ -1,32 +1,19 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Entity;
-using System.Diagnostics;
 using GUI.ViewModels;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace GUI.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class OrderDetailPage : Page
     {
-        OrderDetailPageViewModel viewModel;
+        private OrderDetailPageViewModel viewModel;
+
         public OrderDetailPage()
         {
             this.InitializeComponent();
@@ -47,19 +34,29 @@ namespace GUI.Views
         {
             viewModel.UpdateOrderCommand.Execute(null);
             Debug.WriteLine("SaveOrder_Click " + viewModel.isSave);
+
             if (viewModel.isSave)
             {
-                ShowSuccessMessage("Update Order Successful", "Click OK to negative to OrderPage.");
+                ShowSuccessMessage("Cập Nhật Đơn Đặt Hàng Thành Công", "Nhấn OK để chuyển đến Trang Đơn Hàng.");
             }
             else
             {
-                ShowFailureMessage("Update Order Failed", viewModel.failMessage);
+                ShowFailureMessage("Cập Nhật Đơn Đặt Hàng Thất Bại", viewModel.failMessage);
             }
         }
 
-        private void DeleteOrder_Click(object sender, RoutedEventArgs e)
+        private async void DeleteOrder_Click(object sender, RoutedEventArgs e)
         {
-            ShowConfirmDialog();
+            var result = await ShowConfirmDialog();
+
+            if (result)
+            {
+                ShowSuccessMessage("Xóa Đơn Đặt Hàng Thành Công", "Nhấn OK để chuyển đến Trang Đơn Hàng.");
+            }
+            else
+            {
+                ShowFailureMessage("Xóa Đơn Đặt Hàng Thất Bại", viewModel.failMessage);
+            }
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -67,24 +64,33 @@ namespace GUI.Views
             Frame.Navigate(typeof(OrdersPage));
         }
 
-        private async void ShowConfirmDialog()
+        private async Task<bool> ShowConfirmDialog()
         {
             var confirmDialog = new ContentDialog
             {
-                Title = "Delete Order",
-                Content = "Are you sure about that?",
-                CloseButtonText = "Cancel",
-                PrimaryButtonText = "Delete"
+                Title = "Xóa Đơn Đặt Hàng",
+                Content = "Bạn chắc chắn chứ?",
+                CloseButtonText = "Hủy",
+                PrimaryButtonText = "Xóa"
             };
 
             confirmDialog.XamlRoot = this.Content.XamlRoot;
 
+            bool result = false;
+
             confirmDialog.PrimaryButtonClick += (sender, args) =>
             {
                 viewModel.DeleteOrderCommand.Execute(null);
+                result = viewModel.isDelete;
+                if (result)
+                {
+                    Frame.Navigate(typeof(OrdersPage));
+                }
             };
 
             await confirmDialog.ShowAsync();
+
+            return result;
         }
 
         private async void ShowSuccessMessage(string title, string msg)
@@ -95,11 +101,6 @@ namespace GUI.Views
                 Content = msg,
                 CloseButtonText = "OK"
             };
-
-            if (successDialog.XamlRoot != null)
-            {
-                successDialog.XamlRoot = null;
-            }
 
             successDialog.XamlRoot = this.Content.XamlRoot;
 
@@ -119,11 +120,6 @@ namespace GUI.Views
                 Content = msg,
                 CloseButtonText = "OK"
             };
-
-            if (failureDialog.XamlRoot != null)
-            {
-                failureDialog.XamlRoot = null;
-            }
 
             failureDialog.XamlRoot = this.Content.XamlRoot;
 
