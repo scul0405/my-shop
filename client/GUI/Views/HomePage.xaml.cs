@@ -127,6 +127,7 @@ namespace GUI.Views
                 //List<Order> temp = new List<Order>();
                 try
                 {
+
                     if (_bus["Order"].Get(configDayOrder) != null)
                     {
                         List<Order> temp = new List<Order>(_bus["Order"].Get(configDayOrder));
