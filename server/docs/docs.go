@@ -724,7 +724,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.OrderDTO"
+                            "$ref": "#/definitions/dto.UpdateOrderDTO"
                         }
                     }
                 ],
@@ -1031,6 +1031,20 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.UpdateOrderDTO": {
+            "type": "object",
+            "properties": {
+                "books": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.BooksInCreateOrder"
+                    }
+                },
+                "id": {
                     "type": "integer"
                 }
             }
