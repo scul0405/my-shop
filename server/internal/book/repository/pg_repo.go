@@ -178,3 +178,20 @@ func (r *bookRepo) GetByOrderID(ctx context.Context, id uint64) (customdbmodels.
 
 	return books, nil
 }
+
+func (r *bookRepo) GetByOrderIDDefault(ctx context.Context, id uint64) (dbmodels.BookSlice, error) {
+	var books dbmodels.BookSlice
+
+	err := dbmodels.NewQuery(
+		qm.Select("books.*"),
+		qm.From("books"),
+		qm.InnerJoin("book_order ON book_order.book_id = books.id"),
+		qm.InnerJoin("orders ON orders.id = book_order.order_id"),
+		qm.Where("orders.id = ?", id),
+	).Bind(ctx, r.db, &books)
+	if err != nil {
+		return nil, err
+	}
+
+	return books, nil
+}
