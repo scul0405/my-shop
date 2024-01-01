@@ -119,7 +119,7 @@ func (u *orderUseCase) GetByID(ctx context.Context, id uint64) (*dto.OrderDTO, e
 	orderDTO := dbconverter.OrderModelToDto(orderModel)
 
 	for _, bookModel := range bookModelSlice {
-		orderDTO.Books = append(orderDTO.Books, dbconverter.BookModelToDto(bookModel))
+		orderDTO.Books = append(orderDTO.Books, dbconverter.BookInOrderModelToDto(bookModel))
 	}
 
 	return orderDTO, nil
