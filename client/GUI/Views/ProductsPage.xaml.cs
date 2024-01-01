@@ -165,7 +165,6 @@ namespace GUI.Views
                     Book item = (Book)selectedItems[i];
                     if (deleteBook(item.ID, item))
                     {
-                        ShowSuccessMessage();
                         _list.Remove(item);
                     }
                     else
@@ -177,6 +176,10 @@ namespace GUI.Views
             if (!isSucess)
             {
                 ShowFailMessage();
+            }
+            else
+            {
+                ShowSuccessMessage();
             }
         }
 
@@ -407,7 +410,7 @@ namespace GUI.Views
                     }
 
                     //Import Book
-                    Sheet sheetBook = workbookPart.Workbook.Descendants<Sheet>().ElementAt(1);
+                    Sheet sheetBook = workbookPart.Workbook.Descendants<Sheet>().ElementAtOrDefault(1);
 
                     if (sheetBook == null)
                     {
@@ -443,12 +446,30 @@ namespace GUI.Views
                     //TODO call BE to pass listCategoryImport, listBookImport, listCategoryName
 
                     //GEt data again to update new data
-                    var config = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
-                    _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(config));
-                    listCategory.ItemsSource = _categories;
+                    var configuration = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
+                    try
+                    {
+                        var tempList = new List<Book>(_bus["Book"].Get(configuration)).Where(book => book.status);
 
-                    _list = new ObservableCollection<Book>(_bus["Book"].Get(config));
+                        //_list = new ObservableCollection<Book>(_bus["Book"].Get(configuration));
+                        _list = new ObservableCollection<Book>(tempList);
+                    }
+                    catch
+                    {
+                        _list = new ObservableCollection<Book>();
+                    }
                     dataGrid.ItemsSource = _list;
+
+                    try
+                    {
+                        _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(configuration));
+
+                    }
+                    catch
+                    {
+                        _categories = new ObservableCollection<BookCategory>();
+                    }
+                    listCategory.ItemsSource = _categories;
                     ShowSuccessMessage();
                 }
                     

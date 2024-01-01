@@ -25,12 +25,12 @@
                        Margin="0,0,0,20"
                        Style="{StaticResource SubtitleTextBlockStyle}" />
             <Button Content="Select file to import data"
-                    Click="importCategory"/>
+                    Click="importCategory" />
             <TextBlock Name="filePicked">
                 <Run Text="File picked: "></Run>
                 <Run Text="{Binding}"></Run>
             </TextBlock>
-            
+
 
             <TextBlock Text="Categories"
                        Margin="0,20,0,20"
@@ -62,7 +62,7 @@
                 </ListView>
                 <StackPanel>
                     <Button Click="addBtnCate">
-                        Thêm
+                        Add
                     </Button>
                     <StackPanel Visibility="Collapsed"
                                 Name="addCateBox"
@@ -79,7 +79,7 @@
                     </StackPanel>
                     <Button Click="editBtnCate"
                             Margin="0,10,0,0">
-                        Sửa
+                        Edit
                     </Button>
                     <StackPanel Name="editCateBox"
                                 Orientation="Horizontal"
@@ -95,8 +95,9 @@
                         <Button Click="cancelEditCate">❌</Button>
                     </StackPanel>
                     <Button Margin="0,10,0,0"
+                            Foreground="Red"
                             Click="deleteCateHandle">
-                        Xoá
+                        Delete
                     </Button>
                 </StackPanel>
             </StackPanel>
@@ -109,12 +110,10 @@
             <StackPanel Orientation="Horizontal"
                         Spacing="10"
                         HorizontalAlignment="Right">
-                <Button Click="Add_Click"
-                        >Add</Button>
+                <Button Click="Add_Click">Add</Button>
+                <Button Click="Edit_Click">Edit</Button>
                 <Button Click="Delete_Click"
                         Foreground="Red">Delete</Button>
-                <Button Click="Edit_Click"
-                        >Edit</Button>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
