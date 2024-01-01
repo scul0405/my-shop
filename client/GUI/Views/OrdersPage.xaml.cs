@@ -58,14 +58,28 @@ namespace GUI.Views
                 var configuration = new Dictionary<string, string> { { "id", ID } };
                 Dictionary<string, IBus> _bus = BusInstance._bus;
                 Order myOrder = new Order();
-                myOrder = _bus["Order"].Get(configuration);
 
-                foreach (var item in myOrder.books)
+                try
                 {
-                    Book book = new Book();
-                    book = ConvertToSpecificBook(item);
-                    books.Add(book);
-                    Debug.WriteLine("Book id " + book.ID);
+                    myOrder = _bus["Order"].Get(configuration);
+                } catch
+                {
+                    //eat
+                }               
+
+                if (myOrder == null)
+                {
+                    Debug.WriteLine("Order is null");
+                }
+                else
+                {
+                    foreach (var item in myOrder.books)
+                    {
+                        Book book = new Book();
+                        book = ConvertToSpecificBook(item);
+                        books.Add(book);
+                        Debug.WriteLine("Book id " + book.ID);
+                    }
                 }
                 Frame.Navigate(typeof(OrderDetailPage), Tuple.Create(ID, books));
             }
