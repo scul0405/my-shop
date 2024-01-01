@@ -139,9 +139,8 @@ namespace GUI.ViewModels
                             book.quantity = book.quantity + (orderQuantityBeforeUpdate - tempOrderQuantity);
                             book.total_sold = book.total_sold - (orderQuantityBeforeUpdate - tempOrderQuantity);
                             book.order_quantity = booksWithNotion.OrderQuantity;
-                            newOrder.Add(new { id = book.ID, quantity = booksWithNotion.OrderQuantity });
+                            newOrder.Add(new { id = book.ID, quantity = tempOrderQuantity });
                             booksForUpdate.Add(book);
-                            _bus["Book"].Patch(book, null);
                         } else if (tempOrderQuantity > orderQuantityBeforeUpdate)
                         {
                             // tăng số lượng sách lên
@@ -149,14 +148,13 @@ namespace GUI.ViewModels
                             book.quantity = book.quantity - (tempOrderQuantity - orderQuantityBeforeUpdate);
                             book.total_sold = book.total_sold + (tempOrderQuantity - orderQuantityBeforeUpdate);
                             book.order_quantity = booksWithNotion.OrderQuantity;
-                            newOrder.Add(new { id = book.ID, quantity = booksWithNotion.OrderQuantity });
+                            newOrder.Add(new { id = book.ID, quantity = tempOrderQuantity });
                             booksForUpdate.Add(book);
-                            _bus["Book"].Patch(book, null);
                         } else
                         {
                             // không thay đổi số lượng sách
                             // -> không thay đổi số lượng sách trong kho và lượng sách đã bán
-                            newOrder.Add(new { id = book.ID, quantity = booksWithNotion.OrderQuantity });
+                            newOrder.Add(new { id = book.ID, quantity = tempOrderQuantity });
                         }
                     }
                     else
@@ -172,7 +170,7 @@ namespace GUI.ViewModels
                 if (isSave)
                 {
                     order.books = newOrder;
-                    _bus["Order"].Patch(order, configuration);
+                    _bus["Order"].Patch(newOrder, configuration);
                 }
             }
         }
