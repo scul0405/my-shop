@@ -22,6 +22,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ThreeLayerContract;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -206,6 +207,7 @@ namespace GUI.Views
                     Debug.WriteLine("[OnClick_func]: " + book.Author + " " + book.Desc + " " + book.Name + " " + book.Price + " " + book.Quantity + " " + book.TotalSold);
                 }
 
+
                 WriteToJsonFile("out.json", listCategoryName, importBooks);
             }
         }
@@ -249,6 +251,10 @@ namespace GUI.Views
 
             string jsonContent = JsonSerializer.Serialize(jsonData, new JsonSerializerOptions { WriteIndented = true });
             Debug.WriteLine(jsonContent);
+
+            Dictionary<string, IBus> _bus = BusInstance._bus;
+            var configuration = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
+            _bus["Migrate"].Post(jsonData, null);
 
             // Sử dụng Encoding.UTF8 khi ghi vào file
             WriteToFile(fileName, jsonContent, Encoding.UTF8);
