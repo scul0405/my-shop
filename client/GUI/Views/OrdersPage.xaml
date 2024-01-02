@@ -14,16 +14,27 @@
     <Grid Margin="0 0 0 80">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Order Page"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Margin="10"
+                   HorizontalAlignment="Center"/>
+
         <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Center"
                     Margin="0 0 0 16"
                     CornerRadius="4"
+                    Grid.Row="1"
                     Height="52">
             <CommandBar DefaultLabelPosition="Right"
                         Background="Transparent"
                         VerticalAlignment="Center"
+                        
                         OverflowButtonVisibility="Collapsed">
                 <AppBarButton ToolTipService.ToolTip="First"
                               Icon="Previous"
@@ -68,14 +79,45 @@
 
             </CommandBar>
         </StackPanel>
-        <ctWinUI:DataGrid x:Name="DataGrid"
+
+
+        <telerikGrid:RadDataGrid x:Name="DataGrid"
+                                 ItemsSource="{x:Bind ViewModel.Orders, Mode=OneWay}"
+                                 AutoGenerateColumns="False"
+                                 SelectionMode="Single"
+                                 Grid.Row="2"
+                                 HorizontalAlignment="Center">
+            <telerikGrid:RadDataGrid.Columns>
+                <telerikGrid:DataGridTextColumn PropertyName="Id"
+                                                Header="ID" />
+                <telerikGrid:DataGridTextColumn PropertyName="created_at"
+                                                Header="Created At" />
+                <telerikGrid:DataGridBooleanColumn PropertyName="status"
+                                                    Header="Status" />
+                <telerikGrid:DataGridTextColumn PropertyName="total"
+                                                Header="Total" />
+                <telerikGrid:DataGridTemplateColumn Header="Detail">
+                    <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                        <DataTemplate>
+                            <Button Content="Detail"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Click="DetailButton_Click" />
+                        </DataTemplate>
+                    </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                </telerikGrid:DataGridTemplateColumn>
+            </telerikGrid:RadDataGrid.Columns>
+        </telerikGrid:RadDataGrid>
+        
+        <!--<ctWinUI:DataGrid x:Name="DataGrid"
                           ItemsSource="{x:Bind ViewModel.Orders, Mode=OneWay}"
                           AutoGenerateColumns="False"
                           CanUserSortColumns="False"
                           SelectionMode="Single"
                           IsReadOnly="True"
                           RowDetailsVisibilityMode="Collapsed"
-                          Grid.Row="1">
+                          Grid.Row="2"
+                          HorizontalAlignment="Center">
             <ctWinUI:DataGrid.Resources>
                 <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush"
                                  Opacity=".5" />
@@ -107,7 +149,8 @@
                 </ctWinUI:DataGridTemplateColumn>
             </ctWinUI:DataGrid.Columns>
             
-        </ctWinUI:DataGrid>
+        </ctWinUI:DataGrid>-->
+
     </Grid>
 
 </Page>

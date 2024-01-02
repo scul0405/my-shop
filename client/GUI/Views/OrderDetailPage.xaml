@@ -22,13 +22,15 @@
                    Text="Order Detail"
                    FontSize="24"
                    FontWeight="Bold"
-                   Margin="10" />
+                   Margin="10" 
+                   HorizontalAlignment="Center"/>
         <!-- RadDataGrid -->
         <telerikGrid:RadDataGrid x:Name="BooksGrid"
                                  UserEditMode="Inline"
                                  AutoGenerateColumns="False"
                                  Grid.Row="1"
                                  Margin="10"
+                                 HorizontalAlignment="Center"
                                  ItemsSource="{Binding BooksWithNotion}">
             <telerikGrid:RadDataGrid.Columns>
                 <!-- DataGridTemplateColumn for CheckBox -->

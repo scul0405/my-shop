@@ -21,7 +21,8 @@
                    Text="Create Order"
                    FontSize="24"
                    FontWeight="Bold"
-                   Margin="10" />
+                   Margin="10" 
+                   HorizontalAlignment="Center"/>
         <!-- RadDataGrid -->
         <telerikGrid:RadDataGrid x:Name="BooksGrid"
                                  UserEditMode="Inline"

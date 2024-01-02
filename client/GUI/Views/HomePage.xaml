@@ -15,8 +15,13 @@
         <StackPanel Spacing="16"
                     Background="#F0F0F0"
                     Padding="20,10,20,0">
-            <TextBlock Text="Dashboard"
-                       Style="{StaticResource SubtitleTextBlockStyle}" />
+            <!-- TextBlock for Title -->
+            <TextBlock Grid.Row="0"
+                       Text="Dashboard"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Margin="-3, 0, 0, 20"
+                       HorizontalAlignment="Center" />
             <!--first row-->
             <Grid>
                 <Grid.Resources>
