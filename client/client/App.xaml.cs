@@ -42,7 +42,8 @@ namespace client
         {
             this.InitializeComponent();
         }
-        
+
+
         /// <summary>
         /// Invoked when the application is launched.
         /// </summary>
@@ -96,6 +97,24 @@ namespace client
             var guiFactory = guis.Single(gui => gui.GetVersion() == mockGuiVersion).CreateNew(busFactory);
 
             // guiFactory.GetMainWindow();
+            var jsonData = new
+            {
+                book_categories = new List<string> { "sach giao khoa", "sach giao khoa", "sachh dep trai", "sach the thao" },
+                books = new List<Book>
+                {
+                    new() { author = "NXB Giáo dục", desc = "Sách cho trẻ tiểu học", name = "Tiếng Việt 1", price = 12000, quantity=1000, total_sold=12 },
+                    new() { author = "NXB Giáo dục", desc = "Sách cho trẻ tiểu học", name = "Toán 1", price = 12000, quantity=1000, total_sold=12 },
+                    new() { author = "Nguyễn Hưng", name = "Ếch ộp", price = 78000, quantity=100, total_sold=120},
+                    new() { author = "SportBook2VN", desc = "Sách cho người già", name = "Real Madrid", price = 22000, quantity=100, total_sold=12}, 
+                },
+                categories = new List<string> {  "sach giao khoa", "sach the thao", "sach dep trai" }
+            };
+
+            var debug = new
+            {
+                thanhCong = busFactory["Migrate"].Post(jsonData, null)
+            };
+            
 
             m_window = new MainWindow();
             m_window.Activate();

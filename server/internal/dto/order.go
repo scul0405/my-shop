@@ -22,6 +22,11 @@ type CreateOrderDTO struct {
 	Books []*BooksInCreateOrder `json:"books"`
 }
 
+type UpdateOrderDTO struct {
+	ID    uint64                `json:"id"`
+	Books []*BooksInCreateOrder `json:"books"`
+}
+
 func (o *OrderDTO) ToModel() *dbmodels.Order {
 	return &dbmodels.Order{
 		ID:        int64(o.ID),
