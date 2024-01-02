@@ -12,6 +12,15 @@
     </StackPanel>-->
 
     <Grid>
+        <Border x:Name="AppTitleBar"
+                Grid.Column="1"
+                VerticalAlignment="Top">
+            <TextBlock x:Name="AppTitle"
+                       Text="My Shop Application"
+                       VerticalAlignment="Top"
+                       Margin="0,8,0,0" />
+        </Border>
+
         <Frame x:Name="myFrame" />
         <Grid x:Name="myControlsContainer">
             <ComboBox x:Name="cmbGUIList"

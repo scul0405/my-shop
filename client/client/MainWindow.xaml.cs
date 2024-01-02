@@ -28,6 +28,8 @@ namespace client
     {
         public MainWindow()
         {
+            this.ExtendsContentIntoTitleBar = true;
+            this.SetTitleBar(AppTitleBar);
             this.InitializeComponent();
             Load_Plugin();
         }
