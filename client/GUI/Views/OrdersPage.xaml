@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page x:Class="GUI.Views.OrdersPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="using:Telerik.UI.Xaml.Controls"
-             xmlns:ctWinUI="using:CommunityToolkit.WinUI.UI.Controls"
-             xmlns:viewModels="using:GUI.ViewModels" 
-             xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
-             xmlns:telerikData="using:Telerik.UI.Xaml.Controls.Data"
-             xmlns:Models="using:Entity">
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Telerik.UI.Xaml.Controls"
+      xmlns:ctWinUI="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:viewModels="using:GUI.ViewModels"
+      xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
+      xmlns:telerikData="using:Telerik.UI.Xaml.Controls.Data"
+      xmlns:telerikInput="using:Telerik.UI.Xaml.Controls.Input"
+      xmlns:local="using:GUI"
+      xmlns:Models="using:Entity"
+      xmlns:i="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core">
     <Page.DataContext>
-        <viewModels:OrdersPageViewModel/>
+        <viewModels:OrdersPageViewModel />
     </Page.DataContext>
+    <Page.Resources>
+        <local:DatePickerChangedEventArgsConverter x:Key="DatePickerConverter" />
+    </Page.Resources>
     <Grid Margin="0 0 0 80">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
@@ -23,7 +31,7 @@
                    FontSize="24"
                    FontWeight="Bold"
                    Margin="10"
-                   HorizontalAlignment="Center"/>
+                   HorizontalAlignment="Center" />
 
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
@@ -34,14 +42,13 @@
             <CommandBar DefaultLabelPosition="Right"
                         Background="Transparent"
                         VerticalAlignment="Center"
-                        
                         OverflowButtonVisibility="Collapsed">
                 <AppBarButton ToolTipService.ToolTip="First"
                               Icon="Previous"
-                              Command="{x:Bind ViewModel.FirstCommand, Mode=OneWay}"/>
+                              Command="{x:Bind ViewModel.FirstCommand, Mode=OneWay}" />
                 <AppBarButton ToolTipService.ToolTip="Previous"
                               Icon="Back"
-                              Command="{x:Bind ViewModel.PreviousCommand, Mode=OneWay}"/>
+                              Command="{x:Bind ViewModel.PreviousCommand, Mode=OneWay}" />
                 <AppBarElementContainer VerticalContentAlignment="Center">
                     <TextBlock Text="Page"
                                Margin="12 0 8 0" />
@@ -59,10 +66,10 @@
                 </AppBarElementContainer>
                 <AppBarButton ToolTipService.ToolTip="Next"
                               Icon="Forward"
-                              Command="{x:Bind ViewModel.NextCommand, Mode=OneWay}"/>
+                              Command="{x:Bind ViewModel.NextCommand, Mode=OneWay}" />
                 <AppBarButton ToolTipService.ToolTip="Last"
                               Icon="Next"
-                              Command="{x:Bind ViewModel.LastCommand, Mode=OneWay}"/>
+                              Command="{x:Bind ViewModel.LastCommand, Mode=OneWay}" />
                 <AppBarSeparator />
                 <AppBarElementContainer VerticalContentAlignment="Center">
                     <ComboBox ItemsSource="{x:Bind ViewModel.PageSizes}"
@@ -72,20 +79,59 @@
                     <TextBlock Text="rows per page"
                                Margin="8 0" />
                 </AppBarElementContainer>
-                <AppBarButton 
-                              ToolTipService.ToolTip="Add new order"
-                              Icon="Add" Label="Add"
-                              Click="AddButton_Click"/>
+                <AppBarButton ToolTipService.ToolTip="Add new order"
+                              Icon="Add"
+                              Label="Add"
+                              Click="AddButton_Click" />
 
             </CommandBar>
         </StackPanel>
 
 
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="2"
+                    HorizontalAlignment="Center">
+
+            <DatePicker x:Name="FromDatePicker"
+                        Width="285"
+                        Header="From:"
+                        Margin="10, 0, 15, 0"
+                        SelectedDateChanged="DatePicker_SelectedDateChanged">
+            </DatePicker>
+
+            <DatePicker x:Name="ToDatePicker"
+                        Width="285"
+                        Header="To:"
+                        Margin="10, 0, 15, 0"
+                        SelectedDateChanged="DatePicker_SelectedDateChanged">
+            </DatePicker>
+
+            <Button VerticalAlignment="Bottom"
+                    Content="Clear filter"
+                    HorizontalAlignment="Center"
+                    Click="ClearFilter_Click"
+                    Margin="0, 10, 0, 0">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE71C;"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       FontSize="16"
+                                       VerticalAlignment="Bottom" />
+                            <TextBlock Margin="4 0 0 0"
+                                       Text="Clear filter"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </StackPanel>
+
         <telerikGrid:RadDataGrid x:Name="DataGrid"
                                  ItemsSource="{x:Bind ViewModel.Orders, Mode=OneWay}"
                                  AutoGenerateColumns="False"
                                  SelectionMode="Single"
-                                 Grid.Row="2"
+                                 Grid.Row="3"
                                  HorizontalAlignment="Center">
             <telerikGrid:RadDataGrid.Columns>
                 <telerikGrid:DataGridTextColumn PropertyName="Id"
@@ -93,7 +139,7 @@
                 <telerikGrid:DataGridTextColumn PropertyName="created_at"
                                                 Header="Created At" />
                 <telerikGrid:DataGridBooleanColumn PropertyName="status"
-                                                    Header="Status" />
+                                                   Header="Status" />
                 <telerikGrid:DataGridTextColumn PropertyName="total"
                                                 Header="Total" />
                 <telerikGrid:DataGridTemplateColumn Header="Detail">
@@ -108,48 +154,6 @@
                 </telerikGrid:DataGridTemplateColumn>
             </telerikGrid:RadDataGrid.Columns>
         </telerikGrid:RadDataGrid>
-        
-        <!--<ctWinUI:DataGrid x:Name="DataGrid"
-                          ItemsSource="{x:Bind ViewModel.Orders, Mode=OneWay}"
-                          AutoGenerateColumns="False"
-                          CanUserSortColumns="False"
-                          SelectionMode="Single"
-                          IsReadOnly="True"
-                          RowDetailsVisibilityMode="Collapsed"
-                          Grid.Row="2"
-                          HorizontalAlignment="Center">
-            <ctWinUI:DataGrid.Resources>
-                <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush"
-                                 Opacity=".5" />
-                <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush">Transparent</SolidColorBrush>
-                <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush">Transparent</SolidColorBrush>
-            </ctWinUI:DataGrid.Resources>
-            <ctWinUI:DataGrid.Columns>
-                <ctWinUI:DataGridTextColumn Header="ID"
-                                            Binding="{Binding Id}"
-                                            Tag="Id" />
-                <ctWinUI:DataGridTextColumn Header="Created At"
-                                            Binding="{Binding created_at}"
-                                            Tag="CreatedAt" />
-                <ctWinUI:DataGridCheckBoxColumn Header="Status"
-                                                Binding="{Binding status}"
-                                                Tag="Status" />
-                <ctWinUI:DataGridTextColumn Header="Total"
-                                            Binding="{Binding total}"
-                                            Tag="Total" />
-                <ctWinUI:DataGridTemplateColumn Header="Detail">
-                    <ctWinUI:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Detail"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Click="DetailButton_Click" />
-                        </DataTemplate>
-                    </ctWinUI:DataGridTemplateColumn.CellTemplate>
-                </ctWinUI:DataGridTemplateColumn>
-            </ctWinUI:DataGrid.Columns>
-            
-        </ctWinUI:DataGrid>-->
 
     </Grid>
 
