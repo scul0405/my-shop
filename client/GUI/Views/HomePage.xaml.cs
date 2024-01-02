@@ -68,11 +68,11 @@ namespace GUI.Views
             DateTime currentDate = DateTime.Now;
             string curDateStr = currentDate.ToString("yyyy-MM-dd");
             string currentDay = currentDate.Day.ToString();
-            string currentMonth = currentDate.Month.ToString();
+            string currentMonth = currentDate.Month.ToString("D2");
             string currentYear = currentDate.Year.ToString();
             var configOrderMonth = new Dictionary<string, string>
-                        { { "from", $"{currentYear}-{currentMonth}-{1}" },
-                          { "to", $"{currentYear}-{currentMonth}-{currentDay}" },
+                        { { "from", $"{currentYear}-{currentMonth}-0{1}" },
+                          { "to", $"{curDateStr}" },
                           {"size", int.MaxValue.ToString() }};
 
             try
@@ -86,10 +86,10 @@ namespace GUI.Views
             }
 
             int currentDayOfWeek = ((int)currentDate.DayOfWeek);
-            string firstDayWeek = currentDate.AddDays(-currentDayOfWeek + 1).ToString("yyyy-MM-dd");
+            string firstDayWeek = currentDate.AddDays(-currentDayOfWeek).ToString("yyyy-MM-dd");
             var configOrderWeek = new Dictionary<string, string>
                         { { "from", $"{firstDayWeek}" },
-                          { "to", $"{currentYear}-{currentMonth}-{currentDay}" },
+                          { "to", $"{curDateStr}" },
                           {"size", int.MaxValue.ToString() } };
 
             try
