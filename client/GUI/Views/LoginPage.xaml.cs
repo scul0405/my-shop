@@ -14,16 +14,19 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using ThreeLayerContract;
+using Entity;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace GUI.Views
 {
+
+    //TODO: Kiểm tra xem mật khẩu đã thật sự được lưu hay chưa, đã hash hay chưa.
     public sealed partial class LoginPage : UserControl
     {
         Dictionary<string, IBus> _bus = BusInstance._bus;
-        public LoginPage(Dictionary<string, IBus>bus)
+        public LoginPage(Dictionary<string, IBus> bus)
         {
             BusInstance._bus = bus;
             this.InitializeComponent();
@@ -59,12 +62,20 @@ namespace GUI.Views
         private bool IsAdminAccount(string username, string password)
         {
             // Thực hiện kiểm tra tài khoản và mật khẩu ở đây
-            bool flag = true;
+            bool flag = false;
+            Dictionary<string, IBus> _bus = BusInstance._bus;
             var configuration = new Dictionary<string, string> {
                 { "type", "login" },
             };
-            
-            return flag;
+            User user = new User();
+            user.username = username;
+            user.password = password;
+
+            flag = _bus["User"].Post(user, configuration);
+
+            // Để sử dụng tài khoản mặc định, hãy thay đổi flag thành true
+            // return flag;
+            return true;
         }
 
         private async void ShowSuccessMessage()
@@ -89,11 +100,6 @@ namespace GUI.Views
             }
 
             successDialog.XamlRoot = this.Content.XamlRoot;
-
-            successDialog.Closed += (sender, args) =>
-            {
-                NavigateToDashboard();
-            };
 
             await successDialog.ShowAsync();
         }

@@ -85,6 +85,15 @@ definitions:
       total:
         type: integer
     type: object
+  dto.UpdateOrderDTO:
+    properties:
+      books:
+        items:
+          $ref: '#/definitions/dto.BooksInCreateOrder'
+        type: array
+      id:
+        type: integer
+    type: object
   dto.UserDTO:
     properties:
       password:
@@ -615,7 +624,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.OrderDTO'
+          $ref: '#/definitions/dto.UpdateOrderDTO'
       produces:
       - application/json
       responses:

@@ -17,8 +17,10 @@
     <None Remove="ProductsPage.xaml" />
     <None Remove="SettingPage.xaml" />
     <None Remove="Views\AddBookDialog.xaml" />
+    <None Remove="Views\AddBookPage.xaml" />
     <None Remove="Views\CreateOrderPage.xaml" />
     <None Remove="Views\EditBookDialog.xaml" />
+    <None Remove="Views\EditBookPage.xaml" />
     <None Remove="Views\LoginPage.xaml" />
     <None Remove="Views\OrderDetailPage.xaml" />
     <None Remove="Views\ReportPage.xaml" />
@@ -79,6 +81,18 @@
   <ItemGroup>
     <Resource Include="Assets\error copy.png" />
     <Resource Include="Assets\pencil.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\EditBookPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\AddBookPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
