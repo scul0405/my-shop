@@ -5,8 +5,8 @@ namespace BUS
 {
     public class MigrateDataToServerBus : IBus
     {
-        MigrateDataToServerBus() { }
-        MigrateDataToServerBus(IDAO dao) { this._dao = dao; }
+        public MigrateDataToServerBus() { }
+        public MigrateDataToServerBus(IDAO dao) { this._dao = dao; }
 
         public override dynamic Post(object entity, Dictionary<string, string> configuration)
         {

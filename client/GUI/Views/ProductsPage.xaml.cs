@@ -360,7 +360,7 @@ namespace GUI.Views
         {
             dataGrid.ItemsSource = _list;
         }
-        
+
         private async void importCategory(object sender, RoutedEventArgs e)
         {
 
@@ -370,7 +370,7 @@ namespace GUI.Views
             picker.FileTypeFilter.Add(".xlsx");
             List<Book> listBookImport = new List<Book>();
             List<string> listCategoryName = new List<string>();
-            List<BookCategory> listCategoryImport = new List<BookCategory>();
+            List<string> listCategoryImport = new List<string>();
 
             WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
             StorageFile file = await picker.PickSingleFileAsync();
@@ -378,7 +378,7 @@ namespace GUI.Views
             if (file != null)
             {
                 using (Stream stream = (await file.OpenReadAsync()).AsStreamForRead())
-                using (SpreadsheetDocument document = SpreadsheetDocument.Open(stream,false))
+                using (SpreadsheetDocument document = SpreadsheetDocument.Open(stream, false))
                 {
                     filePicked.DataContext = file.Name;
 
@@ -403,7 +403,7 @@ namespace GUI.Views
                             if (_categories.Any(cate => cate.Name == cellValue)) continue;
                             //testRead.Add(cellValue);
                             BookCategory newCate = new BookCategory() { Name = cellValue };
-                            listCategoryImport.Add(newCate);
+                            listCategoryImport.Add(cellValue);
                             // Process each cell individually (in this example, just print the value)
                             Console.WriteLine(cellValue);
                         }
@@ -423,13 +423,6 @@ namespace GUI.Views
 
                     foreach (Row row in sheetDataBook.Elements<Row>())
                     {
-                        //foreach (Cell cell in row.Elements<Cell>())
-                        //{
-                        //    string cellValue = GetCellBook(cell, workbookPart);
-                        //    testReadBook.Add(cellValue);
-                        //    // Process each cell individually (in this example, just print the value)
-                        //    Console.WriteLine(cellValue);
-                        //}
                         string name = GetCellValueInRow(row, "A", workbookPart);
                         if (_list.Any(book => book.name == name)) continue;
                         string author = GetCellValueInRow(row, "B", workbookPart);
@@ -437,50 +430,49 @@ namespace GUI.Views
                         int totalSold = GetCellValueInRowAsInt(row, "D", workbookPart);
                         int price = GetCellValueInRowAsInt(row, "E", workbookPart);
                         int quantity = GetCellValueInRowAsInt(row, "F", workbookPart);
-                        Book newBook = new Book() { name= name, author=author, total_sold=totalSold, price=price, quantity=quantity, status=true };
+                        Book newBook = new Book() { name = name, author = author, total_sold = totalSold, price = price, quantity = quantity, status = true };
                         //testReadBook_string.Add(name);
                         //testReadBook_int.Add(intValue);
                         listCategoryName.Add(category_name);
                         listBookImport.Add(newBook);
                     }
                     //TODO call BE to pass listCategoryImport, listBookImport, listCategoryName
+                    var jsonData = new
+                    {
+                        book_categories = listCategoryName,
+                        books = listBookImport,
+                        categories = listCategoryImport
+                    };
+                    
+                    var thanhcong = _bus["Migrate"].Post(jsonData, null);
+                    if (thanhcong)
+                    {
+                        ShowSuccessMessage();
+                    }
+                    else
+                    {
+                        ShowFailMessage();
+                    }
 
                     //GEt data again to update new data
-                    var configuration = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
-                    try
-                    {
-                        var tempList = new List<Book>(_bus["Book"].Get(configuration)).Where(book => book.status);
+                    var config = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
+                    _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(config));
+                    listCategory.ItemsSource = _categories;
 
-                        //_list = new ObservableCollection<Book>(_bus["Book"].Get(configuration));
-                        _list = new ObservableCollection<Book>(tempList);
-                    }
-                    catch
-                    {
-                        _list = new ObservableCollection<Book>();
-                    }
+                    _list = new ObservableCollection<Book>(_bus["Book"].Get(config));
                     dataGrid.ItemsSource = _list;
 
-                    try
-                    {
-                        _categories = new ObservableCollection<BookCategory>(_bus["BookCategory"].Get(configuration));
-
-                    }
-                    catch
-                    {
-                        _categories = new ObservableCollection<BookCategory>();
-                    }
-                    listCategory.ItemsSource = _categories;
-                    ShowSuccessMessage();
                 }
-                    
+
             }
             else
             {
                 ShowFailMessage();
             }
-            
+
             window.Close();
         }
+
         static string GetCellCategory(Cell cell, WorkbookPart workbookPart)
         {
             if (cell.DataType != null && cell.DataType == CellValues.SharedString)
