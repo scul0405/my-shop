@@ -89,8 +89,6 @@ func (u *orderUseCase) AddBook(ctx context.Context, oid, bid uint64, data *dto.C
 	bookModel.TotalSold += data.Quantity
 	bookModel.Quantity -= data.Quantity
 
-	u.logger.Info(bookModel)
-
 	err = u.bookRepo.Update(ctx, bookModel, "total_sold", "quantity")
 	if err != nil {
 		return err
@@ -116,8 +114,6 @@ func (u *orderUseCase) GetByID(ctx context.Context, id uint64) (*dto.OrderDTO, e
 	if err != nil {
 		return nil, err
 	}
-
-	u.logger.Info(bookModelSlice)
 
 	orderDTO := dbconverter.OrderModelToDto(orderModel)
 
