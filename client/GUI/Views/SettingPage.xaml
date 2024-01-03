@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="GUI.Views.SettingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:GUI"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer Margin="56,20,56,44">
+
+        <StackPanel Spacing="3">
+
+            <labs:SettingsCard x:Name="settingsCard"
+                               Description="Select which app theme to display."
+                               Header="Change theme">
+                <labs:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xE790;" />
+                </labs:SettingsCard.HeaderIcon>
+                <ComboBox SelectedIndex="0">
+                    <ComboBoxItem>Light</ComboBoxItem>
+                    <ComboBoxItem>Dark</ComboBoxItem>
+                    <ComboBoxItem>Default</ComboBoxItem>
+                </ComboBox>
+            </labs:SettingsCard>
+
+            <labs:SettingsExpander x:Name="importCard"
+                                   Description="Import data from excel (.xlsx) file."
+                                   Header="Import Data"
+                                   HeaderIcon="Download">
+                <Button Content="Open File"
+                        Click="ImportExcelButton_Click"/>
+
+                <labs:SettingsExpander.Items>
+                    <labs:SettingsCard Description="Cell A1 indicates the quantity of books you are going to add."
+                                       Header="In the first row">
+                        <labs:SettingsCard.HeaderIcon>
+                            <FontIcon Glyph="&#xE70F;" />
+                        </labs:SettingsCard.HeaderIcon>
+                    </labs:SettingsCard>
+
+                    <labs:SettingsCard 
+                        Description="Enter the exact names of the book attributes in the cells from A2 to G2. The attribute names are as follows: book_categories, author, desc, name, price, quantity, total_sold."
+                                       Header="In the second row">
+                        <labs:SettingsCard.HeaderIcon>
+                            <FontIcon Glyph="&#xE70F;" />
+                        </labs:SettingsCard.HeaderIcon>
+                    </labs:SettingsCard>
+
+                    <labs:SettingsCard Description="Input the values of each book attribute starting from the third row. Fill in the details for each book in the respective columns."
+                                       Header="From the third row onwards">
+                        <labs:SettingsCard.HeaderIcon>
+                            <FontIcon Glyph="&#xE70F;" />
+                        </labs:SettingsCard.HeaderIcon>
+                    </labs:SettingsCard>
+
+                </labs:SettingsExpander.Items>
+            </labs:SettingsExpander>
+        </StackPanel>
+
+    </ScrollViewer>
+</Page>
