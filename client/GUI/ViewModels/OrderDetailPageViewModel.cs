@@ -129,35 +129,10 @@ namespace GUI.ViewModels
 
                     int tempOrderQuantity = booksWithNotion.QuantityAvailable - booksWithNotion.OrderQuantity;
                     // Tồn tại một quyển sách có số lượng mua là 0 hoặc số lượng tồn không đủ
-                    // thì không cho tạo mới đơn hàng
-                    if (tempOrderQuantity > 0 && booksWithNotion.OrderQuantity > 0)
+                    // thì không cho update đơn hàng
+                    if (tempOrderQuantity >= 0 && booksWithNotion.OrderQuantity > 0)
                     {
-                        if (tempOrderQuantity < orderQuantityBeforeUpdate)
-                        {
-                            // giảm số lượng sách xuống
-                            // -> tăng số lượng sách trong kho và giảm lượng sách đã bán
-                            book.quantity = book.quantity + (orderQuantityBeforeUpdate - tempOrderQuantity);
-                            book.total_sold = book.total_sold - (orderQuantityBeforeUpdate - tempOrderQuantity);
-                            book.order_quantity = booksWithNotion.OrderQuantity;
-                            newOrder.Add(new { id = book.ID, quantity = booksWithNotion.OrderQuantity });
-                            booksForUpdate.Add(book);
-                            _bus["Book"].Patch(book, null);
-                        } else if (tempOrderQuantity > orderQuantityBeforeUpdate)
-                        {
-                            // tăng số lượng sách lên
-                            // -> giảm số lượng sách trong kho và tăng lượng sách đã bán
-                            book.quantity = book.quantity - (tempOrderQuantity - orderQuantityBeforeUpdate);
-                            book.total_sold = book.total_sold + (tempOrderQuantity - orderQuantityBeforeUpdate);
-                            book.order_quantity = booksWithNotion.OrderQuantity;
-                            newOrder.Add(new { id = book.ID, quantity = booksWithNotion.OrderQuantity });
-                            booksForUpdate.Add(book);
-                            _bus["Book"].Patch(book, null);
-                        } else
-                        {
-                            // không thay đổi số lượng sách
-                            // -> không thay đổi số lượng sách trong kho và lượng sách đã bán
-                            newOrder.Add(new { id = book.ID, quantity = booksWithNotion.OrderQuantity });
-                        }
+                        newOrder.Add(new { id = book.ID, quantity = booksWithNotion.OrderQuantity });
                     }
                     else
                     {

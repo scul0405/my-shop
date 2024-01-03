@@ -13,21 +13,11 @@ namespace DAO
         public override dynamic Post(object entity, Dictionary<string, string> configuration)
         {
             var request = new RestRequest(Endpoint, Method.Post);
-            if (entity is string)
-            {
-                Debug.WriteLine("String paraaaaaaaa");
-                request.AddBody(entity);
-            }
-            else
-            {
-                request.AddBody(entity);
-            }
-            Debug.WriteLine("Request: " + request.ToString());
+            request.AddBody(entity);
             return _client.ExecutePost(request).IsSuccessful;
         }
-
-
-        public override AppVersion GetVersion() => AppVersion.Default;
+        
+        public override string GetVersion() => "Default";
         public override string OnData() => "Migrate";
 
         public override dynamic Delete(Dictionary<string, string> configuration)

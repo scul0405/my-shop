@@ -9,10 +9,11 @@ namespace BUS
 {
     public class BookBus : IBus
     {
-        public override AppVersion GetVersion() => AppVersion.Default;
+        public override string GetVersion() => "Default";
         public BookBus() { }
         public BookBus(IDAO dao) { this._dao = dao; }
         public override IBus CreateNew(IDAO dao) => new BookBus(dao);
+        public override string OnData() => "Book";
 
         public override dynamic Delete(Dictionary<string, string> configuration)
         {
@@ -37,7 +38,5 @@ namespace BUS
             // bussiness logic
             return this._dao.Post(entity, configuration);
         }
-        public override string ToString() => "BookBus";
-        public override string OnData() => "Book";
     }
 }

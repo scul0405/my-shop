@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="GUI.Views.AddBookPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:GUI.Views"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel HorizontalAlignment="Center">
+        <TextBlock Text="Add New Book"
+                   Margin="0,0,10,40"
+                   FontFamily="Arial"
+                   FontSize="24"
+                   FontStyle="Italic"
+                   TextWrapping="WrapWholeWords"
+                   CharacterSpacing="200"
+                   Foreground="CornflowerBlue" />
+        <StackPanel Spacing="20"
+                    Name="bookForm">
+            <StackPanel>
+                <TextBlock Text="Name" />
+                <TextBox Text="{Binding name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Author" />
+                <TextBox Text="{Binding author, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Category" />
+                <ComboBox Name="categoriesComboBox">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <!--<Run Text="{Binding Id}" />-->
+                            <TextBlock>
+                             <Run Text="{Binding Name}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Name="price">
+                <TextBlock Text="Price" />
+                <TextBox TextChanged="checkPrice"
+                         Text="{Binding price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Quanity" />
+                <TextBox Text="{Binding quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Total sold" />
+                <TextBox Text="{Binding total_sold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+        </StackPanel>
+
+        <Button Margin="0,20,0,10"
+                Content="Thêm"
+                Click="AddButton" />
+    </StackPanel>
+</Page>

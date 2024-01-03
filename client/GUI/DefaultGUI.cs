@@ -8,7 +8,7 @@ namespace GUI
 {
     public class DefaultGUI : IGUI
     {
-        public override AppVersion GetVersion() => AppVersion.Default;
+        public override string GetVersion() => "Default";
 
         public DefaultGUI() { }
 

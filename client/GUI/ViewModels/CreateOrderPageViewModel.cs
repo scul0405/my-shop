@@ -73,12 +73,24 @@ namespace GUI.ViewModels
 
         internal void UpdateQuantityErrorMessage()
         {
-            var errorMessage = BooksWithSelection.Any(b => b.Quantity <= 0 
-            || b.Quantity > b.QuantityAvailable)
-                ? "Số lượng nhập không hợp lệ."
-                : null;
-            QuantityErrorMessage = errorMessage;
+            foreach (var bookWithSelection in BooksWithSelection)
+            {
+                var invalidQuantity = bookWithSelection.Quantity <= 0 || bookWithSelection.Quantity > bookWithSelection.QuantityAvailable;
+                Debug.WriteLine($"Book ID: {bookWithSelection.Id}, Quantity: {bookWithSelection.Quantity}, Available Quantity: {bookWithSelection.QuantityAvailable}, Invalid Quantity: {invalidQuantity}");
+
+                if (invalidQuantity)
+                {
+                    QuantityErrorMessage = "Số lượng nhập không hợp lệ.";
+                    return;
+                }
+            }
+
+            QuantityErrorMessage = null;
+
+            Debug.WriteLine("ErrorMessage: null");
         }
+
+
 
         private void SaveOrder()
         {
@@ -110,7 +122,7 @@ namespace GUI.ViewModels
                     int tempQuantity = booksWithSelection.QuantityAvailable - booksWithSelection.Quantity;
                     // Tồn tại một quyển sách có số lượng mua là 0 hoặc số lượng tồn không đủ
                     // thì không cho tạo mới đơn hàng
-                    if (tempQuantity > 0 && booksWithSelection.Quantity > 0)
+                    if (tempQuantity >= 0 && booksWithSelection.Quantity > 0)
                     {
                         book.quantity = tempQuantity;
                         book.total_sold = book.total_sold + booksWithSelection.Quantity;

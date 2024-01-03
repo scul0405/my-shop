@@ -20,7 +20,7 @@ namespace DAO
     public class BookCategoryDAO : IDAO
     {
         private const string Endpoint = "/book_categories";
-        public override AppVersion GetVersion() => AppVersion.Default;
+        public override string GetVersion() => "Default";
 
         public BookCategoryDAO() {}
   
@@ -91,8 +91,6 @@ namespace DAO
 
             return _client.Execute(request).IsSuccessful;
         }
-
-        public override string ToString() => "BookCategoryDAO";
 
         public override string OnData() => "BookCategory";
     }

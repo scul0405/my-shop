@@ -103,5 +103,31 @@ namespace GUI.Views
 
             return specificBook;
         }
+
+        private void ClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            FromDatePicker.SelectedDate = null;
+            ToDatePicker.SelectedDate = null;
+            ViewModel.ClearFilter();
+        }
+
+        private void DatePicker_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
+        {
+            try
+            {
+                if (sender == FromDatePicker)
+                {
+                    ViewModel.FromDate = args.NewDate.Value.DateTime;
+                }
+                else if (sender == ToDatePicker)
+                {
+                    ViewModel.ToDate = args.NewDate.Value.DateTime;
+                }
+            } catch
+            {
+                //eat
+            }
+
+        }
     }
 }

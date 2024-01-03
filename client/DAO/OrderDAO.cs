@@ -32,7 +32,7 @@ namespace DAO
     public class OrderDAO : IDAO
     {
         private const string Endpoint = "/orders";
-        public override AppVersion GetVersion() => AppVersion.Default; 
+        public override string GetVersion() => "Default"; 
 
         public OrderDAO() { }
 
@@ -81,7 +81,20 @@ namespace DAO
         }
 
         public override dynamic Patch(Object entity, Dictionary<string, string> configuration)
-        { 
+        {
+            //string id;
+
+            //if (configuration != null && configuration.TryGetValue("id", out id))
+            //{
+            //    //var order = (Order)entity;
+            //    var request = new RestRequest($"{Endpoint}/{id}", Method.Patch);
+            //    request.AddBody(entity);
+            //    Debug.WriteLine("[OrderDAO]: entity " + entity.ToString());
+            //    Debug.WriteLine("[OrderDAO]: request " + request.ToString());
+            //    return _client.Execute(request).IsSuccessful;
+            //}
+            //return false;
+
             var order = (Order)entity;
             var request = new RestRequest($"{Endpoint}/{order.Id}", Method.Patch);
             request.AddBody(order);
@@ -129,7 +142,6 @@ namespace DAO
             }
         }
 
-        public override string ToString() => "OrderDAO";
         public override string OnData() => "Order";
     }
 }

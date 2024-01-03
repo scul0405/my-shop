@@ -14,8 +14,10 @@ namespace BUS
 {
     public class OrderBus : IBus
     {
-        public override AppVersion GetVersion() => AppVersion.Default;
-        
+        public override string GetVersion() => "Default";
+        public override string OnData() => "Order";
+
+
         public OrderBus() { }
         public OrderBus(IDAO dao) { _dao = dao; }
 
@@ -45,7 +47,5 @@ namespace BUS
             return _dao.Post(entity, configuration);
         }
 
-        public override string ToString() => "OrderBus";
-        public override string OnData() => "Order";
     }
 }

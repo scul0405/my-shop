@@ -12,6 +12,20 @@
     </StackPanel>-->
 
     <Grid>
+        <Border x:Name="AppTitleBar"
+                VerticalAlignment="Top"
+                Canvas.ZIndex="2">
+            <StackPanel Orientation="Horizontal">
+                <SymbolIcon Margin="15,10,10,10"
+                            Symbol="SetLockScreen" />
+                <TextBlock Margin="0 , 10, 10, 10"
+                           x:Name="AppTitle"
+                           VerticalAlignment="Bottom"
+                           Text="My shop"
+                           Style="{StaticResource BodyStrongTextBlockStyle}" />
+            </StackPanel>
+        </Border>
+
         <Frame x:Name="myFrame" />
         <Grid x:Name="myControlsContainer">
             <ComboBox x:Name="cmbGUIList"
