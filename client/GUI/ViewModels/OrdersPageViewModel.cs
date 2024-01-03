@@ -70,8 +70,9 @@ namespace GUI.ViewModels
             {
                 if (_toDate != value)
                 {
-                    Debug.WriteLine("[ToDate]: Change, val: " + _toDate.ToString("yyyy-MM-dd"));
+                    
                     SetProperty(ref _toDate, value);
+                    Debug.WriteLine("[ToDate]: Change, val: " + _toDate.ToString("yyyy-MM-dd"));
                     Refresh();
                 }
             }
@@ -84,8 +85,9 @@ namespace GUI.ViewModels
             {
                 if (_fromDate != value)
                 {
-                    Debug.WriteLine("[FromDate]: Change, val: " + _fromDate.ToString("yyyy-MM-dd"));
+                    
                     SetProperty(ref _fromDate, value);
+                    Debug.WriteLine("[FromDate]: Change, val: " + _fromDate.ToString("yyyy-MM-dd"));
                     Refresh();
                 }
             }
