@@ -29,6 +29,8 @@ namespace GUI.Views
         {
             this.InitializeComponent();
             this.DataContext = viewModel;
+            ScreenStateManager.SaveLastScreen("ReportPage");
+
         }
 
         private void ClearFilter_Click(object sender, RoutedEventArgs e)

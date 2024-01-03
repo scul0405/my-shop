@@ -33,8 +33,9 @@ namespace GUI.Views
         {
             
             this.InitializeComponent();
-            SetInitialPage();
+            NavigateToLastScreen();
             nvSample.SelectionChanged += NavigationView_SelectionChanged;
+
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -105,6 +106,51 @@ namespace GUI.Views
 
                 case "Dark":
                     Application.Current.RequestedTheme = ApplicationTheme.Dark;
+                    break;
+            }
+        }
+
+        private void NavigateToLastScreen()
+        {
+            string lastScreen = ScreenStateManager.GetLastScreen();
+            switch (lastScreen)
+            {
+                case "OrdersPage":
+                    {
+                        contentFrame.Navigate(typeof(OrdersPage));
+                        NavItem_OrdersPage.IsSelected = true;
+                        break;
+                    }
+                case "ProductsPage":
+                    {
+                        contentFrame.Navigate(typeof(ProductsPage));
+                        NavItem_ProductsPage.IsSelected = true;
+                        break;
+                    }
+                case "ReportPage":
+                    {
+                        contentFrame.Navigate(typeof(ReportPage));
+                        NavItem_ReportPage.IsSelected = true;
+                        break;
+                    }
+                case "SettingPage":
+                    {
+                        contentFrame.Navigate(typeof(SettingPage));
+                        break;
+                    }
+                case "HomePage":
+                    {
+                        SetInitialPage();
+                        break;
+                    }
+                case "CreateOrderPage":
+                    {
+                        contentFrame.Navigate(typeof(CreateOrderPage));
+                        //NavItem_OrdersPage.IsSelected = true;
+                        break;
+                    }
+                default:
+                    SetInitialPage();
                     break;
             }
         }

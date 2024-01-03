@@ -29,6 +29,7 @@ namespace GUI.Views
         {
             this.InitializeComponent();
             this.DataContext = viewModel;
+            ScreenStateManager.SaveLastScreen("CreateOrderPage");
         }
 
         private void SaveOrder_Click(object sender, RoutedEventArgs e)

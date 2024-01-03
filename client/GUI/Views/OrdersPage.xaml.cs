@@ -31,6 +31,8 @@ namespace GUI.Views
         {
             InitializeComponent();
             Loaded += OrdersPage_Loaded;
+            ScreenStateManager.SaveLastScreen("OrdersPage");
+
         }
 
         private void OrdersPage_Loaded(object sender, RoutedEventArgs e)

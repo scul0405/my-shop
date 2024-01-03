@@ -47,6 +47,7 @@ namespace GUI.Views
             //_bus = bus;
             this.InitializeComponent();
             newCateName.Text = "";
+            ScreenStateManager.SaveLastScreen("ProductsPage");
         }
 
         private void LoadProduct(object sender, RoutedEventArgs e)
