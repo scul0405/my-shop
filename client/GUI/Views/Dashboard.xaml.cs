@@ -62,7 +62,7 @@ namespace GUI.Views
                         break;
                     // Add more cases for other pages as needed
                     case "NavItem_ReportPage":
-                        contentFrame.Navigate(typeof(CreateOrderPage));
+                        contentFrame.Navigate(typeof(ReportPage));
                         break;
                     default:
                         break;
