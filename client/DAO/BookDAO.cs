@@ -34,7 +34,7 @@ namespace DAO
     public class BookDAO : IDAO
     {
         private const string Endpoint = "/books";
-        public override AppVersion GetVersion() => AppVersion.Default;
+        public override string GetVersion() => "Default";
 
         public BookDAO() { }
 
@@ -123,8 +123,6 @@ namespace DAO
                 throw new Exception("Error at BookDAO - Delete method must include ID parameter.\"");
             }
         }
-
-        public override string ToString() => "BookDAO";
         public override string OnData() => "Book";
     }
 }

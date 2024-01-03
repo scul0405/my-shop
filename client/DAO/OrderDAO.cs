@@ -32,7 +32,7 @@ namespace DAO
     public class OrderDAO : IDAO
     {
         private const string Endpoint = "/orders";
-        public override AppVersion GetVersion() => AppVersion.Default; 
+        public override string GetVersion() => "Default"; 
 
         public OrderDAO() { }
 
@@ -142,7 +142,6 @@ namespace DAO
             }
         }
 
-        public override string ToString() => "OrderDAO";
         public override string OnData() => "Order";
     }
 }

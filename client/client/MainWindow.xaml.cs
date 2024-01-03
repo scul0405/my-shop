@@ -8,10 +8,12 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using ThreeLayerContract;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -34,22 +36,17 @@ namespace client
             Load_Plugin();
         }
 
-        Dictionary<string, IDAO> daoFactory;
-        Dictionary<string, IBus> busFactory;
+       
+        ObservableCollection<IGUI> guis = new();
+        List<IBus> buses = new();
+        List<IDAO> daos = new();
+        
         private void Load_Plugin()
         {
             string exePath = Assembly.GetExecutingAssembly().Location;
             string folder = System.IO.Path.GetDirectoryName(exePath);
             FileInfo[] fis = new DirectoryInfo(folder).GetFiles("*.dll");
 
-            var guis = new ObservableCollection<IGUI>();
-            var buses = new List<IBus>();
-            var daos = new List<IDAO>();
-
-            // the real version will get from the user
-            var mockGuiVersion = AppVersion.Default;
-            var mockBusVersion = AppVersion.Default;
-            var mockDaoVersion = AppVersion.Default;
 
             // Load all assemblies from current working directory
             foreach (FileInfo fileInfo in fis)
@@ -75,36 +72,51 @@ namespace client
                 }
             }
 
-            daoFactory = daos.Where(dao => dao.GetVersion() == mockDaoVersion)
-                                 .ToDictionary(dao => dao.OnData(), dao => dao);
+            var guiVersion = guis.Select(gui => gui.GetVersion()).ToList();
+            var busVersion = buses.Select(bus => bus.GetVersion()).ToList().Distinct();
+            var daoVersion = daos.Select(dao => dao.GetVersion()).ToList().Distinct();
 
-            busFactory = buses.Where(bus => bus.GetVersion() == mockBusVersion)
-                                  .ToDictionary(bus => bus.OnData(), bus => bus.CreateNew(daoFactory[bus.OnData()]));
-
-            
-
-
-            cmbGUIList.ItemsSource = guis;
-            cmbBusList.ItemsSource = buses;
-            cmbDaoList.ItemsSource = daos;
+            cmbGUIList.ItemsSource = guiVersion;
+            cmbBusList.ItemsSource = busVersion;
+            cmbDaoList.ItemsSource = daoVersion;
         }
 
         private void myButton_Click(object sender, RoutedEventArgs e)
         {
-            //IGUI gui = cmbGUIList.SelectedItem as IGUI;
+            var daoSelectedVersion = cmbDaoList.SelectedItem as string;
+            var busSelectedVersion = cmbBusList.SelectedItem as string;
+            var guiSelectedVersion = cmbGUIList.SelectedItem as string;
 
-            //var guiFactory = gui.CreateNew(busFactory);
+            var DaoFactory = new Dictionary<string, IDAO>();
+            var BusFactory = new Dictionary<string, IBus>();
 
-            //var screen = new MyShop(guiFactory);
-            //this.Close();
-            //screen.Activate();
+            // Lấy đơn vị dữ liệu của DAO
+            var daoDataUnit = daos.GroupBy(dao => dao.OnData()).ToList();
+            foreach (var daos in daoDataUnit)
+            {
+                var versionQuery = daos.Count() > 1 ? daoSelectedVersion : "Default";
+                var targetDAO = daos.Single(dao => dao.GetVersion() == versionQuery);
+                DaoFactory.Add(daos.Key, targetDAO);
+            }
 
-            IGUI gui = cmbGUIList.SelectedItem as IGUI;
-            var guiFactory = gui.CreateNew(busFactory);
+            // Lấy đơn vị dữu liệu của BUS
+            var busDataUnit = buses.GroupBy(bus => bus.OnData()).ToList();
+            foreach (var _buses in busDataUnit)
+            {
+                // Nếu có nhiều hơn một version thì chọn theo version của người dùng
+                // còn không thì là mặc định
+                var versionQuery = _buses.Count() > 1 ? busSelectedVersion : "Default";
+                var targetBus = _buses.Single(bus => bus.GetVersion() == versionQuery);
+
+                BusFactory.Add(_buses.Key, targetBus.CreateNew(DaoFactory[_buses.Key]));
+            }
+
+            // Khởi tạo app instance
+            var GuiFactory = guis.Single(gui => gui.GetVersion() == guiSelectedVersion).CreateNew(BusFactory);
 
             var myShopPageType = typeof(MyShopPage);
 
-            myFrame.Navigate(myShopPageType, guiFactory);
+            myFrame.Navigate(myShopPageType, GuiFactory);
             myControlsContainer.Visibility = Visibility.Collapsed;
         }
     }

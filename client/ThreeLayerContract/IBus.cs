@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ThreeLayerContract
 {
-    public abstract class IBus
+    public abstract class IBus : IVersion
     {
         protected IDAO _dao;
 
-        public abstract AppVersion GetVersion();
+        public abstract string GetVersion();
         public abstract IBus CreateNew(IDAO dao);
         public abstract string OnData();
 

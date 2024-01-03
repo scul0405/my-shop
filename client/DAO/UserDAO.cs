@@ -18,7 +18,7 @@ namespace DAO
     public class UserDAO : IDAO
     {
         private const string Endpoint = "/users";
-        public override AppVersion GetVersion() => AppVersion.Default;
+        public override string GetVersion() => "Default";
 
         public UserDAO() { }
 
@@ -56,8 +56,6 @@ namespace DAO
         {
             throw new NotImplementedException();
         }
-
-        public override string ToString() => "UserDAO";
         public override string OnData() => "User";
     }
 }

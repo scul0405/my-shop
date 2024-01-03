@@ -9,8 +9,9 @@ namespace BUS
 {
     public class BookCategoryBus : IBus
     {
-        public override AppVersion GetVersion() => AppVersion.Default;
-        
+        public override string GetVersion() => "Default";
+        public override string OnData() => "BookCategory";
+
         public BookCategoryBus() { }
 
         public BookCategoryBus(IDAO dao) { this._dao = dao; }
@@ -36,7 +37,5 @@ namespace BUS
         {
             return this._dao.Post(entity, configuration);
         }
-        public override string ToString() => "BookCategoryBus";
-        public override string OnData() => "BookCategory";
     }
 }

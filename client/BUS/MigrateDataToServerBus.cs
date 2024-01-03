@@ -14,7 +14,7 @@ namespace BUS
         }
 
         public override IBus CreateNew(IDAO dao) => new MigrateDataToServerBus(dao);
-        public override AppVersion GetVersion() => AppVersion.Default;
+        public override string GetVersion() => "Default";
         public override string OnData() => "Migrate";
 
         public override dynamic Delete(Dictionary<string, string> configuration)

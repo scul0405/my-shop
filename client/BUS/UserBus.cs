@@ -10,7 +10,8 @@ namespace BUS
     public class UserBus : IBus
     {
         // Identifier
-        public override AppVersion GetVersion() => AppVersion.Default;
+        public override string GetVersion() => "Default";
+        public override string OnData() => "User";
 
         public UserBus() { }
         public UserBus(IDAO dao) { this._dao = dao; }
@@ -35,8 +36,5 @@ namespace BUS
         {
             return this._dao.Post(entity, configuration);
         }
-
-        public override string ToString() => "UserBus";
-        public override string OnData() => "User";
     }
 }
