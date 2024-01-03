@@ -189,12 +189,40 @@ namespace GUI.ViewModels
         private int _order_quantity = 1;
         private SolidColorBrush _quantityInputColor = new SolidColorBrush(Colors.Black);
         private OrderDetailPageViewModel _parentViewModel;
+        private string _statusAvaiable;
 
         public BookWithNotion(Book book, OrderDetailPageViewModel parentViewModel)
         {
             _book = book;
             _order_quantity = book.order_quantity;
             _parentViewModel = parentViewModel;
+            if (book.status == true)
+            {
+                _statusAvaiable = "";
+            } else
+            {
+                _statusAvaiable = "This book is not available";
+            }
+        }
+
+        public string MessageToUser
+        {
+            get
+            {
+                if (_book.status == true)
+                {
+                    return QuantityAvailable.ToString();
+                }
+                else
+                {
+                    return "This book is not available";
+                }
+            }
+        }
+        public string StatusAvaiable
+        {
+            get => _statusAvaiable;
+            set => SetProperty(ref _statusAvaiable, value);
         }
 
         public bool IsSelected

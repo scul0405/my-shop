@@ -29,11 +29,15 @@ namespace GUI.ViewModels
             var configuration = new Dictionary<string, string> { { "size", int.MaxValue.ToString() } };
             List<Book> availableBooks = new List<Book>(_bus["Book"].Get(configuration));
 
+
             _booksWithSelection = new ObservableCollection<BookWithSelection>();
 
             foreach (var book in availableBooks)
             {
-                _booksWithSelection.Add(ConvertToBookWithSelection(book));
+                if (book.quantity > 0 && book.status == true)
+                {
+                    _booksWithSelection.Add(ConvertToBookWithSelection(book));
+                } 
             }
 
             foreach (var bookWithSelection in _booksWithSelection)

@@ -69,7 +69,7 @@
                                                 Header="Price" />
                 <!-- DataGridTextColumn for Total Sold -->
                 <telerikGrid:DataGridTextColumn CanUserEdit="False"
-                                                PropertyName="QuantityAvailable"
+                                                PropertyName="MessageToUser"
                                                 Header="Quantity available" />
             </telerikGrid:RadDataGrid.Columns>
         </telerikGrid:RadDataGrid>

@@ -15,6 +15,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using ThreeLayerContract;
 using Entity;
+using System.Diagnostics;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,6 +26,10 @@ namespace GUI.Views
     //TODO: Kiểm tra xem mật khẩu đã thật sự được lưu hay chưa, đã hash hay chưa.
     public sealed partial class LoginPage : UserControl
     {
+        private bool isLoginInProgress = false;
+        private bool isShowDialogProgress = false;
+        int click = 0;
+
         Dictionary<string, IBus> _bus = BusInstance._bus;
         public LoginPage(Dictionary<string, IBus> bus)
         {
@@ -33,13 +38,30 @@ namespace GUI.Views
         }
         private void Button_Login_OnClick(object sender, TappedRoutedEventArgs e)
         {
+            click++;
+            Debug.WriteLine("[LOGIN BUTTON] click: " + click);
+            Debug.WriteLine("[LOGIN BUTTON] isLoginInProgress: " + isLoginInProgress);
+            if (isLoginInProgress)
+            {
+                // Nếu đang trong quá trình đăng nhập, không làm gì cả
+                return;
+            }
+
+            isLoginInProgress = true;
+
             // Kiểm tra tài khoản và mật khẩu
             string username = TextBoxUser.Text;
             string password = TextBoxPassword.Password;
             if (IsAdminAccount(username, password))
             {
+                Debug.WriteLine("[LOGIN BUTTON] isShowDialogProgress before: " + isShowDialogProgress);
                 // Đăng nhập thành công, hiển thị thông báo hoặc chuyển đến trang chính thức
-                ShowSuccessMessage();
+                if (isShowDialogProgress == false)
+                {
+                    isShowDialogProgress = true;
+                    ShowSuccessMessage();
+                }
+                Debug.WriteLine("[LOGIN BUTTON] isShowDialogProgress after: " + isShowDialogProgress);
 
                 // Lưu trạng thái "Remember Password" nếu người dùng chọn
                 if (RememberPasswordCheckBox.IsChecked.HasValue &&
@@ -55,8 +77,14 @@ namespace GUI.Views
             else
             {
                 // Đăng nhập không thành công, hiển thị thông báo hoặc xử lý ngược lại
-                ShowFailureMessage();
+                if (isShowDialogProgress == false)
+                {
+                    isShowDialogProgress = true;
+                    ShowFailureMessage();
+                }
             }
+            isLoginInProgress = false;
+            Debug.WriteLine("[LOGIN BUTTON] isShowDialogProgress last: " + isShowDialogProgress);
         }
 
         private bool IsAdminAccount(string username, string password)
@@ -75,7 +103,7 @@ namespace GUI.Views
 
             // Để sử dụng tài khoản mặc định, hãy thay đổi flag thành true
             // return flag;
-            return true;
+            return flag;
         }
 
         private async void ShowSuccessMessage()
@@ -101,7 +129,9 @@ namespace GUI.Views
 
             successDialog.XamlRoot = this.Content.XamlRoot;
 
-            await successDialog.ShowAsync();
+            await successDialog.ShowAsync().AsTask();
+            isShowDialogProgress = false;
+            Debug.WriteLine("[ShowSuccessMessage] isShowDialogProgress after: " + isShowDialogProgress);
         }
 
         private async void ShowFailureMessage()
@@ -121,7 +151,8 @@ namespace GUI.Views
 
             failureDialog.XamlRoot = this.Content.XamlRoot;
 
-            await failureDialog.ShowAsync();
+            await failureDialog.ShowAsync().AsTask();
+            isShowDialogProgress = false;
         }
 
         private void SaveRememberPasswordState(bool isRemembered)
