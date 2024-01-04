@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Media;
 using Telerik.UI.Xaml.Controls.Chart;
 using System.Windows;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using DocumentFormat.OpenXml.VariantTypes;
 
 
 namespace GUI.ViewModels
@@ -27,8 +28,54 @@ namespace GUI.ViewModels
 
         private List<Data> _profit = new List<Data>();
         private List<Data> _revenue = new List<Data>();
+        private List<Data> _numOfOrder = new List<Data>();
 
 
+        public string StartDateFilter
+        {
+            get => FromDate.ToString("dd/MM/yyyy");
+        }
+
+        public string EndDateFilter
+        {
+            get => ToDate.ToString("dd/MM/yyyy");
+        }
+
+        public string FilterBy
+        {
+            get
+            {
+                if (SelectedFilterIndex == 0)
+                {
+                    return "Day";
+                }
+                else if (SelectedFilterIndex == 1)
+                {
+                    return "Week";
+                }
+                else if (SelectedFilterIndex == 2)
+                {
+                    return "Month";
+                }
+                else
+                {
+                    return "Year";
+                }
+            }
+        }
+
+        public List<Data> NumOfOrder
+        {
+            get => _numOfOrder;
+            set
+            {
+                if (value != null)
+                {
+                    _numOfOrder = value;
+                    OnPropertyChanged(nameof(NumOfOrder));
+                }
+            }
+        }
         public List<Data> Revenue
         {
             get => _revenue;
@@ -72,14 +119,17 @@ namespace GUI.ViewModels
         {
             Debug.WriteLine("[RefreshData]: Refreshing data...");
 
-            Revenue = GetRevenueData(FromDate, ToDate, selectedFilterIndex); 
+            Revenue = GetRevenueData(FromDate, ToDate, selectedFilterIndex).Item1;
+            NumOfOrder = GetRevenueData(FromDate, ToDate, selectedFilterIndex).Item2;
             Profit = GetProfitData();    
         }
 
 
-        private List<Data> GetRevenueData(DateTime from, DateTime to, int index)
+        private Tuple<List<Data>, List<Data>> GetRevenueData(DateTime from, DateTime to, int index)
         {
+            Tuple<List<Data>, List<Data>> res;
             var newData = new List<Data>();
+            var orderData = new List<Data>();
 
             switch (index)
             {
@@ -92,10 +142,12 @@ namespace GUI.ViewModels
                             List<Order> orders = GetOrdersFromInput(i, i);
                             double revenue = GetRevenueFromOrderList(orders);
                             newData.Add(new Data { Category = i.ToString("yyyy-MM-dd"), Value = revenue });
+                            orderData.Add(new Data { Category = i.ToString("yyyy-MM-dd"), Value = orders.Count });
                         }
                         catch
                         {
                             newData.Add(new Data { Category = i.ToString("yyyy-MM-dd"), Value = 0 });
+                            orderData.Add(new Data { Category = i.ToString("yyyy-MM-dd"), Value = 0 });
                         }
                     }
                     break;
@@ -115,10 +167,12 @@ namespace GUI.ViewModels
                         List<Order> ordersFirstWeek = GetOrdersFromInput(from, startWeek.AddDays(remainingDaysInFirstWeek));
                         double revenueFirstWeek = GetRevenueFromOrderList(ordersFirstWeek);
                         newData.Add(new Data { Category = "Week 1", Value = revenueFirstWeek });
+                        orderData.Add(new Data { Category = "Week 1", Value = ordersFirstWeek.Count });
                     }
                     catch
                     {
                         newData.Add(new Data { Category = "Week 1", Value = 0 });
+                        orderData.Add(new Data { Category = "Week 1", Value = 0 });
                     }
                     int week = 2;
                     // Tính toán các tuần tiếp theo
@@ -139,10 +193,12 @@ namespace GUI.ViewModels
                             List<Order> orders = GetOrdersFromInput(weekStart, weekEnd);
                             double revenue = GetRevenueFromOrderList(orders);
                             newData.Add(new Data { Category = $"Week {week}", Value = revenue });
+                            orderData.Add(new Data { Category = $"Week {week}", Value = orders.Count });
                         }
                         catch
                         {
                             newData.Add(new Data { Category = $"Week {week}", Value = 0 });
+                            orderData.Add(new Data { Category = $"Week {week}", Value = 0 });
                         }
 
                         // Chuyển sang tuần tiếp theo
@@ -160,10 +216,12 @@ namespace GUI.ViewModels
                         List<Order> ordersFirstMonth = GetOrdersFromInput(from, endMonth);
                         double revenueFirstMonth = GetRevenueFromOrderList(ordersFirstMonth);
                         newData.Add(new Data { Category = from.ToString("yyyy-MM"), Value = revenueFirstMonth });
+                        orderData.Add(new Data { Category = from.ToString("yyyy-MM"), Value = ordersFirstMonth.Count });
                     }
                     catch
                     {
                         newData.Add(new Data { Category = from.ToString("yyyy-MM"), Value = 0 });
+                        orderData.Add(new Data { Category = from.ToString("yyyy-MM"), Value = 0 });
                     }
 
                     int month = 2;
@@ -185,10 +243,12 @@ namespace GUI.ViewModels
                             List<Order> orders = GetOrdersFromInput(monthStart, monthEnd);
                             double revenue = GetRevenueFromOrderList(orders);
                             newData.Add(new Data { Category = monthStart.ToString("yyyy-MM"), Value = revenue });
+                            orderData.Add(new Data { Category = monthStart.ToString("yyyy-MM"), Value = orders.Count });
                         }
                         catch
                         {
                             newData.Add(new Data { Category = monthStart.ToString("yyyy-MM"), Value = 0 });
+                            orderData.Add(new Data { Category = monthStart.ToString("yyyy-MM"), Value = 0 });
                         }
 
                         // Chuyển sang tháng tiếp theo
@@ -207,10 +267,12 @@ namespace GUI.ViewModels
                         List<Order> ordersFirstYear = GetOrdersFromInput(from, endYear);
                         double revenueFirstYear = GetRevenueFromOrderList(ordersFirstYear);
                         newData.Add(new Data { Category = from.Year.ToString(), Value = revenueFirstYear });
+                        orderData.Add(new Data { Category = from.Year.ToString(), Value = ordersFirstYear.Count });
                     }
                     catch
                     {
                         newData.Add(new Data { Category = from.Year.ToString(), Value = 0 });
+                        orderData.Add(new Data { Category = from.Year.ToString(), Value = 0 });
                     }
 
                     int year = from.Year + 1;
@@ -231,11 +293,13 @@ namespace GUI.ViewModels
                         {
                             List<Order> orders = GetOrdersFromInput(yearStart, yearEnd);
                             double revenue = GetRevenueFromOrderList(orders);
-                            newData.Add(new Data { Category = $"Year {year}", Value = revenue });
+                            newData.Add(new Data { Category = year.ToString(), Value = revenue });
+                            orderData.Add(new Data { Category = year.ToString(), Value = orders.Count });
                         }
                         catch
                         {
-                            newData.Add(new Data { Category = $"Year {year}", Value = 0 });
+                            newData.Add(new Data { Category = year.ToString(), Value = 0 });
+                            orderData.Add(new Data { Category = year.ToString(), Value = 0 });
                         }
 
                         // Chuyển sang năm tiếp theo
@@ -248,7 +312,8 @@ namespace GUI.ViewModels
                     break;
             }
 
-            return newData;
+            res = new Tuple<List<Data>, List<Data>>(newData, orderData);
+            return res;
         }
 
         private DateTime GetNextMonday(DateTime date)
@@ -334,7 +399,7 @@ namespace GUI.ViewModels
             {
                 if (selectedFilterIndex != value)
                 {
-                    selectedFilterIndex = value;
+                    SetProperty(ref selectedFilterIndex, value);
                     OnPropertyChanged(nameof(SelectedFilterIndex));
                     RefreshData();
                     Debug.WriteLine("[SelectedFilterIndex]: Change, val: " + selectedFilterIndex);
