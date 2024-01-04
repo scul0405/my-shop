@@ -32,6 +32,8 @@ namespace GUI.Views
             InitializeComponent();
             Loaded += OrdersPage_Loaded;
             ScreenStateManager.SaveLastScreen("OrdersPage");
+            FromDatePicker.MaxYear = DateTime.Now;
+            ToDatePicker.MaxYear = DateTime.Now;
 
         }
 
@@ -77,10 +79,19 @@ namespace GUI.Views
                 {
                     foreach (var item in myOrder.books)
                     {
-                        Book book = new Book();
-                        book = ConvertToSpecificBook(item);
-                        books.Add(book);
-                        Debug.WriteLine("Book id " + book.ID);
+                        try
+                        {
+                            Book book = new Book();
+                            book = ConvertToSpecificBook(item);
+                            books.Add(book);
+                            Debug.WriteLine("Book id " + book.ID);
+                        }
+                        catch
+                        {
+                            Debug.WriteLine("Book is null or cant ConvertToSpecificBook");
+                            //eat
+                        }
+
                     }
                 }
                 Frame.Navigate(typeof(OrderDetailPage), Tuple.Create(ID, books));

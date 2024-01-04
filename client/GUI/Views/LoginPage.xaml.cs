@@ -115,7 +115,7 @@ namespace GUI.Views
 
             // Để sử dụng tài khoản mặc định, hãy thay đổi flag thành true
             // return flag;
-            return true;
+            return flag;
         }
 
         private async void ShowSuccessMessage()

@@ -21,7 +21,7 @@ namespace GUI.ViewModels
         private List<Order> _orders;
         Dictionary<string, IBus> _bus = BusInstance._bus;
         private DateTime _fromDate = DateTime.MinValue;
-        private DateTime _toDate = DateTime.MaxValue;
+        private DateTime _toDate = DateTime.Now;
 
         public OrdersPageViewModel()
         {
@@ -151,12 +151,51 @@ namespace GUI.ViewModels
         {
             // Lấy danh sách đơn hàng từ API
             List<Order> orders;
-            var configuration = new Dictionary<string, string> {
-               { "page", pageIndex.ToString() },
-               { "size", pageSize.ToString() },
-               { "from", FromDate.ToString("yyyy-MM-dd")},
-               { "to", ToDate.ToString("yyyy-MM-dd")}
-            };
+            Dictionary<string, string> configuration;
+
+            // Chế độ mặc định, get toàn bộ đơn hàng
+            if (FromDate == DateTime.MinValue && ToDate == DateTime.Now)
+            {
+                Debug.WriteLine("[GetOrders]: Default mode");
+                configuration = new Dictionary<string, string>
+                {
+                    { "page", pageIndex.ToString() },
+                    { "size", pageSize.ToString() }
+                };
+            }
+            // Nếu chỉ thay đổi ToDate
+            else if (FromDate == DateTime.MinValue)
+            {
+                Debug.WriteLine("[GetOrders]: Change ToDate mode");
+                configuration = new Dictionary<string, string>
+                {
+                    { "page", pageIndex.ToString() },
+                    { "size", pageSize.ToString() },
+                    { "to", ToDate.ToString("yyyy-MM-dd")}
+                };
+            }
+            // Nếu chỉ thay đổi FromDate
+            else if (ToDate == DateTime.Now)
+            {
+                Debug.WriteLine("[GetOrders]: Change FromDate mode");
+                configuration = new Dictionary<string, string>
+                {
+                    { "page", pageIndex.ToString() },
+                    { "size", pageSize.ToString() },
+                    { "from", FromDate.ToString("yyyy-MM-dd")}
+                };
+            } 
+            else
+            {
+                Debug.WriteLine("[GetOrders]: Change FromDate and ToDate mode");
+                configuration = new Dictionary<string, string>
+                {
+                    { "page", pageIndex.ToString() },
+                    { "size", pageSize.ToString() },
+                    { "from", FromDate.ToString("yyyy-MM-dd")},
+                    { "to", ToDate.ToString("yyyy-MM-dd")}
+                };
+            }
 
             try
             {
