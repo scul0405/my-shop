@@ -33,6 +33,7 @@ namespace client
             this.ExtendsContentIntoTitleBar = true;
             this.SetTitleBar(AppTitleBar);
             this.InitializeComponent();
+            this.Title = "My Shop application";
             Load_Plugin();
         }
 

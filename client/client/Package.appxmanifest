@@ -8,7 +8,7 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="55a1559e-8317-45bc-8dcd-a0bf81bd62d1"
+    Name="my-shop-release"
     Publisher="CN=Surface"
     Version="1.0.0.0" />
 
@@ -17,7 +17,7 @@
   <Properties>
     <DisplayName>client</DisplayName>
     <PublisherDisplayName>Surface</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Assets\SL.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -34,13 +34,12 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="client"
+        DisplayName="My shop"
         Description="client"
         BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
+        Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\4444.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:SplashScreen Image="Assets\SS.png" />
       </uap:VisualElements>
     </Application>
   </Applications>

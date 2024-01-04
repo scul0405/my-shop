@@ -44,7 +44,7 @@ namespace DAO
                 var args = new
                 {
                     size = configuration["size"],
-                    page = configuration["page"]
+                    page = "1"
                 };
 
                 request.AddObject(args);

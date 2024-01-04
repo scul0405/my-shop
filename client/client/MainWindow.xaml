@@ -27,64 +27,85 @@
         </Border>
 
         <Frame x:Name="myFrame" />
-        <Grid x:Name="myControlsContainer">
-            <ComboBox x:Name="cmbGUIList"
-                      HorizontalAlignment="Left"
-                      Margin="135,197,0,0"
-                      VerticalAlignment="Top"
-                      Width="120"
-                      SelectedIndex="0" />
-            <ComboBox x:Name="cmbBusList"
-                      HorizontalAlignment="Left"
-                      Margin="368,201,0,0"
-                      VerticalAlignment="Top"
-                      Width="120"
-                      SelectedIndex="0" />
-            <ComboBox x:Name="cmbDaoList"
-                      HorizontalAlignment="Left"
-                      Margin="221,256,0,0"
-                      VerticalAlignment="Top"
-                      Width="120"
-                      SelectedIndex="0" />
-            <TextBlock x:Name="label"
-                       Text="Các thành phần tìm thấy"
-                       HorizontalAlignment="Left"
-                       Margin="40,38,0,0"
-                       VerticalAlignment="Top" />
-            <TextBlock x:Name="label1"
-                       Text="Giao diện:"
-                       HorizontalAlignment="Left"
-                       Margin="57,193,0,0"
-                       VerticalAlignment="Top" />
-            <TextBlock x:Name="label1_Copy"
-                       Text="Nghiệp vụ:"
-                       HorizontalAlignment="Left"
-                       Margin="291,197,0,0"
-                       VerticalAlignment="Top" />
-            <TextBlock x:Name="label1_Copy1"
-                       Text="Lưu trữ:"
-                       HorizontalAlignment="Left"
-                       Margin="143,252,0,0"
-                       VerticalAlignment="Top" />
-            <Image x:Name="imgGUI"
-                   HorizontalAlignment="Left"
-                   Height="119"
-                   Margin="57,69,0,0"
-                   VerticalAlignment="Top"
-                   Width="198" />
-            <Image x:Name="imgBus"
-                   HorizontalAlignment="Left"
-                   Height="119"
-                   Margin="290,69,0,0"
-                   VerticalAlignment="Top"
-                   Width="198" />
-            <Button x:Name="btnCreateProgram"
-                    Content="Tạo chương trình"
-                    HorizontalAlignment="Left"
-                    Margin="199,316,0,0"
-                    VerticalAlignment="Top"
-                    Width="106"
-                    Click="myButton_Click" />
+        <Grid x:Name="myControlsContainer"
+              VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+
+
+            <TextBlock Text="Configuration Page"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Grid.Row="0" 
+                       Margin="30, 30, 30, 30"/>
+            
+            <StackPanel Grid.Row="1"
+                        Orientation="Vertical"
+                        HorizontalAlignment="Center">
+                <TextBlock x:Name="label"
+                           Text="Các thành phần tìm thấy"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="20, 20, 20, 20"/>
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="10">
+                    <TextBlock x:Name="label1"
+                               Text="Giao diện:" 
+                               Margin="10, 5, 10, 10"/>
+
+                    <ComboBox x:Name="cmbGUIList"
+                              Width="120"
+                              SelectedIndex="0" 
+                              Margin="5, 0, 0, 0"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="10">
+
+                    <TextBlock x:Name="label1_Copy"
+                               Text="Nghiệp vụ:" 
+                               Margin="10, 5, 10, 10"/>
+
+                    <ComboBox x:Name="cmbBusList"
+                              Width="120"
+                              SelectedIndex="0" />
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="10">
+                    <TextBlock x:Name="label1_Copy1"
+                               Text="Lưu trữ:" 
+                               Margin="10, 5, 10, 10"/>
+                    <ComboBox x:Name="cmbDaoList"
+                              Margin="20, 0, 0, 0"
+                              Width="120"
+                              SelectedIndex="0" />
+
+                </StackPanel>
+
+
+                <Button x:Name="btnCreateProgram"
+                        Content="Start application"
+                        Width="180"
+                        FontWeight="Black"
+                        HorizontalAlignment="Center"
+                        Click="myButton_Click"
+                        Margin="10, 20, 0, 0"
+                        Background="LightGray"/>
+                
+            </StackPanel>
+
+
+
         </Grid>
 
     </Grid>
