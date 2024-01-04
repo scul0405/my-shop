@@ -36,6 +36,7 @@ namespace GUI.Views
         {
             this.InitializeComponent();
             //productions.Text = books.Count.ToString();
+            ScreenStateManager.SaveLastScreen("HomePage");
         }
 
         private void LoadData(object sender, RoutedEventArgs e)

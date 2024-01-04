@@ -31,6 +31,8 @@ namespace GUI.Views
         {
             InitializeComponent();
             Loaded += OrdersPage_Loaded;
+            ScreenStateManager.SaveLastScreen("OrdersPage");
+
         }
 
         private void OrdersPage_Loaded(object sender, RoutedEventArgs e)
@@ -71,7 +73,7 @@ namespace GUI.Views
                 {
                     Debug.WriteLine("Order is null");
                 }
-                else
+                else if (myOrder.books != null)
                 {
                     foreach (var item in myOrder.books)
                     {
@@ -98,7 +100,7 @@ namespace GUI.Views
                 total_sold = book.total_sold,
                 order_quantity = book.order_quantity,
                 quantity = book.quantity,
-                status = book.status
+                status = book.status != null ? book.status : false
             };
 
             return specificBook;

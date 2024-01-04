@@ -61,6 +61,7 @@ namespace GUI.Views
         public SettingPage()
         {
             this.InitializeComponent();
+            ScreenStateManager.SaveLastScreen("SettingPage");
         }
 
         public class ImportBook
