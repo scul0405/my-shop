@@ -9,6 +9,7 @@
       xmlns:viewModels="using:GUI.ViewModels"
       xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
       xmlns:telerikChart="using:Telerik.UI.Xaml.Controls.Chart"
+      xmlns:ctWinUI="using:CommunityToolkit.WinUI.UI.Controls"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <ScrollView>
         <Grid>
@@ -119,7 +120,7 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Grid.Row="0" />
-                    <telerikGrid:RadDataGrid Name="bestSellingGrid"
+                    <!--<telerikGrid:RadDataGrid Name="bestSellingGrid"
                                              AutoGenerateColumns="False"
                                              SelectionMode="Single"
                                              HorizontalAlignment="Center"
@@ -139,7 +140,25 @@
                             <telerikGrid:DataGridBooleanColumn Header="Total sold"
                                                                PropertyName="total_sold" />
                         </telerikGrid:RadDataGrid.Columns>
-                    </telerikGrid:RadDataGrid>
+                    </telerikGrid:RadDataGrid>-->
+
+                    <ctWinUI:DataGrid Name="bestSellingGrid"
+                                      Margin="10, 10, 30, 0"
+                                      Grid.Row="1"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False"
+                                      HorizontalAlignment="Center"
+                                      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                      CornerRadius="8">
+                        <ctWinUI:DataGrid.Columns>
+                            <ctWinUI:DataGridTextColumn Header="Name"
+                                                        Binding="{Binding name}" />
+                            <ctWinUI:DataGridTextColumn Header="Author"
+                                                        Binding="{Binding author}" />
+                            <ctWinUI:DataGridTextColumn Header="Total sold"
+                                                        Binding="{Binding total_sold}" />
+                        </ctWinUI:DataGrid.Columns>
+                    </ctWinUI:DataGrid>
 
                 </Grid>
 
@@ -156,7 +175,7 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Grid.Row="0" />
-                    <telerikGrid:RadDataGrid Name="lowStockGrid"
+                    <!--<telerikGrid:RadDataGrid Name="lowStockGrid"
                                              AutoGenerateColumns="False"
                                              SelectionMode="Single"
                                              HorizontalAlignment="Center"
@@ -176,7 +195,25 @@
                             <telerikGrid:DataGridBooleanColumn Header="Quantity"
                                                                PropertyName="quantity" />
                         </telerikGrid:RadDataGrid.Columns>
-                    </telerikGrid:RadDataGrid>
+                    </telerikGrid:RadDataGrid>-->
+
+                    <ctWinUI:DataGrid Name="lowStockGrid"
+                                      Margin="30, 10, 10, 0"
+                                      Grid.Row="1"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False"
+                                      HorizontalAlignment="Center"
+                                      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                      CornerRadius="8">
+                        <ctWinUI:DataGrid.Columns>
+                            <ctWinUI:DataGridTextColumn Header="Name"
+                                                        Binding="{Binding name}" />
+                            <ctWinUI:DataGridTextColumn Header="Author"
+                                                        Binding="{Binding author}" />
+                            <ctWinUI:DataGridTextColumn Header="Quantity"
+                                                        Binding="{Binding quantity}" />
+                        </ctWinUI:DataGrid.Columns>
+                    </ctWinUI:DataGrid>
 
                 </Grid>
             </Grid>

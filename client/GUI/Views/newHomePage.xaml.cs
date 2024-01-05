@@ -48,8 +48,48 @@ namespace GUI.Views
             this.InitializeComponent();
             ScreenStateManager.SaveLastScreen("HomePage");
             LoadDataForHomePage();
+
+
             //this.lowStockGrid.ItemsSource = Top5BooKLowStock;
             //this.bestSellingGrid.ItemsSource = Top5BookBestSeller;
+
+            Debug.WriteLine("LoadDataForHomePage");
+            Debug.WriteLine("Top 5 book best seller");
+            foreach (var book in _top5BookBestSeller)
+            {
+                Debug.WriteLine(book.name + " " + book.author + " " + book.total_sold);
+            }
+            foreach (var book in _top5BookLowStock)
+            {
+                Debug.WriteLine(book.name + " " + book.author + " " + book.quantity);
+            }
+            try
+            {
+                if (this.lowStockGrid != null)
+                {
+                    Debug.WriteLine("lowStockGrid != null");
+                    if (Top5BookBestSeller != null)
+                    {
+                        Debug.WriteLine("Top5BooKLowStock != null");
+                        this.lowStockGrid.ItemsSource = Top5BooKLowStock;
+                    }
+
+                }
+                if (this.bestSellingGrid != null)
+                {
+                    Debug.WriteLine("bestSellingGrid != null");
+                    if (Top5BookBestSeller != null)
+                    {
+                        Debug.WriteLine("Top5BookBestSeller != null");
+                        this.bestSellingGrid.ItemsSource = Top5BookBestSeller;
+                        Debug.WriteLine("bestSellingGrid.ItemsSource = Top5BookBestSeller");
+                    }
+                }
+            } catch
+            {
+                Debug.WriteLine("Errorrrrrrrrrrr");
+            }
+
         }
 
         public void LoadDataForHomePage()
@@ -177,34 +217,44 @@ namespace GUI.Views
                 // Xử lý nếu có lỗi khi tải dữ liệu
             }
         }
+
+        private List<Order> GetOrdersFromInput(DateTime from, DateTime to)
+        {
+            List<Order> orders;
+            Dictionary<string, IBus> _bus = BusInstance._bus;
+            var configuration = new Dictionary<string, string> {
+                { "size", int.MaxValue.ToString() },
+                { "from", from.ToString("yyyy-MM-dd")},
+                { "to", to.ToString("yyyy-MM-dd")}
+            };
+            try
+            {
+                orders = new List<Order>(_bus["Order"].Get(configuration));
+            }
+            catch
+            {
+                orders = new List<Order>();
+            }
+            return orders;
+        }
         private void LoadDataOrderInLast7Day()
         {
             List<Data> data = new List<Data>();
             for (int i = 0; i < 7; i++)
             {
                 List<Order> orders = new List<Order>();
-                var configurationBook = new Dictionary<string, string> {
-                    { "size", int.MaxValue.ToString() },
-                    { "from", DateTime.Now.AddDays(-i).ToString("yyyy-MM-dd") },
-                    { "to", DateTime.Now.AddDays(-i).ToString("yyyy-MM-dd") }
-                };
-
-                try
+                var tempOrders = GetOrdersFromInput(DateTime.Now.AddDays(-i), DateTime.Now.AddDays(-i));
+                if (tempOrders != null)
                 {
-                    List<Order> tempOrders = new List<Order>(_bus["Order"].Get(configurationBook)).Where(order => order.status).ToList();
-                    if (tempOrders != null)
-                    {
-                        orders = tempOrders;
-                    }
+                    orders = tempOrders.Where(order => order.status).ToList();
                     data.Add(new Data { Category = DateTime.Now.AddDays(-i).ToString("dd-MM-yyyy"), Value = orders.Count });
-                }
-                catch
+                } else
                 {
-                    Debug.WriteLine("Fail to get order in data base");
                     data.Add(new Data { Category = DateTime.Now.AddDays(-i).ToString("dd-MM-yyyy"), Value = 0 });
                 }
             }
-            OrdersIn7Day = data;
+            data = data.Reverse<Data>().ToList();
+            _ordersIn7Last7Day = data;
         }
 
         public List<Data> OrdersIn7Day

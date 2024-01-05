@@ -182,7 +182,7 @@
                             <FontIcon Margin="0,8,0,0"
                                       FontSize="44"
                                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                      Glyph="&#xE943;" />
+                                      Glyph="&#xE7BF;" />
                         </local:HeaderTile.Source>
                     </local:HeaderTile>
                     <local:HeaderTile Title="Orders in today"
@@ -191,7 +191,7 @@
                             <FontIcon Margin="0,8,0,0"
                                       FontSize="44"
                                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                      Glyph="&#xE943;" />
+                                      Glyph="&#xE7BF;" />
                         </local:HeaderTile.Source>
                     </local:HeaderTile>
                     <local:HeaderTile Title="Orders in this month"
@@ -200,7 +200,7 @@
                             <FontIcon Margin="0,8,0,0"
                                       FontSize="44"
                                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                      Glyph="&#xE943;" />
+                                      Glyph="&#xE7BF;" />
                         </local:HeaderTile.Source>
                     </local:HeaderTile>
                     <local:HeaderTile Title="Orders in last 7 day"
@@ -209,19 +209,7 @@
                             <FontIcon Margin="0,8,0,0"
                                       FontSize="44"
                                       Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                      Glyph="&#xE943;" />
-                        </local:HeaderTile.Source>
-                    </local:HeaderTile>
-                    <local:HeaderTile Title="All products"
-                                      Description="{x:Bind Productions}">
-                        <local:HeaderTile.Source>
-                            <Image Source="ms-appx:///GUI/Assets/book.png" />
-                        </local:HeaderTile.Source>
-                    </local:HeaderTile>
-                    <local:HeaderTile Title="All products"
-                                      Description="{x:Bind Productions}">
-                        <local:HeaderTile.Source>
-                            <Image Source="ms-appx:///GUI/Assets/book.png" />
+                                      Glyph="&#xE7BF;" />
                         </local:HeaderTile.Source>
                     </local:HeaderTile>
 
