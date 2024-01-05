@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="GUI.Views.ProductsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:GUI"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
+      xmlns:telerikData="using:Telerik.UI.Xaml.Controls.Data"
+      Loaded="LoadProduct"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <local:IdToCategoryConverter x:Key="idConverter" />
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollMode="Enabled"
+                  VerticalScrollBarVisibility="Auto">
+
+        <StackPanel ScrollViewer.VerticalScrollMode="Enabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Margin="20">
+
+            <!-- TextBlock for Title -->
+            <TextBlock Grid.Row="0"
+                       Text="Product Page"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Margin="0, 0, 0, 20" 
+                       HorizontalAlignment="Center"/>
+
+            <TextBlock Text="Import"
+                       Margin="0,0,0,20"
+                       Style="{StaticResource SubtitleTextBlockStyle}" />
+            <Button Content="Select file to import data"
+                    Click="importCategory" />
+            <TextBlock Name="filePicked">
+                <Run Text="File picked: "></Run>
+                <Run Text="{Binding}"></Run>
+            </TextBlock>
+
+
+            <TextBlock Text="Categories"
+                       Margin="0,20,0,20"
+                       Style="{StaticResource SubtitleTextBlockStyle}" />
+
+            <StackPanel Orientation="Horizontal"
+                        Spacing="20">
+                <ListView HorizontalAlignment="Left"
+                          Name="listCategory"
+                          Width="350"
+                          MaxHeight="300"
+                          BorderThickness="2"
+                          ScrollViewer.VerticalScrollMode="Auto"
+                          SelectionChanged="updateToBind"
+                          ItemsSource="{Binding}"
+                          BorderBrush="MediumAquamarine">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <StackPanel>
+                    <Button Click="addBtnCate">
+                        Add
+                    </Button>
+                    <StackPanel Visibility="Collapsed"
+                                Name="addCateBox"
+                                Orientation="Horizontal"
+                                Margin="20,0,0,0"
+                                Spacing="20">
+                        <TextBlock Text="Category name"
+                                   VerticalAlignment="Center" />
+                        <TextBox Name="newCateName"
+                                 Text="{Binding}"
+                                 Width="200" />
+                        <Button Click="addCateHandle">✔</Button>
+                        <Button Click="cancelCateBox">❌</Button>
+                    </StackPanel>
+                    <Button Click="editBtnCate"
+                            Margin="0,10,0,0">
+                        Edit
+                    </Button>
+                    <StackPanel Name="editCateBox"
+                                Orientation="Horizontal"
+                                Margin="20,0,0,0"
+                                Visibility="Collapsed"
+                                Spacing="20">
+                        <TextBlock Text="New category name"
+                                   VerticalAlignment="Center" />
+                        <TextBox Name="newCateName_Edit"
+                                 Text="{Binding}"
+                                 Width="200" />
+                        <Button Click="editCateHandle">✔</Button>
+                        <Button Click="cancelEditCate">❌</Button>
+                    </StackPanel>
+                    <Button Margin="0,10,0,0"
+                            Foreground="Red"
+                            Click="deleteCateHandle">
+                        Delete
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock Text="Books"
+                       Margin="0,20,0,0"
+                       Style="{StaticResource SubtitleTextBlockStyle}" />
+
+
+            <StackPanel Orientation="Horizontal"
+                        Spacing="10"
+                        HorizontalAlignment="Right">
+                <Button Click="Add_Click">Add</Button>
+                <Button Click="Edit_Click">Edit</Button>
+                <Button Click="Delete_Click"
+                        Foreground="Red">Delete</Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Filter by category"
+                        Click="filterByCate" />
+                <TextBlock Text="(please pick category first)"
+                           VerticalAlignment="Center"
+                           Margin="10,0,0,0"
+                           FontStyle="Italic" />
+            </StackPanel>
+
+            <Button Content="Reset filter"
+                    Click="resetFilter" />
+
+            <telerikGrid:RadDataGrid x:Name="dataGrid"
+                                     AutoGenerateColumns="False"
+                                     UserEditMode="None"
+                                     SelectionMode="Extended"
+                                     Height="600"
+                                     ScrollViewer.HorizontalScrollMode="Enabled"
+                                     ScrollViewer.VerticalScrollMode="Enabled"
+                                     IncrementalLoadingMode="Explicit"
+                                     ItemsSource="{Binding}">
+                <telerikGrid:RadDataGrid.Columns>
+                    <telerikGrid:DataGridTextColumn Header="Name"
+                                                    SizeMode="Auto"
+                                                    ShowDistinctValuesFilter="False"
+                                                    PropertyName="name" />
+                    <telerikGrid:DataGridTextColumn Header="Author"
+                                                    ShowDistinctValuesFilter="False"
+                                                    PropertyName="author" />
+                    <telerikGrid:DataGridTextColumn Header="Category ID"
+                                                    ShowDistinctValuesFilter="False"
+                                                    PropertyName="category_id" />
+                    <!--<telerikGrid:DataGridTemplateColumn Header="Category"
+                                                        CanUserGroup="True">
+                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                            <DataTemplate>
+                                <TextBlock VerticalAlignment="Center"
+                                           Text="{Binding category_id, Converter={StaticResource idConverter}}" />
+                            </DataTemplate>
+                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                    </telerikGrid:DataGridTemplateColumn>-->
+
+                    <telerikGrid:DataGridNumericalColumn  Header="Total sold"
+                                                          ShowDistinctValuesFilter="False"
+                                                          PropertyName="total_sold" />
+                    <telerikGrid:DataGridNumericalColumn  Header="Price"
+                                                          ShowDistinctValuesFilter="False"
+                                                          PropertyName="price" />
+                    <telerikGrid:DataGridNumericalColumn  Header="Quantity"
+                                                          ShowDistinctValuesFilter="False"
+                                                          PropertyName="quantity" />
+                </telerikGrid:RadDataGrid.Columns>
+            </telerikGrid:RadDataGrid>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</Page>

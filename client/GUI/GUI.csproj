@@ -7,20 +7,40 @@
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\error copy.png" />
+    <Content Remove="Assets\pencil.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Dashboard.xaml" />
     <None Remove="HomePage.xaml" />
     <None Remove="OrdersPage.xaml" />
     <None Remove="ProductsPage.xaml" />
     <None Remove="SettingPage.xaml" />
+    <None Remove="Views\AddBookDialog.xaml" />
+    <None Remove="Views\AddBookPage.xaml" />
+    <None Remove="Views\CreateOrderPage.xaml" />
+    <None Remove="Views\EditBookDialog.xaml" />
+    <None Remove="Views\EditBookPage.xaml" />
+    <None Remove="Views\LoginPage.xaml" />
+    <None Remove="Views\OrderDetailPage.xaml" />
+    <None Remove="Views\ReportPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
+      <PackageReference Include="CommunityToolkit.Labs.WinUI.RivePlayer" Version="0.1.230809" />
+      <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+      <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
       <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+      <PackageReference Include="DocumentFormat.OpenXml" Version="3.0.0" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+      <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+      <PackageReference Include="Telerik.WinUI.Controls.Trial" Version="2.8.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Entity\Entity.csproj" />
     <ProjectReference Include="..\ThreeLayerContract\ThreeLayerContract.csproj" />
   </ItemGroup>
 
@@ -50,6 +70,63 @@
 
   <ItemGroup>
     <Page Update="HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\error copy.png" />
+    <Resource Include="Assets\pencil.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\EditBookPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\AddBookPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\OrderDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\ReportPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\EditBookDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\CreateOrderPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\AddBookDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

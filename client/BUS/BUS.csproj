@@ -8,9 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+      <PackageReference Include="CommunityToolkit.Labs.WinUI.RivePlayer" Version="0.1.230809" />
+      <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+      <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
       <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+      <PackageReference Include="Telerik.WinUI.Controls.Trial" Version="2.8.0" />
   </ItemGroup>
 
   <ItemGroup>
