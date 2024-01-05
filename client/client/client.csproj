@@ -13,18 +13,17 @@
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\4444.altform-unplated_targetsize-24.png" />
+    <None Remove="Assets\4444.scale-200.png" />
+    <None Remove="Assets\SL.scale-400.png" />
+    <None Remove="Assets\SS.scale-100.png" />
+    <None Remove="Assets\SS.scale-400.png" />
     <None Remove="MyShop.xaml" />
     <None Remove="MyShopPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+	  <Content Include="Assets\**\*.*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BUS\BUS.csproj" />
+    <ProjectReference Include="..\BUS_V2\BUS_V2.csproj" />
     <ProjectReference Include="..\DAO\DAO.csproj" />
     <ProjectReference Include="..\Entity\Entity.csproj" />
     <ProjectReference Include="..\GUI\GUI.csproj" />

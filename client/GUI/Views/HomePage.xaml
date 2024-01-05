@@ -11,154 +11,155 @@
       Loaded="LoadData"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Spacing="16"
-                    Background="#F0F0F0"
-                    Padding="20,10,20,0">
-            <!-- TextBlock for Title -->
-            <TextBlock Grid.Row="0"
-                       Text="Dashboard"
-                       FontSize="24"
-                       FontWeight="Bold"
-                       Margin="-3, 0, 0, 20"
-                       HorizontalAlignment="Center" />
-            <!--first row-->
-            <Grid>
-                <Grid.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="Background"
-                                Value="White"></Setter>
-                        <Setter Property="Padding"
-                                Value="6"></Setter>
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <!-- Divide the window into 4 equal columns -->
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="100" />
-                </Grid.RowDefinitions>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="16"
+                        Background="#F0F0F0"
+                        Padding="20,10,20,0">
+                <!-- TextBlock for Title -->
+                <TextBlock Grid.Row="0"
+                           Text="Dashboard"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Margin="-3, 0, 0, 20"
+                           HorizontalAlignment="Center" />
+                <!--first row-->
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="Background"
+                                    Value="White"></Setter>
+                            <Setter Property="Padding"
+                                    Value="6"></Setter>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <!-- Divide the window into 4 equal columns -->
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100" />
+                    </Grid.RowDefinitions>
 
-                <!-- Row 1 -->
-                <Border Grid.Column="0">
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center">
-                        <TextBlock Text="📖"
-                                   FontSize="40"
-                                   VerticalAlignment="Center"
-                                   Margin="0,0,20,0" />
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="PRODUCTIONS"
-                                       TextWrapping="Wrap"
-                                       Foreground="#969696" />
+                    <!-- Row 1 -->
+                    <Border Grid.Column="0">
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="📖"
+                                       FontSize="40"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,20,0" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="PRODUCTIONS"
+                                           TextWrapping="Wrap"
+                                           Foreground="#969696" />
 
-                            <TextBlock Name="productions"
-                                       Text="{Binding}"
-                                       Style="{StaticResource SubtitleTextBlockStyle}" />
+                                <TextBlock Name="productions"
+                                           Text="{Binding}"
+                                           Style="{StaticResource SubtitleTextBlockStyle}" />
 
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
-                <Border Grid.Column="1"
-                        Margin="20,0,10,0">
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center">
-                        <FontIcon Glyph="&#xE71D;"
-                                  FontSize="40"
-                                  VerticalAlignment="Center"
-                                  Margin="0,0,20,0" />
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="CATEGORIES"
-                                       TextWrapping="Wrap"
-                                       Foreground="#969696" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Margin="20,0,10,0">
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE71D;"
+                                      FontSize="40"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,20,0" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="CATEGORIES"
+                                           TextWrapping="Wrap"
+                                           Foreground="#969696" />
 
-                            <TextBlock Name="categories"
-                                       Text="{Binding}"
-                                       Style="{StaticResource SubtitleTextBlockStyle}" />
+                                <TextBlock Name="categories"
+                                           Text="{Binding}"
+                                           Style="{StaticResource SubtitleTextBlockStyle}" />
 
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
-                <Border Grid.Column="2"
-                        Margin="10,0,20,0">
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center">
-                        <FontIcon Glyph="&#xE7BF;"
-                                  FontSize="40"
-                                  VerticalAlignment="Center"
-                                  Margin="0,0,20,0" />
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="ORDERS IN MONTHS"
-                                       TextWrapping="Wrap"
-                                       Foreground="#969696" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Margin="10,0,20,0">
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE7BF;"
+                                      FontSize="40"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,20,0" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="ORDERS IN MONTHS"
+                                           TextWrapping="Wrap"
+                                           Foreground="#969696" />
 
-                            <TextBlock Name="ordersM"
-                                       Text="{Binding}"
-                                       Style="{StaticResource SubtitleTextBlockStyle}" />
+                                <TextBlock Name="ordersM"
+                                           Text="{Binding}"
+                                           Style="{StaticResource SubtitleTextBlockStyle}" />
 
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
-                <Border Grid.Column="3">
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center">
-                        <FontIcon Glyph="&#xE7BF;"
-                                  FontSize="40"
-                                  VerticalAlignment="Center"
-                                  Margin="0,0,20,0" />
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="ORDERS IN WEEK"
-                                       TextWrapping="Wrap"
-                                       Foreground="#969696" />
+                    </Border>
+                    <Border Grid.Column="3">
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE7BF;"
+                                      FontSize="40"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,20,0" />
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="ORDERS IN WEEK"
+                                           TextWrapping="Wrap"
+                                           Foreground="#969696" />
 
-                            <TextBlock Name="ordersW"
-                                       Text="100.000"
-                                       Style="{StaticResource SubtitleTextBlockStyle}" />
+                                <TextBlock Name="ordersW"
+                                           Text="100.000"
+                                           Style="{StaticResource SubtitleTextBlockStyle}" />
 
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
+                    </Border>
 
-                <!-- Add more rows and items as needed -->
+                    <!-- Add more rows and items as needed -->
 
-            </Grid>
+                </Grid>
 
-            <!--second row-->
-            <Grid>
-                <Grid.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="Background"
-                                Value="White"></Setter>
-                        <Setter Property="Padding"
-                                Value="6"></Setter>
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <!-- Divide the window into 4 equal columns -->
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                <!--second row-->
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="Background"
+                                    Value="White"></Setter>
+                            <Setter Property="Padding"
+                                    Value="6"></Setter>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <!-- Divide the window into 4 equal columns -->
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0"
-                        Margin="0,0,10,0">
-                    <StackPanel>
-                        <TextBlock Text="Low stock"
-                                   Style="{StaticResource BodyTextBlockStyle}" />
+                    <Border Grid.Column="0"
+                            Margin="0,0,10,0">
+                        <StackPanel>
+                            <TextBlock Text="Low stock"
+                                       Style="{StaticResource BodyTextBlockStyle}" />
 
-                        <ListView Name="bookQuantity">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Spacing="10"
-                                                Margin="0,10,0,0">    
-                                        
+                            <ListView Name="bookQuantity">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Spacing="10"
+                                                    Margin="0,10,0,0">
+
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <!--Cột 1 và 2 có kích thước mặc định (1*)-->
@@ -183,36 +184,36 @@
                                                 <!--Nội dung trong cột 3-->
                                                 <TextBlock VerticalAlignment="Center"
                                                            Grid.Column="2">
-                                                        <Run Text="Quantity:" /> <Run Text="{Binding quantity}" />
+                                                    <Run Text="Quantity:" /> <Run Text="{Binding quantity}" />
                                                 </TextBlock>
 
                                             </Grid>
-                                        
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
-                </Border>
 
-                <Border Grid.Column="1"
-                        Margin="10,0,0,0">
-                    <StackPanel>
-                        <TextBlock Text="Bestseller"
-                                   Style="{StaticResource BodyTextBlockStyle}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </Border>
 
-                        <ListView Name="bookBestSel">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Spacing="10"
-                                                Margin="0,10,0,0">
-                                        
+                    <Border Grid.Column="1"
+                            Margin="10,0,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Bestseller"
+                                       Style="{StaticResource BodyTextBlockStyle}" />
+
+                            <ListView Name="bookBestSel">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Spacing="10"
+                                                    Margin="0,10,0,0">
+
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <!--Cột 1 và 2 có kích thước mặc định (1*)-->
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="1*" />
-                                                <!--Cột 3 có kích thước nhỏ (Auto)-->
+                                                    <!--Cột 3 có kích thước nhỏ (Auto)-->
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Text="{Binding name}"
@@ -231,48 +232,49 @@
                                                 <!--Nội dung trong cột 3-->
                                                 <TextBlock VerticalAlignment="Center"
                                                            Grid.Column="2">
-                                    <Run Text="Total sold:" /> <Run Text="{Binding total_sold}" />
+                                <Run Text="Total sold:" /> <Run Text="{Binding total_sold}" />
                                                 </TextBlock>
 
                                             </Grid>
-                                        
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
-                </Border>
-            </Grid>
 
-            <TextBlock Text="Orders in week"
-                       Style="{StaticResource SubtitleTextBlockStyle}"/>
-            <!--chart--> 
-            <Grid xmlns:telerikChart="using:Telerik.UI.Xaml.Controls.Chart"
-                  Height="320">
-                <telerikChart:RadCartesianChart x:Name="lineSeries"
-                                                PaletteName="DefaultLight">
-                    <telerikChart:RadCartesianChart.VerticalAxis>
-                        <telerikChart:LinearAxis />
-                    </telerikChart:RadCartesianChart.VerticalAxis>
-                    <telerikChart:RadCartesianChart.HorizontalAxis>
-                        <telerikChart:CategoricalAxis />
-                    </telerikChart:RadCartesianChart.HorizontalAxis>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </Border>
+                </Grid>
 
-                    <telerik:RadCartesianChart.Grid>
-                        <telerik:CartesianChartGrid MajorGridLinesVisibility="XY" />
-                    </telerik:RadCartesianChart.Grid>
+                <TextBlock Text="Orders in week"
+                           Style="{StaticResource SubtitleTextBlockStyle}" />
+                <!--chart-->
+                <Grid xmlns:telerikChart="using:Telerik.UI.Xaml.Controls.Chart"
+                      Height="320">
+                    <telerikChart:RadCartesianChart x:Name="lineSeries"
+                                                    PaletteName="DefaultLight">
+                        <telerikChart:RadCartesianChart.VerticalAxis>
+                            <telerikChart:LinearAxis />
+                        </telerikChart:RadCartesianChart.VerticalAxis>
+                        <telerikChart:RadCartesianChart.HorizontalAxis>
+                            <telerikChart:CategoricalAxis />
+                        </telerikChart:RadCartesianChart.HorizontalAxis>
+
+                        <telerik:RadCartesianChart.Grid>
+                            <telerik:CartesianChartGrid MajorGridLinesVisibility="XY" />
+                        </telerik:RadCartesianChart.Grid>
 
 
-                    <telerikChart:LineSeries ItemsSource="{Binding}">
-                        <telerikChart:LineSeries.CategoryBinding>
-                            <telerikChart:PropertyNameDataPointBinding PropertyName="Category" />
-                        </telerikChart:LineSeries.CategoryBinding>
-                        <telerikChart:LineSeries.ValueBinding>
-                            <telerikChart:PropertyNameDataPointBinding PropertyName="Value" />
-                        </telerikChart:LineSeries.ValueBinding>
-                    </telerikChart:LineSeries>
-                </telerikChart:RadCartesianChart>
-            </Grid>
-        </StackPanel>
-    </ScrollViewer>
+                        <telerikChart:LineSeries ItemsSource="{Binding}">
+                            <telerikChart:LineSeries.CategoryBinding>
+                                <telerikChart:PropertyNameDataPointBinding PropertyName="Category" />
+                            </telerikChart:LineSeries.CategoryBinding>
+                            <telerikChart:LineSeries.ValueBinding>
+                                <telerikChart:PropertyNameDataPointBinding PropertyName="Value" />
+                            </telerikChart:LineSeries.ValueBinding>
+                        </telerikChart:LineSeries>
+                    </telerikChart:RadCartesianChart>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </Page>

@@ -6,14 +6,35 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
+      xmlns:telerikChart="using:Telerik.UI.Xaml.Controls.Chart"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.Resources>
+            <telerikChart:ChartPalette x:Key="CustomPalette">
+                <telerikChart:ChartPalette.FillEntries>
+                    <telerikChart:PaletteEntryCollection>
+                        <SolidColorBrush Color="Green"></SolidColorBrush>
+                        <SolidColorBrush Color="Gray"></SolidColorBrush>
+                        <SolidColorBrush Color="Blue"></SolidColorBrush>
+                        <SolidColorBrush Color="Red"></SolidColorBrush>
+                    </telerikChart:PaletteEntryCollection>
+                </telerikChart:ChartPalette.FillEntries>
+                <telerikChart:ChartPalette.StrokeEntries>
+                    <telerikChart:PaletteEntryCollection>
+                        <SolidColorBrush Color="LightGreen"></SolidColorBrush>
+                        <SolidColorBrush Color="LightGray"></SolidColorBrush>
+                        <SolidColorBrush Color="LightBlue"></SolidColorBrush>
+                        <SolidColorBrush Color="OrangeRed"></SolidColorBrush>
+                    </telerikChart:PaletteEntryCollection>
+                </telerikChart:ChartPalette.StrokeEntries>
+            </telerikChart:ChartPalette>
+        </Grid.Resources>
         <!-- Hàng 1: Thanh Filter -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -65,6 +86,135 @@
 
             </Grid>
         </Grid>
+
+
+        <!--Chart of revenue and profit-->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Revenue and Profit"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Margin="10"
+                           HorizontalAlignment="Center" />
+                <TextBlock FontWeight="Medium"
+                           HorizontalAlignment="Center">
+                    <Run Text="From: " />
+                    <Run Text="{Binding StartDateFilter, Mode=OneWay}" />
+                    <Run Text=" To: " />
+                    <Run Text="{Binding EndDateFilter, Mode=OneWay}" />
+                </TextBlock>
+            </StackPanel>
+
+            <telerikChart:RadCartesianChart Grid.Row="1"
+                                            x:Name="chart"
+                                            Palette="{StaticResource CustomPalette}">
+                <telerikChart:RadCartesianChart.HorizontalAxis>
+                    <telerikChart:CategoricalAxis />
+                </telerikChart:RadCartesianChart.HorizontalAxis>
+                <telerikChart:RadCartesianChart.VerticalAxis>
+                    <telerikChart:LinearAxis />
+                </telerikChart:RadCartesianChart.VerticalAxis>
+                <telerikChart:RadCartesianChart.Grid>
+                    <telerikChart:CartesianChartGrid MajorGridLinesVisibility="Y"
+                                                     MajorStripLinesVisibility="Y" />
+                </telerikChart:RadCartesianChart.Grid>
+
+                <telerikChart:BarSeries ItemsSource="{Binding Revenue}"
+                                        CombineMode="Cluster"
+                                        PaletteIndex="1">
+                    <telerikChart:BarSeries.CategoryBinding>
+                        <telerikChart:PropertyNameDataPointBinding PropertyName="Category" />
+                    </telerikChart:BarSeries.CategoryBinding>
+                    <telerikChart:BarSeries.ValueBinding>
+                        <telerikChart:PropertyNameDataPointBinding PropertyName="Value" />
+                    </telerikChart:BarSeries.ValueBinding>
+
+                </telerikChart:BarSeries>
+
+                <telerikChart:BarSeries ItemsSource="{Binding Profit}"
+                                        CombineMode="Cluster"
+                                        PaletteIndex="2">
+                    <telerikChart:BarSeries.CategoryBinding>
+                        <telerikChart:PropertyNameDataPointBinding PropertyName="Category" />
+                    </telerikChart:BarSeries.CategoryBinding>
+                    <telerikChart:BarSeries.ValueBinding>
+                        <telerikChart:PropertyNameDataPointBinding PropertyName="Value" />
+                    </telerikChart:BarSeries.ValueBinding>
+
+                </telerikChart:BarSeries>
+
+            </telerikChart:RadCartesianChart>
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="10">
+                <Border Background="#ffcd00"
+                        Width="20"
+                        Height="20"
+                        Margin="5" />
+                <TextBlock Text="Revenue"
+                           Margin="5" />
+                <Border Width="20"
+                        Height="20"
+                        Margin="5"
+                        Background="#ff3c00" />
+                <TextBlock Text="Profit"
+                           Margin="5" />
+            </StackPanel>
+        </Grid>
+
+
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Number of orders"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Margin="10"
+                           HorizontalAlignment="Center" />
+                <TextBlock FontWeight="Medium"
+                           HorizontalAlignment="Center">
+                    <Run Text="From: " />
+                    <Run Text="{Binding StartDateFilter, Mode=OneWay}" />
+                    <Run Text=" To: " />
+                    <Run Text="{Binding EndDateFilter, Mode=OneWay}" />
+                </TextBlock>
+            </StackPanel>
+
+            <!--Chart of orders-->
+            <telerikChart:RadCartesianChart x:Name="barSeries"
+                                            PaletteName="DefaultLight"
+                                            Grid.Row="1">
+                <telerikChart:RadCartesianChart.VerticalAxis>
+                    <telerikChart:LinearAxis />
+                </telerikChart:RadCartesianChart.VerticalAxis>
+                <telerikChart:RadCartesianChart.HorizontalAxis>
+                    <telerikChart:CategoricalAxis />
+                </telerikChart:RadCartesianChart.HorizontalAxis>
+
+                <telerikChart:BarSeries ItemsSource="{Binding NumOfOrder}"
+                                        PaletteMode="DataPoint">
+                    <telerikChart:BarSeries.CategoryBinding>
+                        <telerikChart:PropertyNameDataPointBinding PropertyName="Category" />
+                    </telerikChart:BarSeries.CategoryBinding>
+                    <telerikChart:BarSeries.ValueBinding>
+                        <telerikChart:PropertyNameDataPointBinding PropertyName="Value" />
+                    </telerikChart:BarSeries.ValueBinding>
+                </telerikChart:BarSeries>
+            </telerikChart:RadCartesianChart>
+        </Grid>
+
 
 
     </Grid>
