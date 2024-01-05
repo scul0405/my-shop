@@ -132,7 +132,9 @@
                                  AutoGenerateColumns="False"
                                  SelectionMode="Single"
                                  Grid.Row="3"
-                                 HorizontalAlignment="Center">
+                                 HorizontalAlignment="Center"
+                                 GroupHeaderDisplayMode="Frozen"
+                                 >
             <telerikGrid:RadDataGrid.Columns>
                 <telerikGrid:DataGridTextColumn PropertyName="Id"
                                                 Header="ID" />
