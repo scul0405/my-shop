@@ -21,12 +21,10 @@ CREATE TABLE "books" (
                          "category_id" bigserial,
                          "name" varchar(250) not null check ( books.name <> '' ),
                          "author" varchar(250) not null check ( books.author <> '' ),
-                         "sku" varchar(50) not null check ( books.sku <> '' ),
                          "desc" text,
-                         "image" text,
                          "price" int not null check ( books.price > 0 ),
-                         "total_sold" int not null default 0,
-                         "quantity" int not null default 0,
+                         "total_sold" int not null default 0 check ( books.total_sold >= 0 ),
+                         "quantity" int not null default 0 check ( books.quantity >= 0 ),
                          "status" boolean not null default true
 );
 
@@ -38,6 +36,7 @@ CREATE TABLE "book_categories" (
 CREATE TABLE "book_order" (
                               "book_id" bigserial,
                               "order_id" bigserial,
+                              "quantity" int not null default 1 check ( book_order.quantity > 0 ),
                               primary key ("book_id", "order_id")
 );
 
@@ -59,8 +58,6 @@ CREATE TABLE "order_discount" (
                                   "discount_id" bigserial,
                                   primary key ("order_id", "discount_id")
 );
-
-ALTER TABLE "books" ADD FOREIGN KEY ("category_id") REFERENCES "book_categories" ("id");
 
 ALTER TABLE "book_order" ADD FOREIGN KEY ("book_id") REFERENCES "books" ("id");
 

@@ -26,7 +26,7 @@ make docker_local
 
 - Migrate data:
 ```shell
-make migrate-up
+make migrate_up
 ```
 
 - Run server:
