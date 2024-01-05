@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="GUI.Views.newHomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:GUI.Views"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      xmlns:viewModels="using:GUI.ViewModels"
+      xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
+      xmlns:telerikChart="using:Telerik.UI.Xaml.Controls.Chart"
+      xmlns:ctWinUI="using:CommunityToolkit.WinUI.UI.Controls"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="HeaderGrid"
+                  Margin="-24,0,-24,0"
+                  Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="204" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <local:HomePageHeaderImage Grid.RowSpan="2"
+                                           Height="396"
+                                           VerticalAlignment="Top" />
+
+                <TextBlock AutomationProperties.AutomationId="__ClickableAreaTextBlock" />
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="My Shop Application"
+                               Margin="60, 60, 0, 0"
+                               FontWeight="SemiLight"
+                               FontSize="20">
+
+                    </TextBlock>
+                    <TextBlock Text="Dashboard"
+                               Margin="57, 5, 0, 0"
+                               FontWeight="Bold"
+                               FontSize="40">
+
+                    </TextBlock>
+                </StackPanel>
+
+                <local:TileGallery x:Name="headerTileGallery"
+                                   Grid.Row="1"
+                                   Margin="0,0,0,0" />
+            </Grid>
+            <!--<GridView Grid.Row="0">
+                <GridView.Header>
+                    <Grid x:Name="HeaderGrid"
+                          Margin="-24,0,-24,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="204" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <local:HomePageHeaderImage Grid.RowSpan="2"
+                                                   Height="396"
+                                                   VerticalAlignment="Top" />
+
+                        <TextBlock AutomationProperties.AutomationId="__ClickableAreaTextBlock" />
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="My Shop Application"
+                                       Margin="60, 60, 0, 0"
+                                       FontWeight="SemiLight"
+                                       FontSize="20">
+
+                            </TextBlock>
+                            <TextBlock Text="Dashboard"
+                                       Margin="57, 5, 0, 0"
+                                       FontWeight="Bold"
+                                       FontSize="40">
+
+                            </TextBlock>
+                        </StackPanel>
+
+                        <local:TileGallery x:Name="headerTileGallery"
+                                           Grid.Row="1"
+                                           Margin="0,0,0,0" />
+                    </Grid>
+                </GridView.Header>
+            </GridView>-->
+
+            <!--<telerikGrid:RadDataGrid x:Name="DataGrid"
+                                     AutoGenerateColumns="False"
+                                     SelectionMode="Single"
+                                     HorizontalAlignment="Center"
+                                     GroupHeaderDisplayMode="Frozen"
+                                     Grid.Row="1">
+                <telerikGrid:RadDataGrid.Columns>
+                    <telerikGrid:DataGridTextColumn Header="ID" />
+                    <telerikGrid:DataGridTextColumn Header="Created At" />
+                    <telerikGrid:DataGridBooleanColumn Header="Status" />
+                    <telerikGrid:DataGridTextColumn Header="Total" />
+                </telerikGrid:RadDataGrid.Columns>
+            </telerikGrid:RadDataGrid>-->
+
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Top 5 best-selling books"
+                               Margin="0, 40 0, 0"
+                               FontWeight="SemiBold"
+                               FontSize="20"
+                               Grid.Column="0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Grid.Row="0" />
+                    <!--<telerikGrid:RadDataGrid Name="bestSellingGrid"
+                                             AutoGenerateColumns="False"
+                                             SelectionMode="Single"
+                                             HorizontalAlignment="Center"
+                                             GroupHeaderDisplayMode="Frozen"
+                                             UserEditMode="None"
+                                             UserFilterMode="Disabled"
+                                             UserSortMode="None"
+                                             UserGroupMode="Disabled"
+                                             Margin="10, 10, 30, 0"
+                                             Grid.Row="1">
+
+                        <telerikGrid:RadDataGrid.Columns>
+                            <telerikGrid:DataGridTextColumn Header="Name"
+                                                            PropertyName="name" />
+                            <telerikGrid:DataGridTextColumn Header="Author"
+                                                            PropertyName="author" />
+                            <telerikGrid:DataGridBooleanColumn Header="Total sold"
+                                                               PropertyName="total_sold" />
+                        </telerikGrid:RadDataGrid.Columns>
+                    </telerikGrid:RadDataGrid>-->
+
+                    <ctWinUI:DataGrid Name="bestSellingGrid"
+                                      Margin="10, 10, 30, 0"
+                                      Grid.Row="1"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False"
+                                      HorizontalAlignment="Center"
+                                      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                      CornerRadius="8">
+                        <ctWinUI:DataGrid.Columns>
+                            <ctWinUI:DataGridTextColumn Header="Name"
+                                                        Binding="{Binding name}" />
+                            <ctWinUI:DataGridTextColumn Header="Author"
+                                                        Binding="{Binding author}" />
+                            <ctWinUI:DataGridTextColumn Header="Total sold"
+                                                        Binding="{Binding total_sold}" />
+                        </ctWinUI:DataGrid.Columns>
+                    </ctWinUI:DataGrid>
+
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Top 5 books with low inventory"
+                               Margin="0, 40, 0, 0"
+                               FontWeight="SemiBold"
+                               FontSize="20"
+                               Grid.Column="0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Grid.Row="0" />
+                    <!--<telerikGrid:RadDataGrid Name="lowStockGrid"
+                                             AutoGenerateColumns="False"
+                                             SelectionMode="Single"
+                                             HorizontalAlignment="Center"
+                                             GroupHeaderDisplayMode="Frozen"
+                                             UserEditMode="None"
+                                             UserFilterMode="Disabled"
+                                             UserSortMode="None"
+                                             UserGroupMode="Disabled"
+                                             Margin="30, 10, 10, 0"
+                                             Grid.Row="1">
+
+                        <telerikGrid:RadDataGrid.Columns>
+                            <telerikGrid:DataGridTextColumn Header="Name"
+                                                            PropertyName="name" />
+                            <telerikGrid:DataGridTextColumn Header="Author"
+                                                            PropertyName="author" />
+                            <telerikGrid:DataGridBooleanColumn Header="Quantity"
+                                                               PropertyName="quantity" />
+                        </telerikGrid:RadDataGrid.Columns>
+                    </telerikGrid:RadDataGrid>-->
+
+                    <ctWinUI:DataGrid Name="lowStockGrid"
+                                      Margin="30, 10, 10, 0"
+                                      Grid.Row="1"
+                                      IsReadOnly="True"
+                                      AutoGenerateColumns="False"
+                                      HorizontalAlignment="Center"
+                                      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                      CornerRadius="8">
+                        <ctWinUI:DataGrid.Columns>
+                            <ctWinUI:DataGridTextColumn Header="Name"
+                                                        Binding="{Binding name}" />
+                            <ctWinUI:DataGridTextColumn Header="Author"
+                                                        Binding="{Binding author}" />
+                            <ctWinUI:DataGridTextColumn Header="Quantity"
+                                                        Binding="{Binding quantity}" />
+                        </ctWinUI:DataGrid.Columns>
+                    </ctWinUI:DataGrid>
+
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Order in last 7 days"
+                           Margin="0, 40, 0, 0"
+                           FontWeight="SemiBold"
+                           FontSize="20"
+                           Grid.Column="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Grid.Row="0" />
+
+                <telerikChart:RadCartesianChart x:Name="barSeries"
+                                                PaletteName="DefaultLight"
+                                                Grid.Row="1">
+                    <telerikChart:RadCartesianChart.VerticalAxis>
+                        <telerikChart:LinearAxis />
+                    </telerikChart:RadCartesianChart.VerticalAxis>
+                    <telerikChart:RadCartesianChart.HorizontalAxis>
+                        <telerikChart:CategoricalAxis />
+                    </telerikChart:RadCartesianChart.HorizontalAxis>
+
+                    <telerikChart:BarSeries PaletteMode="DataPoint"
+                                            ItemsSource="{x:Bind OrdersIn7Day}">
+                        <telerikChart:BarSeries.CategoryBinding>
+                            <telerikChart:PropertyNameDataPointBinding PropertyName="Category" />
+                        </telerikChart:BarSeries.CategoryBinding>
+                        <telerikChart:BarSeries.ValueBinding>
+                            <telerikChart:PropertyNameDataPointBinding PropertyName="Value" />
+                        </telerikChart:BarSeries.ValueBinding>
+                    </telerikChart:BarSeries>
+                </telerikChart:RadCartesianChart>
+
+            </Grid>
+
+        </Grid>
+    </ScrollView>
+
+</Page>

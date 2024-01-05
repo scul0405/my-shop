@@ -21,9 +21,13 @@
     <None Remove="Views\CreateOrderPage.xaml" />
     <None Remove="Views\EditBookDialog.xaml" />
     <None Remove="Views\EditBookPage.xaml" />
+    <None Remove="Views\HeaderTile.xaml" />
+    <None Remove="Views\HomePageHeaderImage.xaml" />
     <None Remove="Views\LoginPage.xaml" />
+    <None Remove="Views\newHomePage.xaml" />
     <None Remove="Views\OrderDetailPage.xaml" />
     <None Remove="Views\ReportPage.xaml" />
+    <None Remove="Views\TileGallery.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,6 +85,30 @@
   <ItemGroup>
     <Resource Include="Assets\error copy.png" />
     <Resource Include="Assets\pencil.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\HeaderTile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\TileGallery.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\HomePageHeaderImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\newHomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

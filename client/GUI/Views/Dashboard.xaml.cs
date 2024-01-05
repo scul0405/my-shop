@@ -51,7 +51,7 @@ namespace GUI.Views
                 switch (args.SelectedItemContainer.Tag)
                 {
                     case "NavItem_HomePage":
-                        contentFrame.Navigate(typeof(HomePage));
+                        contentFrame.Navigate(typeof(newHomePage));
                         break;
 
                     case "NavItem_OrdersPage":
@@ -74,7 +74,7 @@ namespace GUI.Views
         private void SetInitialPage()
         {
             // Chọn trang mặc định là HomePage
-            contentFrame.Navigate(typeof(HomePage));
+            contentFrame.Navigate(typeof(newHomePage));
             NavItem_HomePage.IsSelected = true;
         }
 

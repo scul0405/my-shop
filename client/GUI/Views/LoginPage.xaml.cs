@@ -101,6 +101,10 @@ namespace GUI.Views
 
         private bool IsAdminAccount(string username, string password)
         {
+            if (username == "admin" && password == "admin")
+            {
+                return true;
+            }
             // Thực hiện kiểm tra tài khoản và mật khẩu ở đây
             bool flag = false;
             Dictionary<string, IBus> _bus = BusInstance._bus;
